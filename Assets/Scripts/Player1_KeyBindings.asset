@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftButton: 97
   rightButton: 100
-  jumpButton: 32
+  jumpButton: 119

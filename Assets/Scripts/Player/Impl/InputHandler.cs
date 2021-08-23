@@ -4,7 +4,7 @@ using Zenject;
 
 public class InputHandler : MonoBehaviour, IInputHandler
 {
-    public event Action Jump = delegate { };
+    public event Action Jump;
 
     private IKeyBindings _keyBindings;
 
@@ -42,7 +42,7 @@ public class InputHandler : MonoBehaviour, IInputHandler
     {
         if (Input.GetKeyDown(_keyBindings.JumpButton))
         {
-            Jump();
+            Jump?.Invoke();
         }
     }
 }

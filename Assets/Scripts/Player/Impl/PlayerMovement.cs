@@ -12,8 +12,10 @@ public class PlayerMovement : MonoBehaviour
     private StateMachine _stateMachine;
     private Vector3 _moveDirection;
     private CharacterController _characterController;
+    private IInputHandler _inputHandler;
 
     public float Speed => speed;
+    public IInputHandler InputHandler => _inputHandler;
     public AnimationCurve JumpCurve => jumpCurve;
     public CharacterController CharacterController => _characterController;
 
@@ -24,9 +26,10 @@ public class PlayerMovement : MonoBehaviour
     }
 
     [Inject]
-    private void Construct(CharacterController characterController)
+    private void Construct(CharacterController characterController, IInputHandler inputHandler)
     {
         _characterController = characterController;
+        _inputHandler = inputHandler;
     }
 
     private void Awake()
