@@ -2608,8 +2608,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.0114234835
-      value: 31.807434
+      time: 0.04786147
+      value: 19.82165
       inSlope: 75.66046
       outSlope: 75.66046
       tangentMode: 0
@@ -2629,6 +2629,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   gravity: 7
+  IsGrounded: 0
 --- !u!143 &1962633288
 CharacterController:
   m_ObjectHideFlags: 0

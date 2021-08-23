@@ -1,11 +1,13 @@
 using PlayerState;
 using UnityEngine;
+using Zenject;
 
 public class PlayerAnimatorController : MonoBehaviour
 {
     [SerializeField] private Animator animator;
     [SerializeField] private float animationSpeed;
 
+    private IInputHandler _inputHandler;
     private StateMachine _animationStateMachine;
     private int _runHash = Animator.StringToHash("Run");
     private float _currentAnimationValue;
@@ -35,28 +37,34 @@ public class PlayerAnimatorController : MonoBehaviour
         UpdateAnimationState();
     }
 
+    [Inject]
+    private void Construct(IInputHandler inputHandler)
+    {
+        _inputHandler = inputHandler;
+    }
+
     private void UpdateAnimationState()
     {
-        // var moveDirection = _motionVector.GetMoveDirection().x;
-        // if (moveDirection != 0)
-        // {
-        // _currentAnimationValue += animationSpeed * Time.deltaTime;
-        // }
-        // else
-        // {
-        // _currentAnimationValue -= animationSpeed * Time.deltaTime;
-        // }
+        var moveDirection = _inputHandler.MovementDirection;
+        if (moveDirection != 0)
+        {
+            _currentAnimationValue += animationSpeed * Time.deltaTime;
+        }
+        else
+        {
+            _currentAnimationValue -= animationSpeed * Time.deltaTime;
+        }
 
-        // if (_currentAnimationValue > 1)
-        // {
-        // _currentAnimationValue = 1;
-        // }
+        if (_currentAnimationValue > 1)
+        {
+            _currentAnimationValue = 1;
+        }
 
-        // if (_currentAnimationValue < 0)
-        // {
-        // _currentAnimationValue = 0;
-        // }
+        if (_currentAnimationValue < 0)
+        {
+            _currentAnimationValue = 0;
+        }
 
-        // animator.SetFloat(_runHash, _currentAnimationValue);
+        animator.SetFloat(_runHash, _currentAnimationValue);
     }
 }

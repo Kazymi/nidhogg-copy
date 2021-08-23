@@ -11,13 +11,12 @@ public class PlayerMovement : MonoBehaviour
 
     private StateMachine _stateMachine;
     private Vector3 _moveDirection;
-    private CharacterController _characterController;
     private IInputHandler _inputHandler;
 
     public float Speed => speed;
     public IInputHandler InputHandler => _inputHandler;
     public AnimationCurve JumpCurve => jumpCurve;
-    public CharacterController CharacterController => _characterController;
+    public bool IsGrounded;
 
     public Vector3 MoveDirection
     {
@@ -26,9 +25,8 @@ public class PlayerMovement : MonoBehaviour
     }
 
     [Inject]
-    private void Construct(CharacterController characterController, IInputHandler inputHandler)
+    private void Construct(IInputHandler inputHandler)
     {
-        _characterController = characterController;
         _inputHandler = inputHandler;
     }
 
@@ -39,11 +37,27 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        IsGrounded = GroundCheck();
+        Debug.Log(IsGrounded);
         _stateMachine.Tick();
-        _moveDirection.y -= gravity;
-        _characterController.Move(_moveDirection * Time.deltaTime);
+        if (IsGrounded == false)
+        {
+            _moveDirection.y -= gravity;
+        }
+        transform.position += _moveDirection*Time.deltaTime;
     }
 
+    private bool GroundCheck()
+    {
+        if (Physics.Raycast(transform.position, -transform.up, 0.1f))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     private void StateInitialize()
     {
         var playerMoveState = new PlayerMoveState(this);

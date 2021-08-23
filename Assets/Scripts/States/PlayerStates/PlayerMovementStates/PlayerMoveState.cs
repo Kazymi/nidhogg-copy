@@ -17,7 +17,13 @@ namespace PlayerState
 
         public override void OnStateEnter()
         {
-            _playerMovement.InputHandler.Jump += Jump;
+            _playerMovement.InputHandler.Jump += () =>
+            {
+                if (_playerMovement.IsGrounded)
+                {
+                    _currentTimeCurve = 0;
+                }
+            };
         }
 
         public override void OnStateExit()
@@ -30,27 +36,16 @@ namespace PlayerState
             _playerMovement.MoveDirection = Vector3.zero;
             var inputVector = _playerMovement.InputHandler.MovementDirection;
             Move(inputVector);
+            Jump();
         }
 
         private void Jump()
         {
-            Debug.Log("Jump");
-            // if (_isJump == false)
-            // {
-            //     if (_playerMovement.CharacterController.isGrounded)
-            //     {
-            //         _isJump = true;
-            //     }
-            // }
-            // else
+            if (_currentTimeCurve < _totalTimeCurve)
             {
-                _playerMovement.MoveDirection += new Vector3(0, _playerMovement.JumpCurve.Evaluate(_currentTimeCurve), 0);
+                _playerMovement.MoveDirection +=
+                    new Vector3(0, _playerMovement.JumpCurve.Evaluate(_currentTimeCurve), 0);
                 _currentTimeCurve += Time.deltaTime;
-                if (_currentTimeCurve >= _totalTimeCurve)
-                {
-                    _currentTimeCurve = 0;
-                    _isJump = false;
-                }
             }
         }
 
