@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using PlayerState;
 using UnityEngine;
 
@@ -10,7 +7,6 @@ public class PlayerAnimatorController : MonoBehaviour
     [SerializeField] private float animationSpeed;
 
     private StateMachine _animationStateMachine;
-    private IMotionVector _motionVector;
     private int _runHash = Animator.StringToHash("Run");
     private float _currentAnimationValue;
     private PlayerWithFirearms _stateWithFirearms;
@@ -33,40 +29,34 @@ public class PlayerAnimatorController : MonoBehaviour
         _animationStateMachine.SetState(_stateWithoutWeapon);
     }
 
-    public void Initialize(IMotionVector motionVector)
-    {
-        _motionVector = motionVector;
-    }
-
     private void Update()
     {
         _animationStateMachine.Tick();
         UpdateAnimationState();
     }
-    
+
     private void UpdateAnimationState()
     {
-        var moveDirection = _motionVector.GetMoveDirection().x;
-        if (moveDirection != 0)
-        {
-            _currentAnimationValue += animationSpeed * Time.deltaTime;
-        }
-        else
-        {
-            _currentAnimationValue -= animationSpeed * Time.deltaTime;
-        }
+        // var moveDirection = _motionVector.GetMoveDirection().x;
+        // if (moveDirection != 0)
+        // {
+        // _currentAnimationValue += animationSpeed * Time.deltaTime;
+        // }
+        // else
+        // {
+        // _currentAnimationValue -= animationSpeed * Time.deltaTime;
+        // }
 
-        if (_currentAnimationValue > 1)
-        {
-            _currentAnimationValue = 1;
-        }
+        // if (_currentAnimationValue > 1)
+        // {
+        // _currentAnimationValue = 1;
+        // }
 
-        if (_currentAnimationValue < 0)
-        {
-            _currentAnimationValue = 0;
-        }
+        // if (_currentAnimationValue < 0)
+        // {
+        // _currentAnimationValue = 0;
+        // }
 
-        animator.SetFloat(_runHash, _currentAnimationValue);
+        // animator.SetFloat(_runHash, _currentAnimationValue);
     }
-
 }

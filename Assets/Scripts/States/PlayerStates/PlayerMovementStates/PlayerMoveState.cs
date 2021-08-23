@@ -17,11 +17,10 @@ namespace PlayerState
 
         public override void Tick()
         {
-            
             _playerMovement.MoveDirection = Vector3.zero;
-            var inputVector = _playerMovement.MotionVector.GetMoveDirection();
-            Move(inputVector);
-            Jump(inputVector);
+            // var inputVector = InputHandler.GetMoveDirection();
+            // Move(inputVector);
+            // Jump(inputVector);
         }
 
         private void Jump(Vector3 inputVector)
@@ -35,7 +34,7 @@ namespace PlayerState
             }
             else
             {
-                _playerMovement.MoveDirection +=new Vector3(0,_playerMovement.JumpCurve.Evaluate(_currentTimeCurve),0);
+                _playerMovement.MoveDirection += new Vector3(0, _playerMovement.JumpCurve.Evaluate(_currentTimeCurve), 0);
                 _currentTimeCurve += Time.deltaTime;
                 if (_currentTimeCurve >= _totalTimeCurve)
                 {

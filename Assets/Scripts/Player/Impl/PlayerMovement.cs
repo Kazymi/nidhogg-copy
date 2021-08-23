@@ -1,8 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using PlayerState;
 using UnityEngine;
+using Zenject;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
@@ -14,9 +12,7 @@ public class PlayerMovement : MonoBehaviour
     private StateMachine _stateMachine;
     private Vector3 _moveDirection;
     private CharacterController _characterController;
-    private IMotionVector _motionVector;
 
-    public IMotionVector MotionVector => _motionVector;
     public float Speed => speed;
     public AnimationCurve JumpCurve => jumpCurve;
     public CharacterController CharacterController => _characterController;
@@ -27,9 +23,14 @@ public class PlayerMovement : MonoBehaviour
         set => _moveDirection = value;
     }
 
+    [Inject]
+    private void Construct(CharacterController characterController)
+    {
+        _characterController = characterController;
+    }
+
     private void Awake()
     {
-        _characterController = GetComponent<CharacterController>();
         StateInitialize();
     }
 
@@ -40,15 +41,10 @@ public class PlayerMovement : MonoBehaviour
         _characterController.Move(_moveDirection * Time.deltaTime);
     }
 
-    public void Initialize(IMotionVector iMotionVector)
-    {
-        _motionVector = iMotionVector;
-    }
     private void StateInitialize()
     {
         var playerMoveState = new PlayerMoveState(this);
 
         _stateMachine = new StateMachine(playerMoveState);
     }
-
 }

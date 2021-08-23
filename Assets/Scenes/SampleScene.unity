@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2471,9 +2471,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0e902e5be61c3d4f90d092e79893da4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftButton: 97
-  rightButton: 100
-  jumpButton: 119
 --- !u!4 &1846248160
 Transform:
   m_ObjectHideFlags: 0
@@ -2497,9 +2494,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1962633290}
+  - component: {fileID: 1962633292}
+  - component: {fileID: 1962633291}
+  - component: {fileID: 1962633286}
   - component: {fileID: 1962633288}
   - component: {fileID: 1962633287}
-  - component: {fileID: 1962633286}
   - component: {fileID: 1962633289}
   m_Layer: 0
   m_Name: Player
@@ -2517,12 +2516,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1962633285}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cddd50e99a586b943a8ad732da535d07, type: 3}
+  m_Script: {fileID: 11500000, guid: e0e902e5be61c3d4f90d092e79893da4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputHandler: {fileID: 1846248159}
-  playerMovement: {fileID: 1962633287}
-  playerAnimatorController: {fileID: 1962633289}
 --- !u!114 &1962633287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2617,6 +2613,39 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1962633291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1962633285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f683bd9d53510d34b90d836ffa1b3bfe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputHandler: {fileID: 1962633286}
+  keyBindings: {fileID: 11400000, guid: e0642eb523071d246a89af2dcefbdc25, type: 2}
+  characterController: {fileID: 1962633288}
+--- !u!114 &1962633292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1962633285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08eca9f7688a0a24685b89133b020c8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scriptableObjectInstallers: []
+  _monoInstallers:
+  - {fileID: 1962633291}
+  _installerPrefabs: []
+  _autoRun: 1
+  _kernel: {fileID: 0}
 --- !u!1001 &2062180586
 PrefabInstance:
   m_ObjectHideFlags: 0
