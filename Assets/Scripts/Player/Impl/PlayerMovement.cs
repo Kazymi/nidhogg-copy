@@ -8,14 +8,14 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private PlayerMovementConfiguration playerMovementConfiguration;
     [SerializeField] private MovementActionConfiguration rollingAction;
-    
+
     private Rigidbody _rigidbody;
     private PlayerStateMachine _stateMachine;
     private Vector3 _moveDirection;
     private IInputHandler _inputHandler;
-    private PlayerMoveState _playerMoveState;
-    private PlayerRollingState _playerRollingState;
-    
+    // private PlayerMoveState _playerMoveState;
+    // private PlayerRollingState _playerRollingState;
+
     public float Speed => playerMovementConfiguration.Speed;
     public AnimationCurve JumpCurve => playerMovementConfiguration.JumpCurve;
     public IInputHandler InputHandler => _inputHandler;
@@ -47,7 +47,7 @@ public class PlayerMovement : MonoBehaviour
 
         _rigidbody.MovePosition(_rigidbody.position + _moveDirection * Time.deltaTime);
     }
-    
+
     private bool GroundCheck()
     {
         if (Physics.Raycast(transform.position, -transform.up, 0.2f))
@@ -62,10 +62,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void StateInitialize()
     {
-        _playerMoveState = new PlayerMoveState(this);
-        _playerRollingState = new PlayerRollingState(this,playerMovementConfiguration);
-        
-        
-        _stateMachine = new PlayerStateMachine(_playerMoveState);
+        var playerMoveState = new PlayerMoveState(this);
+        var playerRollingState = new PlayerRollingState(this, playerMovementConfiguration);
+        playerMoveState.AddTransition(new PlayerTransition(playerRollingState, new ButtonPressedCondition(_inputHandler.Rolling)));
+
+
+        _stateMachine = new PlayerStateMachine(playerMoveState);
     }
 }

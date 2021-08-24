@@ -6,7 +6,7 @@ public class PlayerStateMachine
     private float _currentTimer;
     private bool _isActiveTimer;
     private PlayerState _nextState;
-    
+
     public PlayerStateMachine(PlayerState state)
     {
         SetState(state);
@@ -45,7 +45,7 @@ public class PlayerStateMachine
         for (var i = 0; i != currentTransitions.Count; i++)
         {
             var condition = currentTransitions[i].Condition;
-            if (condition.Invoke())
+            if (condition.IsConditionSatisfied())
             {
                 return i;
             }
@@ -58,8 +58,11 @@ public class PlayerStateMachine
     {
         _isActiveTimer = false;
         _currentState?.OnStateExit();
+        _currentState?.DeInitializeTransitions();
+
         _currentState = state;
         _currentState.OnStateEnter();
+        _currentState.InitializeTransitions();
     }
 
     public void SetState(PlayerState state, PlayerState nextState, float timer)

@@ -9,9 +9,8 @@ public abstract class PlayerState
 
     public virtual void Tick()
     {
-        
     }
-    
+
     public virtual void FixedTick()
     {
     }
@@ -21,32 +20,35 @@ public abstract class PlayerState
         foreach (var variable in _actions)
         {
             var key = variable.Value;
-            
         }
     }
 
     public virtual void OnStateExit()
     {
-        _action -= ToNextStateEvent;
     }
 
-    
-    public void AddTransition(PlayerState state, Func<bool> func)
+    public virtual void InitializeTransitions()
     {
-        Transitions.Add(new PlayerTransition
+        foreach (var transition in Transitions)
         {
-            Condition = func,
-            StateTo = state
-        });
+            transition.InitializeCondition();
+        }
     }
-    
-    public void AddTransition(PlayerState state, Action action)
+
+    public virtual void DeInitializeTransitions()
     {
-        _actions.Add(state,action);
+        foreach (var transition in Transitions)
+        {
+            transition.DeInitializeCondition();
+        }
+    }
+
+    public void AddTransition(PlayerTransition transition)
+    {
+        Transitions.Add(transition);
     }
 
     private void ToNextStateEvent()
     {
-       
     }
 }

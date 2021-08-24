@@ -4,14 +4,14 @@ using Zenject;
 
 public class InputHandler : MonoBehaviour, IInputHandler
 {
-    public event Action Jump;
-    public event Action Rolling;
+    public Action Jump { get; set; }
+    public Action Rolling { get; set; }
 
     public event Action RightButtonAction;
     public event Action RightButtonDownAction;
     public event Action LeftButtonAction;
     public event Action LeftButtonDownAction;
-    
+
     private const float _click_threshld = 0.25f;
     private float _timeСlick = 0;
     private KeyCode _lastKey;
