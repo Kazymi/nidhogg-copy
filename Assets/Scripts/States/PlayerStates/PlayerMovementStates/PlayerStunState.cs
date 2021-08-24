@@ -1,4 +1,4 @@
-﻿namespace PlayerState
+﻿namespace PlayerStates
 {
     public class PlayerStunState
     {

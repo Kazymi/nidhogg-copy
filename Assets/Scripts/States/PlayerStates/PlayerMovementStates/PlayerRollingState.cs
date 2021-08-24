@@ -1,23 +1,19 @@
 ﻿using System;
 using UnityEngine;
 
-namespace PlayerState
+namespace PlayerStates
 {
-    public class PlayerRollingState : State
+    public class PlayerRollingState : PlayerState
     {
         private float _totalTimeCurve;
         private float _currentTimeCurve;
         private float _currentTime;
         private PlayerMovementConfiguration _playerMovementConfiguration;
         private PlayerMovement _playerMovement;
-        private MovementActionConfiguration _movementAction;
-        private State _nextState;
 
-        public PlayerRollingState(PlayerMovement playerMovement, MovementActionConfiguration movementAction,
-            PlayerMovementConfiguration playerMovementConfiguration, State nextState)
+        public PlayerRollingState(PlayerMovement playerMovement,
+            PlayerMovementConfiguration playerMovementConfiguration)
         {
-            _movementAction = movementAction;
-            _nextState = nextState;
             _playerMovement = playerMovement;
             _playerMovementConfiguration = playerMovementConfiguration;
             var curve = playerMovementConfiguration.RollingCurve;
@@ -35,16 +31,11 @@ namespace PlayerState
         {
             _playerMovement.MoveDirection = Vector3.zero;
             _currentTimeCurve += Time.deltaTime;
-            _currentTime += Time.deltaTime;
             if (_currentTime > _totalTimeCurve)
             {
                 _currentTime = 0;
             }
 
-            if (_currentTime > _movementAction.Time)
-            {
-                _playerMovement.StateMachine.SetState(_nextState);
-            }
             Move();
         }
 

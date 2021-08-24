@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace PlayerState
+namespace PlayerStates
 {
-    public class PlayerMoveState : State
+    public class PlayerMoveState : PlayerState
     {
         private float _currentTimeCurve;
         private float _totalTimeCurve;

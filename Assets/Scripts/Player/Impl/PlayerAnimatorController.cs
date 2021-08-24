@@ -1,4 +1,4 @@
-using PlayerState;
+using PlayerStates;
 using UnityEngine;
 using Zenject;
 

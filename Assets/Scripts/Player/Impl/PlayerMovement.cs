@@ -1,5 +1,5 @@
 using System;
-using PlayerState;
+using PlayerStates;
 using UnityEngine;
 using Zenject;
 
@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private MovementActionConfiguration rollingAction;
     
     private Rigidbody _rigidbody;
-    private StateMachine _stateMachine;
+    private PlayerStateMachine _stateMachine;
     private Vector3 _moveDirection;
     private IInputHandler _inputHandler;
     private PlayerMoveState _playerMoveState;
@@ -18,7 +18,6 @@ public class PlayerMovement : MonoBehaviour
     
     public float Speed => playerMovementConfiguration.Speed;
     public AnimationCurve JumpCurve => playerMovementConfiguration.JumpCurve;
-    public StateMachine StateMachine => _stateMachine;
     public IInputHandler InputHandler => _inputHandler;
     public bool IsGrounded;
 
@@ -48,7 +47,7 @@ public class PlayerMovement : MonoBehaviour
 
         _rigidbody.MovePosition(_rigidbody.position + _moveDirection * Time.deltaTime);
     }
-
+    
     private bool GroundCheck()
     {
         if (Physics.Raycast(transform.position, -transform.up, 0.2f))
@@ -64,8 +63,9 @@ public class PlayerMovement : MonoBehaviour
     private void StateInitialize()
     {
         _playerMoveState = new PlayerMoveState(this);
-        _playerRollingState = new PlayerRollingState(this,rollingAction,playerMovementConfiguration,_playerMoveState);
+        _playerRollingState = new PlayerRollingState(this,playerMovementConfiguration);
         
-        _stateMachine = new StateMachine(_playerMoveState);
+        
+        _stateMachine = new PlayerStateMachine(_playerMoveState);
     }
 }
