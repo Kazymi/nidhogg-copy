@@ -8,32 +8,35 @@ public class PlayerAnimatorController : MonoBehaviour
     [SerializeField] private float animationSpeed;
 
     private IInputHandler _inputHandler;
-    private StateMachine _animationStateMachine;
-    private int _runHash = Animator.StringToHash("Run");
+    private readonly int _runHash = Animator.StringToHash("Run");
+    private readonly int _stunHash = Animator.StringToHash("Stun");
+    private readonly int _weaponHash = Animator.StringToHash("Weapon");
     private float _currentAnimationValue;
-    private PlayerWithFirearms _stateWithFirearms;
-    private PlayerWithoutWeapon _stateWithoutWeapon;
 
-    private void Start()
-    {
-        _stateWithFirearms = new PlayerWithFirearms(animator);
-        _stateWithoutWeapon = new PlayerWithoutWeapon(animator);
-        _animationStateMachine = new StateMachine(_stateWithoutWeapon);
-    }
 
     public void PlayerTakeWeapon()
     {
-        _animationStateMachine.SetState(_stateWithFirearms);
+        animator.SetBool(_weaponHash, true);
     }
 
     public void PlayerWithoutWeapon()
     {
-        _animationStateMachine.SetState(_stateWithoutWeapon);
+        animator.SetBool(_weaponHash, false);
+    }
+
+    public void Stun()
+    {
+        animator.Play(_stunHash);
+        animator.SetBool(_stunHash, true);
+    }
+
+    public void StunOff()
+    {
+        animator.SetBool(_stunHash,false);
     }
 
     private void Update()
     {
-        _animationStateMachine.Tick();
         UpdateAnimationState();
     }
 

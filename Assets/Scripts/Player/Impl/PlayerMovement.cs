@@ -1,21 +1,25 @@
+using System;
 using PlayerState;
 using UnityEngine;
 using Zenject;
 
-[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private float speed;
-    [SerializeField] private AnimationCurve jumpCurve;
-    [SerializeField] private float gravity;
-
+    [SerializeField] private PlayerMovementConfiguration playerMovementConfiguration;
+    [SerializeField] private MovementActionConfiguration rollingAction;
+    
+    private Rigidbody _rigidbody;
     private StateMachine _stateMachine;
     private Vector3 _moveDirection;
     private IInputHandler _inputHandler;
-
-    public float Speed => speed;
+    private PlayerMoveState _playerMoveState;
+    private PlayerRollingState _playerRollingState;
+    
+    public float Speed => playerMovementConfiguration.Speed;
+    public AnimationCurve JumpCurve => playerMovementConfiguration.JumpCurve;
+    public StateMachine StateMachine => _stateMachine;
     public IInputHandler InputHandler => _inputHandler;
-    public AnimationCurve JumpCurve => jumpCurve;
     public bool IsGrounded;
 
     public Vector3 MoveDirection
@@ -33,23 +37,21 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         StateInitialize();
+        _rigidbody = GetComponent<Rigidbody>();
     }
 
     private void Update()
     {
         IsGrounded = GroundCheck();
-        Debug.Log(IsGrounded);
+
         _stateMachine.Tick();
-        if (IsGrounded == false)
-        {
-            _moveDirection.y -= gravity;
-        }
-        transform.position += _moveDirection*Time.deltaTime;
+
+        _rigidbody.MovePosition(_rigidbody.position + _moveDirection * Time.deltaTime);
     }
 
     private bool GroundCheck()
     {
-        if (Physics.Raycast(transform.position, -transform.up, 0.1f))
+        if (Physics.Raycast(transform.position, -transform.up, 0.2f))
         {
             return true;
         }
@@ -58,10 +60,12 @@ public class PlayerMovement : MonoBehaviour
             return false;
         }
     }
+
     private void StateInitialize()
     {
-        var playerMoveState = new PlayerMoveState(this);
-
-        _stateMachine = new StateMachine(playerMoveState);
+        _playerMoveState = new PlayerMoveState(this);
+        _playerRollingState = new PlayerRollingState(this,rollingAction,playerMovementConfiguration,_playerMoveState);
+        
+        _stateMachine = new StateMachine(_playerMoveState);
     }
 }
