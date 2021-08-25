@@ -1,18 +1,23 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BulletManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private List<BulletConfiguration> bulletConfigurations;
+    [SerializeField] private int countBullet;
+    private Dictionary<BulletConfiguration, Factory> _factories = new Dictionary<BulletConfiguration, Factory>();
+
+    private void Start()
     {
-        
+        foreach (var bullet in bulletConfigurations)
+        {
+            _factories.Add(bullet, new Factory(bullet.AmmoGameObject, countBullet, transform));
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public GameObject GetBulletByBulletConfiguration(BulletConfiguration bulletConfiguration)
     {
-        
+        Debug.Log(_factories.Count);
+        return _factories[bulletConfiguration].Create();
     }
 }

@@ -9,11 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4420f84592c42f6b3e6db4d0ae0755a, type: 3}
-  m_Name: Player1_KeyBindings 1
+  m_Script: {fileID: 11500000, guid: 40a364e440b3d2f47b81594495612ac8, type: 3}
+  m_Name: CasualBullet
   m_EditorClassIdentifier: 
-  leftButton: 97
-  rightButton: 100
-  jumpButton: 119
-  downButton: 115
-  fireButton: 103
+  ammoGameObject: {fileID: 2476098873380452862, guid: 588a0d3c61aaaf9448de60fe800309e6, type: 3}
+  damage: 15

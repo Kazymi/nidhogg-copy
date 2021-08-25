@@ -7,9 +7,10 @@ using Zenject;
 public class Weapon : MonoBehaviour
 {
     [SerializeField] private float fireRate;
-    [SerializeField] private GameObject bullet;
+    [SerializeField] private BulletConfiguration bullet;
     [SerializeField] private Transform bulletSpawnPoint;
-    
+
+    private BulletManager _bulletManager;
     private float _currentTimer;
     private IInputHandler _inputHandler;
 
@@ -24,7 +25,9 @@ public class Weapon : MonoBehaviour
 
     private void Fire()
     {
-     Debug.Log("fire");   
+        var newBullet = _bulletManager.GetBulletByBulletConfiguration(bullet);
+        newBullet.transform.position = bulletSpawnPoint.position;
+        newBullet.transform.rotation = bulletSpawnPoint.rotation;
     }
     private void Update()
     {
@@ -35,8 +38,9 @@ public class Weapon : MonoBehaviour
     }
 
     [Inject]
-    private void Construct(IInputHandler inputHandler)
+    private void Construct(IInputHandler inputHandler,BulletManager bulletManager)
     {
+        _bulletManager = bulletManager;
         _inputHandler = inputHandler;
         _inputHandler.Fire.Action += StartFire;
     }
