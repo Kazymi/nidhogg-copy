@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private PlayerMovementConfiguration playerMovementConfiguration;
     [SerializeField] private MovementActionConfiguration rollingAction;
 
+    private PlayerAnimatorController _playerAnimatorController;
     private Rigidbody _rigidbody;
     private PlayerStateMachine _stateMachine;
     private Vector3 _moveDirection;
@@ -19,6 +20,9 @@ public class PlayerMovement : MonoBehaviour
     public float Speed => playerMovementConfiguration.Speed;
     public AnimationCurve JumpCurve => playerMovementConfiguration.JumpCurve;
     public IInputHandler InputHandler => _inputHandler;
+
+    public PlayerAnimatorController PlayerAnimatorController => _playerAnimatorController;
+    
     public bool IsGrounded;
 
     public Vector3 MoveDirection
@@ -64,9 +68,18 @@ public class PlayerMovement : MonoBehaviour
     {
         var playerMoveState = new PlayerMoveState(this);
         var playerRollingState = new PlayerRollingState(this, playerMovementConfiguration);
+        
         playerMoveState.AddTransition(new PlayerTransition(playerRollingState, new ButtonPressedCondition(_inputHandler.Rolling)));
-
+        
 
         _stateMachine = new PlayerStateMachine(playerMoveState);
+        
+        _stateMachine.SetInterimState(playerRollingState,playerMoveState,rollingAction.Time);
+    }
+
+    [Inject]
+    private void Construct(PlayerAnimatorController playerAnimatorController)
+    {
+        _playerAnimatorController = playerAnimatorController;
     }
 }

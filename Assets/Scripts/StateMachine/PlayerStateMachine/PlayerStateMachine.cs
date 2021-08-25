@@ -1,12 +1,15 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class PlayerStateMachine
 {
     private PlayerState _currentState;
+    private Dictionary<PlayerStateTransitions, float> playerStates = new Dictionary<PlayerStateTransitions, float>();
+    
     private float _currentTimer;
-    private bool _isActiveTimer;
     private PlayerState _nextState;
-
+    private bool _isTimerActivated;
     public PlayerStateMachine(PlayerState state)
     {
         SetState(state);
@@ -14,17 +17,18 @@ public class PlayerStateMachine
 
     public void Tick()
     {
-        var newindex = IsTransitionsCondition();
-        if (newindex != -1)
+        var newIndex = IsTransitionsCondition();
+        if (newIndex != -1)
         {
-            SetState(_currentState.Transitions[newindex].StateTo);
+            SetState(_currentState.Transitions[newIndex].StateTo);
         }
         else
         {
             _currentState.Tick();
         }
 
-        if (_isActiveTimer)
+        
+        if (_isTimerActivated)
         {
             _currentTimer -= Time.deltaTime;
             if (_currentTimer < 0)
@@ -32,7 +36,21 @@ public class PlayerStateMachine
                 SetState(_nextState);
             }
         }
+        else
+        {
+            foreach (var states in playerStates)
+            {
+                if (_currentState == states.Key.StartState)
+                {
+                    _nextState = states.Key.EndState;
+                    _currentTimer = states.Value;
+                    _isTimerActivated = true;
+                    break;
+                }
+            }
+        }
     }
+    
 
     public void FixedTick()
     {
@@ -56,7 +74,7 @@ public class PlayerStateMachine
 
     public void SetState(PlayerState state)
     {
-        _isActiveTimer = false;
+        _isTimerActivated = false;
         _currentState?.OnStateExit();
         _currentState?.DeInitializeTransitions();
 
@@ -65,13 +83,9 @@ public class PlayerStateMachine
         _currentState.InitializeTransitions();
     }
 
-    public void SetState(PlayerState state, PlayerState nextState, float timer)
+    public void SetInterimState(PlayerState startState, PlayerState endState, float timer)
     {
-        _currentState?.OnStateExit();
-        _currentState = state;
-        _isActiveTimer = true;
-        _nextState = nextState;
-        _currentTimer = timer;
-        _currentState.OnStateEnter();
+        var stateTransition = new PlayerStateTransitions(startState, endState);
+        playerStates.Add(stateTransition,timer);
     }
 }

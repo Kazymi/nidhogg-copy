@@ -6,7 +6,6 @@ namespace PlayerStates
     {
         private float _currentTimeCurve;
         private float _totalTimeCurve;
-        private bool _isJump;
         private PlayerMovement _playerMovement;
 
         public PlayerMoveState(PlayerMovement playerMovement)
@@ -17,18 +16,13 @@ namespace PlayerStates
 
         public override void OnStateEnter()
         {
-            _playerMovement.InputHandler.Jump += () =>
-            {
-                if (_playerMovement.IsGrounded)
-                {
-                    _currentTimeCurve = 0;
-                }
-            };
+            _playerMovement.InputHandler.Jump.Action += StartJump;
+            _currentTimeCurve = 999;
         }
 
         public override void OnStateExit()
         {
-            _playerMovement.InputHandler.Jump -= Jump;
+            _playerMovement.InputHandler.Jump.Action -= StartJump;
         }
 
         public override void Tick()
@@ -39,6 +33,14 @@ namespace PlayerStates
             Jump();
         }
 
+        private void StartJump()
+        {
+            if (_playerMovement.IsGrounded)
+            {
+                _playerMovement.PlayerAnimatorController.SetTrigger(AnimationNameType.Jump);
+                _currentTimeCurve = 0;
+            }
+        }
         private void Jump()
         {
             if (_currentTimeCurve < _totalTimeCurve)

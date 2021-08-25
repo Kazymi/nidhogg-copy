@@ -3,11 +3,11 @@
 public class ButtonPressedCondition : PlayerCondition
 {
     private bool _isSatisfied;
-    private Action _action;
+    private InputAction _inputAction;
 
-    public ButtonPressedCondition(Action action)
+    public ButtonPressedCondition(InputAction inputAction)
     {
-        _action = action;
+        _inputAction = inputAction;
     }
 
     public override bool IsConditionSatisfied()
@@ -17,12 +17,12 @@ public class ButtonPressedCondition : PlayerCondition
 
     public override void Initialize()
     {
-        _action += ButtonPressed;
+        _inputAction.Action += ButtonPressed;
     }
 
     public override void DeInitialize()
     {
-        _action -= ButtonPressed;
+        _inputAction.Action -= ButtonPressed;
         _isSatisfied = false;
     }
 

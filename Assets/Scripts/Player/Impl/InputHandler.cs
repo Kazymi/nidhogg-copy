@@ -4,19 +4,19 @@ using Zenject;
 
 public class InputHandler : MonoBehaviour, IInputHandler
 {
-    public Action Jump { get; set; }
-    public Action Rolling { get; set; }
-
-    public event Action RightButtonAction;
-    public event Action RightButtonDownAction;
-    public event Action LeftButtonAction;
-    public event Action LeftButtonDownAction;
-
     private const float _click_threshld = 0.25f;
     private float _timeСlick = 0;
     private KeyCode _lastKey;
     private IKeyBindings _keyBindings;
-
+    
+    public InputAction Jump { get; set; } = new InputAction();
+    public InputAction Rolling { get; set; } = new InputAction();
+    public InputAction Fire { get; set; } = new InputAction();
+    public InputAction DownButtonAction { get; set; } = new InputAction();
+    public InputAction RightButtonAction { get; set; } = new InputAction();
+    public InputAction RightButtonDownAction { get; set; } = new InputAction();
+    public InputAction LeftButtonAction { get; set; } = new InputAction();
+    public InputAction LeftButtonDownAction { get; set; } = new InputAction();
     public int MovementDirection { get; private set; }
 
     [Inject]
@@ -27,17 +27,17 @@ public class InputHandler : MonoBehaviour, IInputHandler
 
     private void Start()
     {
-        RightButtonAction += () => MovementDirection = 1;
-        LeftButtonAction += () => MovementDirection = -1;
+        RightButtonAction.Action += () => MovementDirection = 1;
+        LeftButtonAction.Action += () => MovementDirection = -1;
 
-        RightButtonDownAction += () =>
+        RightButtonDownAction.Action += () =>
         {
             var key = _keyBindings.RightButton;
             DoubleClickCheck(key);
             _lastKey = key;
         };
 
-        LeftButtonDownAction += () =>
+        LeftButtonDownAction.Action += () =>
         {
             var key = _keyBindings.LeftButton;
             DoubleClickCheck(key);
@@ -58,23 +58,32 @@ public class InputHandler : MonoBehaviour, IInputHandler
         {
             if (Input.GetKey(_keyBindings.RightButton))
             {
-                RightButtonAction?.Invoke();
+                RightButtonAction.Invoke();
             }
-
             if (Input.GetKey(_keyBindings.LeftButton))
             {
-                LeftButtonAction?.Invoke();
+                LeftButtonAction.Invoke();
             }
         }
 
         if (Input.GetKeyDown(_keyBindings.RightButton))
         {
-            RightButtonDownAction?.Invoke();
+            RightButtonDownAction.Invoke();
         }
 
         if (Input.GetKeyDown(_keyBindings.LeftButton))
         {
-            LeftButtonDownAction?.Invoke();
+            LeftButtonDownAction.Invoke();
+        }
+
+        if (Input.GetKeyDown(_keyBindings.DownButton))
+        {
+            DownButtonAction.Invoke();
+        }
+
+        if (Input.GetKey(_keyBindings.FireButton))
+        {
+            Fire.Invoke();
         }
     }
 
@@ -87,7 +96,7 @@ public class InputHandler : MonoBehaviour, IInputHandler
 
         if (Time.time - _timeСlick < _click_threshld)
         {
-            Rolling?.Invoke();
+            Rolling.Invoke();
         }
 
         _timeСlick = Time.time;

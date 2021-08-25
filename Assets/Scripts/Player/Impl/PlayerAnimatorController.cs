@@ -8,31 +8,18 @@ public class PlayerAnimatorController : MonoBehaviour
     [SerializeField] private float animationSpeed;
 
     private IInputHandler _inputHandler;
-    private readonly int _runHash = Animator.StringToHash("Run");
-    private readonly int _stunHash = Animator.StringToHash("Stun");
-    private readonly int _weaponHash = Animator.StringToHash("Weapon");
+
     private float _currentAnimationValue;
 
 
-    public void PlayerTakeWeapon()
+    public void SetAnimationBool(AnimationNameType animationNameType, bool value)
     {
-        animator.SetBool(_weaponHash, true);
+        animator.SetBool(Animator.StringToHash(animationNameType.ToString()), value);
     }
 
-    public void PlayerWithoutWeapon()
+    public void SetTrigger(AnimationNameType animationNameType)
     {
-        animator.SetBool(_weaponHash, false);
-    }
-
-    public void Stun()
-    {
-        animator.Play(_stunHash);
-        animator.SetBool(_stunHash, true);
-    }
-
-    public void StunOff()
-    {
-        animator.SetBool(_stunHash,false);
+        animator.SetTrigger(Animator.StringToHash(animationNameType.ToString()));
     }
 
     private void Update()
@@ -44,6 +31,8 @@ public class PlayerAnimatorController : MonoBehaviour
     private void Construct(IInputHandler inputHandler)
     {
         _inputHandler = inputHandler;
+        _inputHandler.DownButtonAction.Action += () => SetAnimationBool(AnimationNameType.Crouch,
+            !animator.GetBool(Animator.StringToHash(AnimationNameType.Crouch.ToString())));
     }
 
     private void UpdateAnimationState()
@@ -68,6 +57,6 @@ public class PlayerAnimatorController : MonoBehaviour
             _currentAnimationValue = 0;
         }
 
-        animator.SetFloat(_runHash, _currentAnimationValue);
+        animator.SetFloat(Animator.StringToHash(AnimationNameType.Run.ToString()), _currentAnimationValue);
     }
 }

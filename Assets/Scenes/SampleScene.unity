@@ -1177,7 +1177,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh41894
+  m_Name: pb_Mesh17702
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1426,8 +1426,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerMovementConfiguration:
-    speed: 8
-    rollingSpeed: 12
+    speed: 1
+    rollingSpeed: 3
     jumpCurve:
       serializedVersion: 2
       m_Curve:
@@ -1463,11 +1463,38 @@ MonoBehaviour:
       m_RotationOrder: 4
     rollingCurve:
       serializedVersion: 2
-      m_Curve: []
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 3.685235
+        outSlope: 3.685235
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.49110138
+        value: 2.809824
+        inSlope: 0.6329541
+        outSlope: 0.6329541
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1.2274017
+        value: 1.0284729
+        inSlope: -2.4193268
+        outSlope: -2.4193268
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  rollingAction: {fileID: 0}
+  rollingAction: {fileID: 11400000, guid: 4c186806972a7224e9d8548784bc6631, type: 2}
   IsGrounded: 0
 --- !u!136 &1962633288
 CapsuleCollider:

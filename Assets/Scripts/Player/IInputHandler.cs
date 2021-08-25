@@ -2,13 +2,15 @@
 
 public interface IInputHandler
 {
-    public Action Jump { get; set; }
-    public Action Rolling { get; set; }
+    public InputAction Jump { get; set; }
+    public InputAction Rolling { get; set; }
 
-    public event Action RightButtonAction;
-    public event Action RightButtonDownAction;
-    public event Action LeftButtonAction;
-    public event Action LeftButtonDownAction;
+    public InputAction Fire { get; set; }
+    public InputAction DownButtonAction { get; set; }
+    public InputAction RightButtonAction { get; set; }
+    public InputAction RightButtonDownAction { get; set; }
+    public InputAction LeftButtonAction { get; set; }
+    public InputAction LeftButtonDownAction { get; set; }
 
     public int MovementDirection { get; }
 }
