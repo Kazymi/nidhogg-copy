@@ -5,16 +5,11 @@ using UnityEngine;
 
 public class InputAction
 {
-    private event Action _action;
-    
-    public event Action Action
-    {
-        add => _action += value;
-        remove => _action -= value;
-    }
+
+    public event Action Action;
 
     public void Invoke()
     {
-        _action?.Invoke();
+        Action?.Invoke();
     }
 }

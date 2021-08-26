@@ -1,9 +1,9 @@
-﻿using PlayerStates;
+﻿
 
 public class PlayerStateTransitions
 {
-    public PlayerState StartState { get; set; }
-    public PlayerState EndState { get; set; }
+    public PlayerState StartState { get;  }
+    public PlayerState EndState { get; }
  
     public PlayerStateTransitions(PlayerState startState, PlayerState endState)
     {

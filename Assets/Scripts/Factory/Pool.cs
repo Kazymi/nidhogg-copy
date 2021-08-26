@@ -4,14 +4,14 @@ using UnityEngine;
 public class Pool
 {
     private List<GameObject> _pooledObjects;
-    private Transform _parent;
+    private readonly Transform _parent;
     private readonly GameObject _elementSpawn;
 
     public Pool(GameObject element, int count,Transform parent)
     {
         _elementSpawn = element;
         _parent = parent;
-        Prepolulate(count);
+        PrePopulate(count);
     }
 
     public GameObject Pull()
@@ -34,7 +34,7 @@ public class Pool
         _pooledObjects.Add(element);
     }
 
-    private void Prepolulate(int count)
+    private void PrePopulate(int count)
     {
         _pooledObjects = new List<GameObject>();
         for (int i = 0; i != count; i++)

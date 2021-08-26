@@ -1,5 +1,4 @@
 using System;
-using PlayerStates;
 using UnityEngine;
 using Zenject;
 
@@ -14,15 +13,14 @@ public class PlayerMovement : MonoBehaviour
     private PlayerStateMachine _stateMachine;
     private Vector3 _moveDirection;
     private IInputHandler _inputHandler;
-    // private PlayerMoveState _playerMoveState;
-    // private PlayerRollingState _playerRollingState;
+    private bool _isShieldActivated;
 
     public float Speed => playerMovementConfiguration.Speed;
     public AnimationCurve JumpCurve => playerMovementConfiguration.JumpCurve;
     public IInputHandler InputHandler => _inputHandler;
 
     public PlayerAnimatorController PlayerAnimatorController => _playerAnimatorController;
-    
+
     public bool IsGrounded;
 
     public Vector3 MoveDirection
@@ -35,6 +33,8 @@ public class PlayerMovement : MonoBehaviour
     private void Construct(IInputHandler inputHandler)
     {
         _inputHandler = inputHandler;
+
+        _inputHandler.ShieldButtonDownAction.Action += () => _isShieldActivated = !_isShieldActivated;
     }
 
     private void Awake()
@@ -68,13 +68,23 @@ public class PlayerMovement : MonoBehaviour
     {
         var playerMoveState = new PlayerMoveState(this);
         var playerRollingState = new PlayerRollingState(this, playerMovementConfiguration);
+        var playerFallingState = new PlayerFalling(this);
+        var playerShieldState = new PlayerShieldState(this, playerMovementConfiguration);
         
         playerMoveState.AddTransition(new PlayerTransition(playerRollingState, new ButtonPressedCondition(_inputHandler.Rolling)));
+        playerMoveState.AddTransition(new PlayerTransition(playerFallingState, new FallingCondition(this,playerMovementConfiguration.ToFallingTime)));
+        playerMoveState.AddTransition(new PlayerTransition(playerShieldState, new Condition(() => _isShieldActivated)));
         
+        playerRollingState.AddTransition(new PlayerTransition(playerMoveState, new TimerCondition(rollingAction.Time)));
 
-        _stateMachine = new PlayerStateMachine(playerMoveState);
+        playerFallingState.AddTransition(new PlayerTransition(playerRollingState, new Condition(() => IsGrounded && _isShieldActivated == false)));
+        playerFallingState.AddTransition(new PlayerTransition(playerShieldState, new Condition(() => IsGrounded && _isShieldActivated)));
         
-        _stateMachine.SetInterimState(playerRollingState,playerMoveState,rollingAction.Time);
+        playerShieldState.AddTransition(new PlayerTransition(playerFallingState, new FallingCondition(this,playerMovementConfiguration.ToFallingTime)));
+        playerShieldState.AddTransition(new PlayerTransition(playerMoveState, new Condition(() => _isShieldActivated == false)));
+        
+        
+        _stateMachine = new PlayerStateMachine(playerMoveState);
     }
 
     [Inject]

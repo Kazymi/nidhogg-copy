@@ -4,5 +4,7 @@
     Run,
     Jump,
     Weapon,
-    Crouch
+    Crouch,
+    Falling,
+    Shield
 }

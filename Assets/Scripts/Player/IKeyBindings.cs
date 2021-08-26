@@ -7,4 +7,5 @@ public interface IKeyBindings
     KeyCode JumpButton { get; }
     KeyCode DownButton { get; }
     KeyCode FireButton { get; }
+    KeyCode ShieldButton { get; }
 }

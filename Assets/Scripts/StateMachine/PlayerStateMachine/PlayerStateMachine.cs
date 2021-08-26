@@ -5,11 +5,6 @@ using UnityEngine;
 public class PlayerStateMachine
 {
     private PlayerState _currentState;
-    private Dictionary<PlayerStateTransitions, float> playerStates = new Dictionary<PlayerStateTransitions, float>();
-    
-    private float _currentTimer;
-    private PlayerState _nextState;
-    private bool _isTimerActivated;
     public PlayerStateMachine(PlayerState state)
     {
         SetState(state);
@@ -26,29 +21,7 @@ public class PlayerStateMachine
         {
             _currentState.Tick();
         }
-
-        
-        if (_isTimerActivated)
-        {
-            _currentTimer -= Time.deltaTime;
-            if (_currentTimer < 0)
-            {
-                SetState(_nextState);
-            }
-        }
-        else
-        {
-            foreach (var states in playerStates)
-            {
-                if (_currentState == states.Key.StartState)
-                {
-                    _nextState = states.Key.EndState;
-                    _currentTimer = states.Value;
-                    _isTimerActivated = true;
-                    break;
-                }
-            }
-        }
+        Debug.Log(_currentState);
     }
     
 
@@ -74,18 +47,11 @@ public class PlayerStateMachine
 
     public void SetState(PlayerState state)
     {
-        _isTimerActivated = false;
         _currentState?.OnStateExit();
         _currentState?.DeInitializeTransitions();
 
         _currentState = state;
         _currentState.OnStateEnter();
         _currentState.InitializeTransitions();
-    }
-
-    public void SetInterimState(PlayerState startState, PlayerState endState, float timer)
-    {
-        var stateTransition = new PlayerStateTransitions(startState, endState);
-        playerStates.Add(stateTransition,timer);
     }
 }

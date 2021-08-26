@@ -92,7 +92,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2476098873380452862}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -125,6 +125,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2baa4a1443fa2544b3d40e319c6fc87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeTime: 3
-  flySpeed: 5
+  lifeTime: 5
+  flySpeed: 12
   damage: 12

@@ -1,12 +1,10 @@
 using UnityEngine;
 
-namespace PlayerStates
-{
     public class PlayerMoveState : PlayerState
     {
         private float _currentTimeCurve;
-        private float _totalTimeCurve;
-        private PlayerMovement _playerMovement;
+        private readonly float _totalTimeCurve;
+        private readonly PlayerMovement _playerMovement;
 
         public PlayerMoveState(PlayerMovement playerMovement)
         {
@@ -75,4 +73,3 @@ namespace PlayerStates
             _playerMovement.MoveDirection *= _playerMovement.Speed;
         }
     }
-}

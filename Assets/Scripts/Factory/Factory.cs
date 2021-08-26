@@ -1,4 +1,5 @@
 using UnityEngine;
+using Zenject;
 
 public class Factory
 {
@@ -16,7 +17,7 @@ public class Factory
     public GameObject Create()
     {
         var newObject = _pool.Pull();
-        var initialize = newObject.GetComponent<IFactoryInitialize>();
+        var initialize = newObject.GetComponent<IPolledObject>();
         if (initialize != null)
         {
             initialize.ParentFactory = this;

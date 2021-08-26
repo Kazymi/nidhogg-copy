@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider), typeof(Rigidbody))]
-public class CasualBullet : MonoBehaviour, IFactoryInitialize
+public class CasualBullet : MonoBehaviour, IPolledObject
 {
     [SerializeField] private float lifeTime;
     [SerializeField] private float flySpeed;

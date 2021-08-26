@@ -1,8 +1,6 @@
 ﻿using System;
 using UnityEngine;
 
-namespace PlayerStates
-{
     public class PlayerRollingState : PlayerState
     {
         private PlayerMovementConfiguration _playerMovementConfiguration;
@@ -35,4 +33,3 @@ namespace PlayerStates
                 0f, 0f);
         }
     }
-}
