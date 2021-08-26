@@ -12,26 +12,17 @@ public class CasualBullet : MonoBehaviour, IFactoryInitialize
 
     private float _currentTime;
 
-    public Factory ParentFactor
+    public Factory ParentFactory { get; set; }
+    
+    private void OnEnable()
     {
-        get => ParentFactor;
-        set
-        {
-            _currentTime = lifeTime;
-            ParentFactor = value;
-        }
+        StartCoroutine(DestroyTimer());
     }
 
 
     private void Update()
     {
         transform.position += transform.forward * flySpeed * Time.deltaTime;
-
-         _currentTime -= Time.deltaTime;
-        if (_currentTime < 0)
-        {
-           ParentFactor.Destroy(gameObject);
-        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -41,5 +32,19 @@ public class CasualBullet : MonoBehaviour, IFactoryInitialize
         {
             damageable.TakeDamage(damage);
         }
+        Destroy();
     }
+
+    private IEnumerator DestroyTimer()
+    {
+        yield return new WaitForSeconds(lifeTime);
+        Destroy();
+    }
+
+    private void Destroy()
+    {
+        StopAllCoroutines();
+        ParentFactory.Destroy(gameObject);
+    }
+
 }

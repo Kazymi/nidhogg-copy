@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface IFactoryInitialize
 {
-   public Factory ParentFactor { get; set; }
+   public Factory ParentFactory { get; set; }
 
 }

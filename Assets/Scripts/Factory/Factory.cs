@@ -15,14 +15,14 @@ public class Factory
 
     public GameObject Create()
     {
-        var gameObject = _pool.Pull();
-        var initialize = gameObject.GetComponent<IFactoryInitialize>();
+        var newObject = _pool.Pull();
+        var initialize = newObject.GetComponent<IFactoryInitialize>();
         if (initialize != null)
         {
-            initialize.ParentFactor = this;
+            initialize.ParentFactory = this;
         }
-
-        return gameObject;
+        
+        return newObject;
     }
 
     public void Destroy(GameObject gameObject)

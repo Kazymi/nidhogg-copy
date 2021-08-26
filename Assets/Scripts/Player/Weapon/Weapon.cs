@@ -31,6 +31,7 @@ public class Weapon : MonoBehaviour
     }
     private void Update()
     {
+        transform.rotation = Quaternion.Euler(0,90*transform.forward.x,0);
         if (_currentTimer >= 0)
         {
             _currentTimer -= Time.deltaTime;
