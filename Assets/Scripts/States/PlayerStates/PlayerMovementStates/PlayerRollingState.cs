@@ -1,10 +1,9 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
     public class PlayerRollingState : PlayerState
     {
-        private PlayerMovementConfiguration _playerMovementConfiguration;
-        private PlayerMovement _playerMovement;
+        private readonly PlayerMovementConfiguration _playerMovementConfiguration;
+        private readonly PlayerMovement _playerMovement;
 
         public PlayerRollingState(PlayerMovement playerMovement,
             PlayerMovementConfiguration playerMovementConfiguration)

@@ -9,9 +9,16 @@ using UnityEngine;
         [SerializeField] private float rollingSpeed;
         [SerializeField] private float shieldSpeed;
         [SerializeField] private AnimationCurve jumpCurve;
-        [SerializeField] private float toFallingTime;
+        [SerializeField] private float needTimeFallingToRolling;
 
-        public float ToFallingTime => toFallingTime;
+        [SerializeField] private float rollingTime;
+        [SerializeField] private float shieldCrushTime;
+
+        public float RollingTime => rollingTime;
+
+        public float ShieldCrushTime => shieldCrushTime;
+
+        public float NeedTimeFallingToRolling => needTimeFallingToRolling;
         public float Speed => speed;
         
         public float ShieldSpeed => shieldSpeed;

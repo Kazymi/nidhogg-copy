@@ -1,40 +1,33 @@
-using System;
+using States.PlayerStates;
 using UnityEngine;
 using Zenject;
 
 [RequireComponent(typeof(Rigidbody))]
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, IShieldDeactivator
 {
     [SerializeField] private PlayerMovementConfiguration playerMovementConfiguration;
-    [SerializeField] private MovementActionConfiguration rollingAction;
 
-    private PlayerAnimatorController _playerAnimatorController;
     private Rigidbody _rigidbody;
     private PlayerStateMachine _stateMachine;
-    private Vector3 _moveDirection;
-    private IInputHandler _inputHandler;
-    private bool _isShieldActivated;
-
     public float Speed => playerMovementConfiguration.Speed;
     public AnimationCurve JumpCurve => playerMovementConfiguration.JumpCurve;
-    public IInputHandler InputHandler => _inputHandler;
-
-    public PlayerAnimatorController PlayerAnimatorController => _playerAnimatorController;
-
-    public bool IsGrounded;
-
-    public Vector3 MoveDirection
-    {
-        get => _moveDirection;
-        set => _moveDirection = value;
-    }
+    public IInputHandler InputHandler { get; private set; }
+    public PlayerAnimatorController PlayerAnimatorController { get; private set; }
+    public InputAction ShieldDeactivated { get; set; } = new InputAction();
+    public IInventory Inventory { get; private set; }
+    public IWeaponDeactivator WeaponDeactivator;
+    public bool IsJumped { get; set; }
+    public bool IsGrounded { get; private set; }
+    public Vector3 MoveDirection { get; set; }
 
     [Inject]
-    private void Construct(IInputHandler inputHandler)
+    private void Construct(PlayerAnimatorController playerAnimatorController, IWeaponDeactivator weaponDeactivator,
+        IInputHandler inputHandler, IInventory inventory)
     {
-        _inputHandler = inputHandler;
-
-        _inputHandler.ShieldButtonDownAction.Action += () => _isShieldActivated = !_isShieldActivated;
+        Inventory = inventory;
+        PlayerAnimatorController = playerAnimatorController;
+        WeaponDeactivator = weaponDeactivator;
+        InputHandler = inputHandler;
     }
 
     private void Awake()
@@ -46,15 +39,14 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         IsGrounded = GroundCheck();
-
         _stateMachine.Tick();
 
-        _rigidbody.MovePosition(_rigidbody.position + _moveDirection * Time.deltaTime);
+        _rigidbody.MovePosition(_rigidbody.position + MoveDirection * Time.deltaTime);
     }
 
     private bool GroundCheck()
     {
-        if (Physics.Raycast(transform.position, -transform.up, 0.2f))
+        if (Physics.Raycast(transform.position, -transform.up, 0.3f))
         {
             return true;
         }
@@ -70,26 +62,34 @@ public class PlayerMovement : MonoBehaviour
         var playerRollingState = new PlayerRollingState(this, playerMovementConfiguration);
         var playerFallingState = new PlayerFalling(this);
         var playerShieldState = new PlayerShieldState(this, playerMovementConfiguration);
-        
-        playerMoveState.AddTransition(new PlayerTransition(playerRollingState, new ButtonPressedCondition(_inputHandler.Rolling)));
-        playerMoveState.AddTransition(new PlayerTransition(playerFallingState, new FallingCondition(this,playerMovementConfiguration.ToFallingTime)));
-        playerMoveState.AddTransition(new PlayerTransition(playerShieldState, new Condition(() => _isShieldActivated)));
-        
-        playerRollingState.AddTransition(new PlayerTransition(playerMoveState, new TimerCondition(rollingAction.Time)));
+        var playerShieldCrashState = new ShieldCrashState(this);
+//movement
+        playerMoveState.AddTransition(new PlayerTransition(playerRollingState,
+            new ButtonPressedCondition(InputHandler.Rolling)));
+        playerMoveState.AddTransition(new PlayerTransition(playerFallingState, new FallingCondition(this)));
+        playerMoveState.AddTransition(new PlayerTransition(playerShieldState, new ButtonPressedCondition(InputHandler.ShieldButtonDownAction)));
+//falling
+        playerRollingState.AddTransition(new PlayerTransition(playerMoveState,
+            new TimerCondition(playerMovementConfiguration.RollingTime)));
+//falling
+        playerFallingState.AddTransition(new PlayerTransition(playerShieldState,
+            new AfterFallCondition(() => IsGrounded && Inventory.IsShieldActivated, 0f)));
+        playerFallingState.AddTransition(new PlayerTransition(playerRollingState,
+            new AfterFallCondition(() => IsGrounded && Inventory.IsShieldActivated == false,
+                playerMovementConfiguration.NeedTimeFallingToRolling)));
+        playerFallingState.AddTransition(new PlayerTransition(playerMoveState,
+            new AfterFallCondition(() => IsGrounded && Inventory.IsShieldActivated == false, 0f)));
+//shield
+        playerShieldState.AddTransition(new PlayerTransition(playerFallingState, new FallingCondition(this)));
+        playerShieldState.AddTransition(new PlayerTransition(playerShieldCrashState,
+            new ButtonPressedCondition(ShieldDeactivated)));
+        playerShieldState.AddTransition(new PlayerTransition(playerMoveState,
+            new Condition(() => Inventory.IsShieldActivated == false)));
+//shield crash
+        playerShieldCrashState.AddTransition(new PlayerTransition(playerMoveState,
+            new TimerCondition(playerMovementConfiguration.ShieldCrushTime)));
 
-        playerFallingState.AddTransition(new PlayerTransition(playerRollingState, new Condition(() => IsGrounded && _isShieldActivated == false)));
-        playerFallingState.AddTransition(new PlayerTransition(playerShieldState, new Condition(() => IsGrounded && _isShieldActivated)));
-        
-        playerShieldState.AddTransition(new PlayerTransition(playerFallingState, new FallingCondition(this,playerMovementConfiguration.ToFallingTime)));
-        playerShieldState.AddTransition(new PlayerTransition(playerMoveState, new Condition(() => _isShieldActivated == false)));
-        
-        
+
         _stateMachine = new PlayerStateMachine(playerMoveState);
-    }
-
-    [Inject]
-    private void Construct(PlayerAnimatorController playerAnimatorController)
-    {
-        _playerAnimatorController = playerAnimatorController;
     }
 }

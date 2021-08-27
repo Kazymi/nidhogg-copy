@@ -7,7 +7,7 @@ public class Pool
     private readonly Transform _parent;
     private readonly GameObject _elementSpawn;
 
-    public Pool(GameObject element, int count,Transform parent)
+    public Pool(GameObject element, int count, Transform parent)
     {
         _elementSpawn = element;
         _parent = parent;
@@ -23,6 +23,7 @@ public class Pool
             returnValue = _pooledObjects[0];
             _pooledObjects.RemoveAt(0);
         }
+
         returnValue.SetActive(true);
         return returnValue;
     }

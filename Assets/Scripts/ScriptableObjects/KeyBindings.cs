@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 [CreateAssetMenu(menuName = "Key Bindings", fileName = "KeyBindings")]
 public class KeyBindings : ScriptableObject, IKeyBindings

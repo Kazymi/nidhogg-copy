@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 public abstract class PlayerState
 {
@@ -41,5 +40,4 @@ public abstract class PlayerState
     {
         Transitions.Add(transition);
     }
-    
 }

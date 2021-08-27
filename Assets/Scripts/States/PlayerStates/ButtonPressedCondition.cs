@@ -1,6 +1,4 @@
-﻿using System;
-
-public class ButtonPressedCondition : PlayerCondition
+﻿public class ButtonPressedCondition : PlayerCondition
 {
     private bool _isSatisfied;
     private InputAction _inputAction;

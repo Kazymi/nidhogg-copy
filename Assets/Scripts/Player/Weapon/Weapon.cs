@@ -1,10 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class Weapon : MonoBehaviour
+public class Weapon : MonoBehaviour,IWeaponDeactivator
 {
     [SerializeField] private float fireRate;
     [SerializeField] private BulletConfiguration bullet;
@@ -13,22 +10,17 @@ public class Weapon : MonoBehaviour
     private BulletManager _bulletManager;
     private float _currentTimer;
     private IInputHandler _inputHandler;
-
-    private void StartFire()
+    public bool IsWeaponActivated { get; set; }
+    private void OnEnable()
     {
-        if (_currentTimer < 0)
-        {
-            _currentTimer = fireRate;
-            Fire();
-        }
+        _inputHandler.Fire.Action += StartFire;
     }
 
-    private void Fire()
+    private void OnDisable()
     {
-        var newBullet = _bulletManager.GetBulletByBulletConfiguration(bullet);
-        newBullet.transform.position = bulletSpawnPoint.position;
-        newBullet.transform.rotation = bulletSpawnPoint.rotation;
+        _inputHandler.Fire.Action -= StartFire;
     }
+
     private void Update()
     {
         transform.rotation = Quaternion.Euler(0,90*transform.forward.x,0);
@@ -37,12 +29,28 @@ public class Weapon : MonoBehaviour
             _currentTimer -= Time.deltaTime;
         }
     }
+    
+    private void StartFire()
+    {
+        if (_currentTimer < 0 && IsWeaponActivated)
+        {
+            _currentTimer = fireRate;
+            Fire();
+        }
+    }
+    
+    private void Fire()
+    {
+        var newBullet = _bulletManager.GetBulletByBulletConfiguration(bullet);
+        newBullet.transform.position = bulletSpawnPoint.position;
+        newBullet.transform.rotation = bulletSpawnPoint.rotation;
+    }
 
     [Inject]
     private void Construct(IInputHandler inputHandler,BulletManager bulletManager)
     {
         _bulletManager = bulletManager;
         _inputHandler = inputHandler;
-        _inputHandler.Fire.Action += StartFire;
     }
+    
 }

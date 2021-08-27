@@ -1,37 +1,37 @@
 using UnityEngine;
 using Zenject;
 
-public class PlayerAnimatorController : MonoBehaviour
+public class PlayerAnimatorController
 {
-    [SerializeField] private Animator animator;
-    [SerializeField] private float animationSpeed;
-
+    private AnimatorConfig _animatorConfig;
     private IInputHandler _inputHandler;
-
     private float _currentAnimationValue;
 
+    public float AnimationValue
+    {
+        set => _currentAnimationValue = value;
+    }
 
+    public PlayerAnimatorController(AnimatorConfig animator, IInputHandler inputHandler)
+    {
+        _animatorConfig = animator;
+        _inputHandler = inputHandler;
+        _inputHandler.DownButtonAction.Action += () => SetAnimationBool(AnimationNameType.Crouch,
+            !_animatorConfig.PlayerAnimator.GetBool(Animator.StringToHash(AnimationNameType.Crouch.ToString())));
+    }
     public void SetAnimationBool(AnimationNameType animationNameType, bool value)
     {
-        animator.SetBool(Animator.StringToHash(animationNameType.ToString()), value);
+        _animatorConfig.PlayerAnimator.SetBool(Animator.StringToHash(animationNameType.ToString()), value);
     }
 
     public void SetTrigger(AnimationNameType animationNameType)
     {
-        animator.SetTrigger(Animator.StringToHash(animationNameType.ToString()));
+        _animatorConfig.PlayerAnimator.SetTrigger(Animator.StringToHash(animationNameType.ToString()));
     }
 
-    private void Update()
+    public void Update()
     {
         UpdateAnimationState();
-    }
-
-    [Inject]
-    private void Construct(IInputHandler inputHandler)
-    {
-        _inputHandler = inputHandler;
-        _inputHandler.DownButtonAction.Action += () => SetAnimationBool(AnimationNameType.Crouch,
-            !animator.GetBool(Animator.StringToHash(AnimationNameType.Crouch.ToString())));
     }
 
     private void UpdateAnimationState()
@@ -39,11 +39,11 @@ public class PlayerAnimatorController : MonoBehaviour
         var moveDirection = _inputHandler.MovementDirection;
         if (moveDirection != 0)
         {
-            _currentAnimationValue += animationSpeed * Time.deltaTime;
+            _currentAnimationValue += _animatorConfig.SpeedRunAnimation * Time.deltaTime;
         }
         else
         {
-            _currentAnimationValue -= animationSpeed * Time.deltaTime;
+            _currentAnimationValue -= _animatorConfig.SpeedRunAnimation * Time.deltaTime;
         }
 
         if (_currentAnimationValue > 1)
@@ -56,6 +56,6 @@ public class PlayerAnimatorController : MonoBehaviour
             _currentAnimationValue = 0;
         }
 
-        animator.SetFloat(Animator.StringToHash(AnimationNameType.Run.ToString()), _currentAnimationValue);
+        _animatorConfig.PlayerAnimator.SetFloat(Animator.StringToHash(AnimationNameType.Run.ToString()), _currentAnimationValue);
     }
 }

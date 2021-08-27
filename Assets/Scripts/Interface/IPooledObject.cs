@@ -1,8 +1,4 @@
-
-
-   public interface IPolledObject
-   {
-      public Factory ParentFactory { get; set; }
-
-   }
-
+public interface IPolledObject
+{
+    public Factory ParentFactory { get; set; }
+}

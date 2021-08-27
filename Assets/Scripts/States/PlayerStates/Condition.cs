@@ -1,15 +1,16 @@
-﻿
-    using System;
+﻿using System;
 
-    public class Condition : PlayerCondition
+public class Condition : PlayerCondition
+{
+    private Func<bool> _func;
+
+    public Condition(Func<bool> func)
     {
-        private Func<bool> _func;
-        public Condition(Func<bool> func)
-        {
-            _func = func;
-        }
-        public override bool IsConditionSatisfied()
-        {
-            return _func.Invoke();
-        }
+        _func = func;
     }
+
+    public override bool IsConditionSatisfied()
+    {
+        return _func.Invoke();
+    }
+}

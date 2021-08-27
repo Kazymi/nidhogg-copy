@@ -6,5 +6,6 @@
     Weapon,
     Crouch,
     Falling,
-    Shield
+    Shield,
+    ShieldCrash,
 }

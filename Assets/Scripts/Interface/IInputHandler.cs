@@ -1,6 +1,4 @@
-﻿using System;
-
-public interface IInputHandler
+﻿public interface IInputHandler
 {
     public InputAction Jump { get; }
     public InputAction Rolling { get;  }

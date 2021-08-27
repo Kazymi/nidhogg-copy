@@ -11,12 +11,12 @@ public class PlayerFalling : PlayerState
 
     public override void OnStateEnter()
     {
-        _playerMovement.PlayerAnimatorController.SetAnimationBool(AnimationNameType.Falling,true);
+        _playerMovement.PlayerAnimatorController.SetAnimationBool(AnimationNameType.Falling, true);
     }
 
     public override void OnStateExit()
     {
-        _playerMovement.PlayerAnimatorController.SetAnimationBool(AnimationNameType.Falling,false);
+        _playerMovement.PlayerAnimatorController.SetAnimationBool(AnimationNameType.Falling, false);
     }
 
     public override void Tick()
@@ -48,6 +48,6 @@ public class PlayerFalling : PlayerState
         }
 
         _playerMovement.MoveDirection = _playerMovement.transform.TransformDirection(_playerMovement.MoveDirection);
-        _playerMovement.MoveDirection *= _playerMovement.Speed/2;
+        _playerMovement.MoveDirection *= _playerMovement.Speed / 2;
     }
 }
