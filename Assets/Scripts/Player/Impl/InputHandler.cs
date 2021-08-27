@@ -3,7 +3,7 @@ using Zenject;
 
 public class InputHandler : MonoBehaviour, IInputHandler
 {
-    private const float _click_threshld = 0.25f;
+    [SerializeField] private InputConfig inputConfig;
     private float _clickDelta = 0;
     private KeyCode _lastKey;
     private IKeyBindings _keyBindings;
@@ -90,7 +90,7 @@ public class InputHandler : MonoBehaviour, IInputHandler
             return;
         }
 
-        if (Time.time - _clickDelta < _click_threshld)
+        if (Time.time - _clickDelta < inputConfig.ClickThreshld)
         {
             Rolling.Invoke();
         }

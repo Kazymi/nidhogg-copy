@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4420f84592c42f6b3e6db4d0ae0755a, type: 3}
   m_Name: Player1_KeyBindings
   m_EditorClassIdentifier: 
-  leftButton: 97
-  rightButton: 100
-  jumpButton: 119
+  leftButton: 276
+  rightButton: 275
+  jumpButton: 273
+  downButton: 274
+  fireButton: 256
+  shieldButton: 257
