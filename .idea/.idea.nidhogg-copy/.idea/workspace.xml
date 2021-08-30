@@ -12,27 +12,73 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/StateMachine/StateMachine.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/States/PlayerStates/PlayerMovementStates/PlayerMoveState.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/UI/TestMenu.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Class/PivotControl.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Factory/Factory.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Player/Inventory.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/StateMachine/State.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Player/PlayerAnimatorController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Factory/Pool.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/ScriptableObjects/BulletConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Player/Weapon/CasualBullet.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/States/PlayerStates/PlayerMovementStates/PlayerMoveState.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Interface/IPooledObject.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Class/PivotControl.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/StateMachine/Transition.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/ShieldMenu.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Player/Weapon/Weapon.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/DisableInteractable.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Assets/Scripts/Player/Player.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Class/PivotControl.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/StateMachine/State.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/StateMachine/Transition.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Stats/PlayerStats/PlayerAnimatorStats/PlayerWithoutWeapon.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Stats/PlayerStats/PlayerAnimatorStats/PlayerWithFirearms.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/UI/TestMenu.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Player/PlayerAnimatorController.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/StateMachine/StateMachine.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/States/PlayerStates/PlayerMovementStates/PlayerJumpState.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/States/PlayerStates/PlayerMovementStates/PlayerMoveState.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/Player/PlayerMovement.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interface/IDamageable.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/ScriptableObjects/BulletConfiguration.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interface/IFactoryInitialize.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Services/BulletManager.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Class/StateMachineAction.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapon/CasualBullet.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/States/PlayerStates/TimerCondition.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/States/PlayerStates/PlayerMovementStates/PlayerStunState.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Class/StateTransitions.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Player/IKeyBindings.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/ScriptableObjects/KeyBindings.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Player/IInputHandler.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/StateMachine/PlayerStateMachine/PlayerStateMachine.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Player/IInventory.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Type/AnimationNameType.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/ScriptableObjects/MovementActionConfiguration.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Player/IShieldDeactivator.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interface/IWeaponDeactivator.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Factory/Factory.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Factory/Pool.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interface/IPooledObject.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/ScriptableObjects/InputConfig.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Class/AnimatorConfig.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/StateMachine/PlayerStateMachine/PlayerState.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/States/PlayerStates/PlayerMovementStates/PlayerFalling.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/States/PlayerStates/Condition.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/States/PlayerStates/FallingCondition.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Class/ShieldConfig.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interface/IShield.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/ShieldMenu.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/States/PlayerStates/AfterTheFallCondition.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Player/Impl/InputHandler.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Class/InputConfig.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interface/IShieldDeactivator.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interface/IInventory.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Signals/WeaponSignal.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Player/Inventory.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapon/Weapon.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/States/PlayerStates/PlayerMovementStates/PlayerShieldState.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/States/PlayerStates/PlayerMovementStates/PlayerMoveState.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/States/PlayerStates/PlayerMovementStates/ShieldCrashState.cs" />
+      <option value="$PROJECT_DIR$/Assets/DisableInteractable.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Interface/IPlayerMovement.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Player/Impl/PlayerControllerInstaller.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Player/Impl/PlayerInstaller.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Player/Impl/PlayerMovementConfiguration.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Player/Impl/PlayerMovement.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Player/Weapon/Shield.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/Player/Impl/PlayerAnimatorController.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/States/PlayerStates/PlayerMovementStates/PlayerRollingState.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1wzNFnypK1u0IzvlUQkx3FeLjkW" />
@@ -45,6 +91,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
@@ -79,6 +126,9 @@
       <updated>1629457365605</updated>
       <workItem from="1629457402412" duration="2059000" />
       <workItem from="1629700825354" duration="8593000" />
+      <workItem from="1629959546237" duration="11465000" />
+      <workItem from="1629990164880" duration="14347000" />
+      <workItem from="1630307282533" duration="10474000" />
     </task>
     <servers />
   </component>

@@ -8,7 +8,6 @@ public class Shield : MonoBehaviour, IDamageable,IShield
     [SerializeField] private ShieldConfig shieldConfig;
     
     private IInventory _inventory;
-    private IShieldDeactivator _shieldDeactivator;
     private bool _isRegeneration;
     private float _currentHealth;
     private ShieldMenu _shieldMenu;
@@ -27,6 +26,7 @@ public class Shield : MonoBehaviour, IDamageable,IShield
         if (_currentHealth <= 0)
         {
             _currentHealth = shieldConfig.Health/100*10;
+            _isRegeneration = true;
             Dead();
         }
         _shieldMenu.UpdateSlider();
@@ -55,15 +55,14 @@ public class Shield : MonoBehaviour, IDamageable,IShield
     
     public void Dead()
     {
-        _shieldDeactivator.ShieldDeactivated?.Invoke();
+        _inventory.ShieldCrash?.Invoke();
         _inventory.CloseShield();
     }
 
     [Inject]
-    private void Construct(IInventory inventory, IShieldDeactivator deactivator, ShieldMenu shieldMenu)
+    private void Construct(IInventory inventory, ShieldMenu shieldMenu)
     {
         _inventory = inventory;
         _shieldMenu = shieldMenu;
-        _shieldDeactivator = deactivator;
     }
 }

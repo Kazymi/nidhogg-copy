@@ -14,21 +14,21 @@
 
         public override void OnStateEnter()
         {
-            _playerMovement.PlayerAnimatorController.SetTrigger(AnimationNameType.Rolling);
+            _playerMovement.PlayerAnimatorController.SetTrigger(AnimationNameType.Rolling,true);
         }
 
 
-        public override void Tick()
-        {
-            _playerMovement.MoveDirection = Vector3.zero;
-
-            Move();
-        }
-
-        private void Move()
-        {
-            _playerMovement.MoveDirection = new Vector3(
-                _playerMovementConfiguration.RollingSpeed * -_playerMovement.transform.forward.z,
-                0f, 0f);
-        }
+        // public override void Tick()
+        // {
+        //     _playerMovement.MoveDirection = Vector3.zero;
+        //
+        //     Move();
+        // }
+        //
+        // private void Move()
+        // {
+        //     _playerMovement.MoveDirection = new Vector3(
+        //         _playerMovementConfiguration.RollingSpeed * -_playerMovement.transform.forward.z,
+        //         0f, 0f);
+        // }
     }

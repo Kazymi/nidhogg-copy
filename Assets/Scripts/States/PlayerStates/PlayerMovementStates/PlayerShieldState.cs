@@ -14,13 +14,11 @@ public class PlayerShieldState : PlayerState
 
     public override void OnStateEnter()
     {
-        _playerMovement.Inventory.OpenShield();
         _playerMovement.PlayerAnimatorController.SetAnimationBool(AnimationNameType.Shield, true);
     }
 
     public override void OnStateExit()
     {
-        _playerMovement.Inventory.CloseShield();
         _playerMovement.PlayerAnimatorController.SetAnimationBool(AnimationNameType.Shield, false);
     }
 
@@ -33,7 +31,7 @@ public class PlayerShieldState : PlayerState
 
     private void Move(int moveDir)
     {
-        if (moveDir == -(int)_playerMovement.transform.forward.z)
+        if (moveDir == (int)_playerMovement.transform.forward.z)
         {
             _playerMovement.MoveDirection = new Vector3(moveDir,0,0);
             _playerMovement.MoveDirection *= _playerMovementConfiguration.ShieldSpeed;

@@ -1,32 +1,37 @@
+using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
-public class PlayerAnimatorController
+public class PlayerAnimatorController : MonoBehaviour
 {
-    private AnimatorConfig _animatorConfig;
+    [SerializeField] private AnimatorConfig animatorConfig;
+    
     private IInputHandler _inputHandler;
+    private IPlayerMovement _playerMovement;
     private float _currentAnimationValue;
-
     public float AnimationValue
     {
         set => _currentAnimationValue = value;
     }
 
-    public PlayerAnimatorController(AnimatorConfig animator, IInputHandler inputHandler)
+    [Inject]
+    private void Construct(IInputHandler inputHandler, IPlayerMovement iPlayerMovement)
     {
-        _animatorConfig = animator;
+        _playerMovement = iPlayerMovement; ;
         _inputHandler = inputHandler;
         _inputHandler.DownButtonAction.Action += () => SetAnimationBool(AnimationNameType.Crouch,
-            !_animatorConfig.PlayerAnimator.GetBool(Animator.StringToHash(AnimationNameType.Crouch.ToString())));
+            !animatorConfig.PlayerAnimator.GetBool(Animator.StringToHash(AnimationNameType.Crouch.ToString())));
     }
     public void SetAnimationBool(AnimationNameType animationNameType, bool value)
     {
-        _animatorConfig.PlayerAnimator.SetBool(Animator.StringToHash(animationNameType.ToString()), value);
+        animatorConfig.PlayerAnimator.SetBool(Animator.StringToHash(animationNameType.ToString()), value);
     }
 
-    public void SetTrigger(AnimationNameType animationNameType)
+    public void SetTrigger(AnimationNameType animationNameType, bool isInteractable)
     {
-        _animatorConfig.PlayerAnimator.SetTrigger(Animator.StringToHash(animationNameType.ToString()));
+        animatorConfig.PlayerAnimator.applyRootMotion = isInteractable;
+        animatorConfig.PlayerAnimator.SetTrigger(Animator.StringToHash(animationNameType.ToString()));
     }
 
     public void Update()
@@ -39,23 +44,28 @@ public class PlayerAnimatorController
         var moveDirection = _inputHandler.MovementDirection;
         if (moveDirection != 0)
         {
-            _currentAnimationValue += _animatorConfig.SpeedRunAnimation * Time.deltaTime;
+            _currentAnimationValue += animatorConfig.SpeedRunAnimation * Time.deltaTime;
         }
         else
         {
-            _currentAnimationValue -= _animatorConfig.SpeedRunAnimation * Time.deltaTime;
+            _currentAnimationValue -= animatorConfig.SpeedRunAnimation * Time.deltaTime;
         }
 
-        if (_currentAnimationValue > 1)
+        _currentAnimationValue = Mathf.Clamp01(_currentAnimationValue);
+
+        animatorConfig.PlayerAnimator.SetFloat(Animator.StringToHash(AnimationNameType.Run.ToString()), _currentAnimationValue);
+    }
+
+    private void OnAnimatorMove()
+    {
+        if (animatorConfig.PlayerAnimator.applyRootMotion == false)
         {
-            _currentAnimationValue = 1;
+            return;
         }
-
-        if (_currentAnimationValue < 0)
-        {
-            _currentAnimationValue = 0;
-        }
-
-        _animatorConfig.PlayerAnimator.SetFloat(Animator.StringToHash(AnimationNameType.Run.ToString()), _currentAnimationValue);
+        _playerMovement.Rigidbody.drag = 0;
+        var deltaPos = animatorConfig.PlayerAnimator.deltaPosition;
+        deltaPos.y = 0;
+        var velocity = deltaPos / Time.deltaTime;
+        _playerMovement.Rigidbody.velocity = velocity;
     }
 }

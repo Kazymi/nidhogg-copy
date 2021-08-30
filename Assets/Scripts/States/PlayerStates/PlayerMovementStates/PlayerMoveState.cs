@@ -15,14 +15,14 @@ public class PlayerMoveState : PlayerState
 
     public override void OnStateEnter()
     {
-        _playerMovement.WeaponDeactivator.IsWeaponActivated = true;
+        _playerMovement.DefaultMovement.Invoke(true);
         _playerMovement.InputHandler.Jump.Action += StartJump;
         _currentTimeCurve = 999;
     }
 
     public override void OnStateExit()
     {
-        _playerMovement.WeaponDeactivator.IsWeaponActivated = false;
+        _playerMovement.DefaultMovement.Invoke(false);
         _playerMovement.IsJumped = false;
         _playerMovement.InputHandler.Jump.Action -= StartJump;
     }
@@ -45,7 +45,7 @@ public class PlayerMoveState : PlayerState
         {
             _playerMovement.IsJumped = true;
             _jumpTime = 1;
-            _playerMovement.PlayerAnimatorController.SetTrigger(AnimationNameType.Jump);
+            _playerMovement.PlayerAnimatorController.SetTrigger(AnimationNameType.Jump,false);
             _currentTimeCurve = 0;
         }
     }
@@ -89,6 +89,7 @@ public class PlayerMoveState : PlayerState
                 return;
             }
         }
+
         _playerMovement.MoveDirection = _playerMovement.transform.TransformDirection(_playerMovement.MoveDirection);
         _playerMovement.MoveDirection *= _playerMovement.Speed;
     }

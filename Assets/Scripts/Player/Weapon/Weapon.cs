@@ -1,16 +1,17 @@
 using UnityEngine;
 using Zenject;
 
-public class Weapon : MonoBehaviour,IWeaponDeactivator
+public class Weapon : MonoBehaviour
 {
     [SerializeField] private float fireRate;
     [SerializeField] private BulletConfiguration bullet;
     [SerializeField] private Transform bulletSpawnPoint;
+    [SerializeField] private Transform playerPivot;
 
     private BulletManager _bulletManager;
     private float _currentTimer;
     private IInputHandler _inputHandler;
-    public bool IsWeaponActivated { get; set; }
+
     private void OnEnable()
     {
         _inputHandler.Fire.Action += StartFire;
@@ -20,10 +21,10 @@ public class Weapon : MonoBehaviour,IWeaponDeactivator
     {
         _inputHandler.Fire.Action -= StartFire;
     }
-
+    
     private void Update()
     {
-        transform.rotation = Quaternion.Euler(0,90*transform.forward.x,0);
+        transform.rotation = Quaternion.Euler(0,90*playerPivot.forward.x,0);
         if (_currentTimer >= 0)
         {
             _currentTimer -= Time.deltaTime;
@@ -32,7 +33,7 @@ public class Weapon : MonoBehaviour,IWeaponDeactivator
     
     private void StartFire()
     {
-        if (_currentTimer < 0 && IsWeaponActivated)
+        if (_currentTimer < 0)
         {
             _currentTimer = fireRate;
             Fire();
