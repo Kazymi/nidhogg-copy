@@ -8,4 +8,5 @@
     Falling,
     Shield,
     ShieldCrash,
+    Death,
 }

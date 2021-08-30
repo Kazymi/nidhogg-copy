@@ -11,7 +11,7 @@ public class ShieldCrashState : PlayerState
 
     public override void OnStateEnter()
     {
-        _playerMovement.PlayerAnimatorController.SetTrigger(AnimationNameType.ShieldCrash,true);
+        _playerMovement.PlayerAnimatorController.SetTrigger(AnimationNameType.ShieldCrash.ToString(),true);
     }
 
     public override void Tick()

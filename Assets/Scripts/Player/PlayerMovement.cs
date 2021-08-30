@@ -26,8 +26,9 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
 
     [Inject]
     private void Construct(PlayerAnimatorController playerAnimatorController,
-        IInputHandler inputHandler, IInventory inventory)
+        IInputHandler inputHandler, IInventory inventory, IPlayerHealth playerHealth)
     {
+        playerHealth.PlayerDeath += PlayerDeath;
         PlayerAnimatorController = playerAnimatorController;
         InputHandler = inputHandler;
         _inventory = inventory;
@@ -49,6 +50,11 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
         _rigidbody = GetComponent<Rigidbody>();
     }
 
+    private void PlayerDeath(DamageTarget damageTarget)
+    {
+        Destroy(this);
+    }
+
     private void Update()
     {
         IsGrounded = GroundCheck();
@@ -57,8 +63,8 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
         {
             MoveDirection -= new Vector3(0, playerMovementConfiguration.Gravity, 0);
         }
-
         _rigidbody.velocity = MoveDirection;
+        _rigidbody.position = new Vector3(_rigidbody.position.x, _rigidbody.position.y, 0);
     }
 
     private void SetCrouch()
@@ -70,9 +76,8 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
     private bool GroundCheck()
     {
         RaycastHit ray;
-        if (Physics.SphereCast(playerMovementConfiguration.GroundCheckPosition.position,
-            playerMovementConfiguration.SphereCastRadius, -transform.up,
-            out ray, 0.2f))
+        if (Physics.Raycast(playerMovementConfiguration.GroundCheckPosition.position,
+            -playerMovementConfiguration.GroundCheckPosition.up, 0.4f))
         {
             return true;
         }
@@ -117,7 +122,6 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
 //shield crash
         playerShieldCrashState.AddTransition(new PlayerTransition(playerMoveState,
             new TimerCondition(playerMovementConfiguration.ShieldCrushTime)));
-
 
         _stateMachine = new PlayerStateMachine(playerMoveState);
     }

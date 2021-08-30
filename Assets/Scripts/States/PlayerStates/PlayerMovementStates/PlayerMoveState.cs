@@ -45,7 +45,7 @@ public class PlayerMoveState : PlayerState
         {
             _playerMovement.IsJumped = true;
             _jumpTime = 1;
-            _playerMovement.PlayerAnimatorController.SetTrigger(AnimationNameType.Jump,false);
+            _playerMovement.PlayerAnimatorController.SetTrigger(AnimationNameType.Jump.ToString(),false);
             _currentTimeCurve = 0;
         }
     }
