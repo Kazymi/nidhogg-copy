@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using Zenject;
 
+// TODO: clean up order for fields and methods
 public class Shield : MonoBehaviour, IDamageable,IShield
 {
     [SerializeField] private ShieldConfig shieldConfig;

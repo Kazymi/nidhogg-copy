@@ -2,6 +2,7 @@
 
 public class PlayerFalling : PlayerState
 {
+    // TODO: can be made read only
     private PlayerMovement _playerMovement;
 
     public PlayerFalling(PlayerMovement playerMovement)
@@ -26,7 +27,7 @@ public class PlayerFalling : PlayerState
         Move(inputVector);
     }
 
-
+    // TODO: duplicated code
     private void Move(int moveDir)
     {
         if (moveDir > 0)

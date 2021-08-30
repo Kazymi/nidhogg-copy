@@ -54,6 +54,7 @@ public class PlayerAnimatorController : MonoBehaviour
         animatorConfig.PlayerAnimator.SetTrigger(animationNameType);
     }
 
+    // TODO: calling unity Update?
     public void Update()
     {
         UpdateAnimationState();
