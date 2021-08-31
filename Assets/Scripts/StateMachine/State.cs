@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 
+// TODO: if this sm never used, it can be deleted. 
 public abstract class State
 {
     public List<Transition> Transitions { get; } = new List<Transition>();

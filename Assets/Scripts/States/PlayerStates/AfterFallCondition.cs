@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
+// TODO: so now you are using namespaces?
 namespace States.PlayerStates
 {
     public class AfterFallCondition : PlayerCondition

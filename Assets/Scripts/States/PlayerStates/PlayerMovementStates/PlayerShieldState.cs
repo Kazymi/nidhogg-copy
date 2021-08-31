@@ -28,7 +28,7 @@ public class PlayerShieldState : PlayerState
         var inputVector = _playerMovement.InputHandler.MovementDirection;
         Move(inputVector);
     }
-
+    
     private void Move(int moveDir)
     {
         if (moveDir == (int)_playerMovement.transform.forward.z)

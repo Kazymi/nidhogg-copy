@@ -8,7 +8,6 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
 {
     [SerializeField] private PlayerMovementConfiguration playerMovementConfiguration;
 
-
     private Rigidbody _rigidbody;
     private PlayerStateMachine _stateMachine;
     private IInventory _inventory;
@@ -22,6 +21,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
     public bool IsJumped { get; set; }
     public Vector3 MoveDirection { get; set; }
     public Action<bool> DefaultMovement { get; set; }
+    // TODO: auto-property can be used.
     public Rigidbody Rigidbody => _rigidbody;
 
     [Inject]
@@ -52,6 +52,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
 
     private void PlayerDeath(DamageTarget damageTarget)
     {
+        // TODO: it will only destroy component, not the gameObject.
         Destroy(this);
     }
 
@@ -63,10 +64,12 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
         {
             MoveDirection -= new Vector3(0, playerMovementConfiguration.Gravity, 0);
         }
+        // TODO: pretty useless to change velocity and after that immediately override it with position. Rotation and position can be locked on RigidBody component.
         _rigidbody.velocity = MoveDirection;
         _rigidbody.position = new Vector3(_rigidbody.position.x, _rigidbody.position.y, 0);
     }
 
+    // TODO: crouch is randomly slammed into this script. Should be state.
     private void SetCrouch()
     {
         _isCrouched = !_isCrouched;
@@ -75,7 +78,11 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
 
     private bool GroundCheck()
     {
+        // TODO: unused.
         RaycastHit ray;
+        // TODO: alternative.
+        // return Physics.Raycast(playerMovementConfiguration.GroundCheckPosition.position, -playerMovementConfiguration.GroundCheckPosition.up, 0.4f);
+        
         if (Physics.Raycast(playerMovementConfiguration.GroundCheckPosition.position,
             -playerMovementConfiguration.GroundCheckPosition.up, 0.4f))
         {

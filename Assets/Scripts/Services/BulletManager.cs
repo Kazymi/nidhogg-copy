@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// TODO: can be made into C# class.
 public class BulletManager : MonoBehaviour
 {
     [SerializeField] private List<BulletConfiguration> bulletConfigurations;

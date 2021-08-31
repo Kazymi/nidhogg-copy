@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PlayerMoveState : PlayerState
 {
+    // TODO: order for fields.
     private float _currentTimeCurve;
     private readonly float _totalTimeCurve;
     private readonly PlayerMovement _playerMovement;
