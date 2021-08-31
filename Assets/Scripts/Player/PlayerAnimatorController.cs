@@ -27,10 +27,7 @@ public class PlayerAnimatorController : MonoBehaviour
         };
 
         _playerMovement = iPlayerMovement;
-        ;
         _inputHandler = inputHandler;
-        _inputHandler.DownButtonAction.Action += () => SetAnimationBool(AnimationNameType.Crouch,
-            !animatorConfig.PlayerAnimator.GetBool(Animator.StringToHash(AnimationNameType.Crouch.ToString())));
     }
 
     public void SetAnimationBool(AnimationNameType animationNameType, bool value)

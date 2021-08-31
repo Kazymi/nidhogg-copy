@@ -405,26 +405,26 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 0
         value: 1
-        inSlope: 2.7697592
-        outSlope: 2.7697592
+        inSlope: 41.40613
+        outSlope: 41.40613
         tangentMode: 34
         weightedMode: 0
         inWeight: 0
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.17505582
-        value: 1.4848624
-        inSlope: 1.7453187
-        outSlope: 1.7453187
+        time: 0.16178066
+        value: 7.6987114
+        inSlope: 20.02551
+        outSlope: 20.02551
         tangentMode: 34
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.56677246
-        value: 1.7672424
-        inSlope: 0.7208782
-        outSlope: 0.7208782
+        time: 0.3672309
+        value: 7.4203033
+        inSlope: -1.3551118
+        outSlope: -1.3551118
         tangentMode: 34
         weightedMode: 0
         inWeight: 0.33333334
@@ -435,7 +435,7 @@ MonoBehaviour:
     needTimeFallingToRolling: 4
     sphereCastRadius: 4
     groundCheckPosition: {fileID: 1604976260}
-    rollingTime: 2
+    rollingTime: 1.4
     shieldCrushTime: 2
 --- !u!114 &498279204
 MonoBehaviour:
@@ -2484,7 +2484,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh73226
+  m_Name: pb_Mesh17788
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2

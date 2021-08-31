@@ -7,18 +7,17 @@ using Zenject;
 public class PlayerMovement : MonoBehaviour, IPlayerMovement
 {
     [SerializeField] private PlayerMovementConfiguration playerMovementConfiguration;
-    
+
     private PlayerAnimatorController _playerAnimatorController;
     private IInputHandler _inputHandler;
 
     private Rigidbody _rigidbody;
     private Vector3 _moveVector;
     private float _currentTimeCurve;
-    private float _jumpTime;
     private float _totalTimeCurve;
-
+    private bool _isJumped;
+    
     public bool IsGrounded { get; private set; }
-
     public bool IsJumped
     {
         set
@@ -27,9 +26,10 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
             {
                 _currentTimeCurve = 999;
             }
-            IsJumped = value;
+
+            _isJumped = value;
         }
-        get => IsJumped;
+        get => _isJumped;
     }
 
     public Action<bool> DefaultMovement { get; set; }
@@ -58,6 +58,8 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
         {
             _moveVector -= new Vector3(0, playerMovementConfiguration.Gravity, 0);
         }
+
+        Jump();
         _rigidbody.velocity = _moveVector;
     }
 
@@ -78,21 +80,38 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
     {
         _moveVector = Vector3.zero;
         var inputVector = _inputHandler.MovementDirection;
-        Move(inputVector,speedRedux);
+        Move(inputVector, speedRedux);
     }
 
     public void ShieldMove()
     {
-        
+        _moveVector = new Vector3();
+        var moveDir = _inputHandler.MovementDirection;
+        if (moveDir == (int) transform.forward.z)
+        {
+            _moveVector = new Vector3(moveDir, 0, 0);
+            _moveVector *= playerMovementConfiguration.ShieldSpeed;
+        }
+        else
+        {
+            _playerAnimatorController.AnimationValue = 0;
+        }
+
+        _playerAnimatorController.UpdateAnimation();
     }
 
     public void StartJump()
     {
+        if (_isJumped)
+        {
+            return;
+        }
+
         if (IsGrounded)
         {
             StartCoroutine(EndJump());
             IsJumped = true;
-            _playerAnimatorController.SetTrigger(AnimationNameType.Jump.ToString(),false);
+            _playerAnimatorController.SetTrigger(AnimationNameType.Jump.ToString(), false);
             _currentTimeCurve = 0;
         }
     }
@@ -101,25 +120,25 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
     {
         if (_currentTimeCurve < _totalTimeCurve)
         {
-            _moveVector+=
+            _moveVector +=
                 new Vector3(0, playerMovementConfiguration.JumpCurve.Evaluate(_currentTimeCurve), 0);
             _currentTimeCurve += Time.deltaTime;
         }
     }
-    
+
 
     private IEnumerator EndJump()
     {
         yield return new WaitForSeconds(1f);
         IsJumped = false;
     }
-    
-    private void Move(int moveDir,float speedRedux)
+
+    private void Move(int moveDir, float speedRedux)
     {
-       _playerAnimatorController.UpdateAnimation();
+        _playerAnimatorController.UpdateAnimation();
         if (moveDir > 0)
         {
-            transform.rotation = new Quaternion(0, 180, 0, 0); 
+            transform.rotation = new Quaternion(0, 180, 0, 0);
             _moveVector = new Vector3(-moveDir, 0, 0);
         }
         else
@@ -136,6 +155,6 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
         }
 
         _moveVector = transform.TransformDirection(_moveVector);
-        _moveVector *= playerMovementConfiguration.Speed*speedRedux;
+        _moveVector *= playerMovementConfiguration.Speed * speedRedux;
     }
 }
