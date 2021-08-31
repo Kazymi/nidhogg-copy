@@ -90,7 +90,7 @@ public class InputHandler : MonoBehaviour, IInputHandler
             return;
         }
 
-        if (Time.time - _clickDelta < inputConfig.ClickThreshld)
+        if (Time.time - _clickDelta < inputConfig.ClickThreshold)
         {
             Rolling.Invoke();
         }

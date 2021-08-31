@@ -2,20 +2,15 @@
 
 public class ShieldCrashState : PlayerState
 {
-    private PlayerMovement _playerMovement;
+    private PlayerAnimatorController _playerAnimatorController;
 
-    public ShieldCrashState(PlayerMovement playerMovement)
+    public ShieldCrashState(PlayerAnimatorController playerAnimatorController)
     {
-        _playerMovement = playerMovement;
+        _playerAnimatorController = playerAnimatorController;
     }
 
     public override void OnStateEnter()
     {
-        _playerMovement.PlayerAnimatorController.SetTrigger(AnimationNameType.ShieldCrash.ToString(),true);
-    }
-
-    public override void Tick()
-    {
-        _playerMovement.MoveDirection = Vector3.zero;
+        _playerAnimatorController.SetTrigger(AnimationNameType.ShieldCrash.ToString(),true);
     }
 }

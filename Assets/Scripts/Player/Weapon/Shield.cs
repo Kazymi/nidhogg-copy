@@ -9,28 +9,22 @@ public class Shield : MonoBehaviour, IDamageable,IShield
     [SerializeField] private ShieldConfig shieldConfig;
     
     private IInventory _inventory;
+    private ShieldMenu _shieldMenu;
     private bool _isRegeneration;
     private float _currentHealth;
-    private ShieldMenu _shieldMenu;
 
+    public float CurrentShieldValue => _currentHealth/shieldConfig.Health;
+
+    [Inject]
+    private void Construct(IInventory inventory, ShieldMenu shieldMenu)
+    {
+        _inventory = inventory;
+        _shieldMenu = shieldMenu;
+    }
+    
     private void Start()
     {
         _currentHealth = shieldConfig.Health;
-    }
-
-    public float CurrentShieldValue { get => _currentHealth/shieldConfig.Health; }
-    public void TakeDamage(float damage)
-    {
-        StopAllCoroutines();
-        StartCoroutine(StopRegen());
-        _currentHealth -= damage;
-        if (_currentHealth <= 0)
-        {
-            _currentHealth = shieldConfig.Health/100*10;
-            _isRegeneration = true;
-            Dead();
-        }
-        _shieldMenu.UpdateSlider();
     }
 
     private void Update()
@@ -46,24 +40,32 @@ public class Shield : MonoBehaviour, IDamageable,IShield
             _currentHealth = shieldConfig.Health;
         }
     }
+    
+    public void TakeDamage(float damage)
+    {
+        StopAllCoroutines();
+        StartCoroutine(StopRegen());
+        _currentHealth -= damage;
+        if (_currentHealth <= 0)
+        {
+            _currentHealth = shieldConfig.Health/100*10;
+            _isRegeneration = true;
+            Dead();
+        }
+        _shieldMenu.UpdateSlider();
+    }
 
-    IEnumerator StopRegen()
+    private IEnumerator StopRegen()
     {
         _isRegeneration = false;
         yield return new WaitForSeconds(shieldConfig.TimeRegenAfterDamage);
         _isRegeneration = true;
     }
     
-    public void Dead()
+    private void Dead()
     {
         _inventory.ShieldCrash?.Invoke();
         _inventory.CloseShield();
     }
-
-    [Inject]
-    private void Construct(IInventory inventory, ShieldMenu shieldMenu)
-    {
-        _inventory = inventory;
-        _shieldMenu = shieldMenu;
-    }
+    
 }

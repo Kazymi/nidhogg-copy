@@ -2,44 +2,32 @@
 
 public class PlayerShieldState : PlayerState
 {
-    private PlayerMovementConfiguration _playerMovementConfiguration;
-    private PlayerMovement _playerMovement;
+    private PlayerAnimatorController _playerAnimatorController;
+    private IPlayerMovement _playerMovement;
 
-    public PlayerShieldState(PlayerMovement playerMovement,
-        PlayerMovementConfiguration playerMovementConfiguration)
+    public PlayerShieldState(IPlayerMovement playerMovement, PlayerAnimatorController playerAnimatorController)
     {
+        _playerAnimatorController = playerAnimatorController;
         _playerMovement = playerMovement;
-        _playerMovementConfiguration = playerMovementConfiguration;
     }
 
     public override void OnStateEnter()
     {
-        _playerMovement.PlayerAnimatorController.SetAnimationBool(AnimationNameType.Shield, true);
+        _playerAnimatorController.SetAnimationBool(AnimationNameType.Shield, true);
     }
 
     public override void OnStateExit()
     {
-        _playerMovement.PlayerAnimatorController.SetAnimationBool(AnimationNameType.Shield, false);
+        _playerAnimatorController.SetAnimationBool(AnimationNameType.Shield, false);
     }
 
     public override void Tick()
     {
-        _playerMovement.MoveDirection = Vector3.zero;
-        var inputVector = _playerMovement.InputHandler.MovementDirection;
-        Move(inputVector);
+        Move();
     }
     
-    private void Move(int moveDir)
+    private void Move()
     {
-        if (moveDir == (int)_playerMovement.transform.forward.z)
-        {
-            _playerMovement.MoveDirection = new Vector3(moveDir,0,0);
-            _playerMovement.MoveDirection *= _playerMovementConfiguration.ShieldSpeed;
-        }
-        else
-        {
-            _playerMovement.PlayerAnimatorController.AnimationValue = 0;
-        }
-        _playerMovement.PlayerAnimatorController.Update();
+        _playerMovement.ShieldMove();
     }
 }

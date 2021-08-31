@@ -1,97 +1,40 @@
 using UnityEngine;
+using Zenject.SpaceFighter;
 
 public class PlayerMoveState : PlayerState
 {
-    // TODO: order for fields.
-    private float _currentTimeCurve;
-    private readonly float _totalTimeCurve;
-    private readonly PlayerMovement _playerMovement;
-    private float _jumpTime;
 
-    public PlayerMoveState(PlayerMovement playerMovement)
+    private readonly PlayerAnimatorController _playerAnimatorController;
+    private readonly IInputHandler _inputHandler;
+    private readonly IPlayerMovement _playerMovement;
+    public PlayerMoveState(IInputHandler inputHandler, PlayerAnimatorController playerAnimatorController, IPlayerMovement playerMovement)
     {
         _playerMovement = playerMovement;
-        _totalTimeCurve = playerMovement.JumpCurve.keys[playerMovement.JumpCurve.keys.Length - 1].time;
+        _playerAnimatorController = playerAnimatorController;
+        _inputHandler = inputHandler;
     }
 
     public override void OnStateEnter()
     {
         _playerMovement.DefaultMovement.Invoke(true);
-        _playerMovement.InputHandler.Jump.Action += StartJump;
-        _currentTimeCurve = 999;
+        _inputHandler.Jump.Action += _playerMovement.StartJump;
     }
 
     public override void OnStateExit()
     {
         _playerMovement.DefaultMovement.Invoke(false);
         _playerMovement.IsJumped = false;
-        _playerMovement.InputHandler.Jump.Action -= StartJump;
+        _inputHandler.Jump.Action -= _playerMovement.StartJump;
     }
 
     public override void Tick()
     {
-        _playerMovement.MoveDirection = Vector3.zero;
-        var inputVector = _playerMovement.InputHandler.MovementDirection;
-        Move(inputVector);
-        Jump();
-        if (_playerMovement.IsJumped)
-        {
-            EndJump();
-        }
+        Move();
     }
 
-    private void StartJump()
+    private void Move()
     {
-        if (_playerMovement.IsGrounded)
-        {
-            _playerMovement.IsJumped = true;
-            _jumpTime = 1;
-            _playerMovement.PlayerAnimatorController.SetTrigger(AnimationNameType.Jump.ToString(),false);
-            _currentTimeCurve = 0;
-        }
-    }
-
-    private void Jump()
-    {
-        if (_currentTimeCurve < _totalTimeCurve)
-        {
-            _playerMovement.MoveDirection +=
-                new Vector3(0, _playerMovement.JumpCurve.Evaluate(_currentTimeCurve), 0);
-            _currentTimeCurve += Time.deltaTime;
-        }
-    }
-
-    private void EndJump()
-    {
-        _jumpTime -= Time.deltaTime;
-        if (_jumpTime < 0)
-        {
-            _playerMovement.IsJumped = false;
-        }
-    }
-
-    private void Move(int moveDir)
-    {
-        _playerMovement.PlayerAnimatorController.Update();
-        if (moveDir > 0)
-        {
-            _playerMovement.transform.rotation = new Quaternion(0, 180, 0, 0);
-            _playerMovement.MoveDirection = new Vector3(-moveDir, 0, 0);
-        }
-        else
-        {
-            if (moveDir < 0)
-            {
-                _playerMovement.transform.rotation = new Quaternion(0, 0, 0, 0);
-                _playerMovement.MoveDirection = new Vector3(moveDir, 0, 0);
-            }
-            else
-            {
-                return;
-            }
-        }
-
-        _playerMovement.MoveDirection = _playerMovement.transform.TransformDirection(_playerMovement.MoveDirection);
-        _playerMovement.MoveDirection *= _playerMovement.Speed;
+        _playerMovement.Move(1f);
+        _playerAnimatorController.UpdateAnimation();
     }
 }

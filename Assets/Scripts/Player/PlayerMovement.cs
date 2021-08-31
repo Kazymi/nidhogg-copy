@@ -1,5 +1,5 @@
-using System;
-using States.PlayerStates;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using Zenject;
 
@@ -7,129 +7,135 @@ using Zenject;
 public class PlayerMovement : MonoBehaviour, IPlayerMovement
 {
     [SerializeField] private PlayerMovementConfiguration playerMovementConfiguration;
+    
+    private PlayerAnimatorController _playerAnimatorController;
+    private IInputHandler _inputHandler;
 
     private Rigidbody _rigidbody;
-    private PlayerStateMachine _stateMachine;
-    private IInventory _inventory;
-    private bool _isCrouched;
+    private Vector3 _moveVector;
+    private float _currentTimeCurve;
+    private float _jumpTime;
+    private float _totalTimeCurve;
 
-    public float Speed => playerMovementConfiguration.Speed;
-    public AnimationCurve JumpCurve => playerMovementConfiguration.JumpCurve;
-    public PlayerAnimatorController PlayerAnimatorController { get; private set; }
     public bool IsGrounded { get; private set; }
-    public IInputHandler InputHandler { get; private set; }
-    public bool IsJumped { get; set; }
-    public Vector3 MoveDirection { get; set; }
+
+    public bool IsJumped
+    {
+        set
+        {
+            if (value == false)
+            {
+                _currentTimeCurve = 999;
+            }
+            IsJumped = value;
+        }
+        get => IsJumped;
+    }
+
     public Action<bool> DefaultMovement { get; set; }
-    // TODO: auto-property can be used.
+    public PlayerMovementConfiguration PlayerMovementConfiguration => playerMovementConfiguration;
     public Rigidbody Rigidbody => _rigidbody;
 
+
     [Inject]
-    private void Construct(PlayerAnimatorController playerAnimatorController,
-        IInputHandler inputHandler, IInventory inventory, IPlayerHealth playerHealth)
+    private void Construct(IInputHandler inputHandler, PlayerAnimatorController playerAnimatorController)
     {
-        playerHealth.PlayerDeath += PlayerDeath;
-        PlayerAnimatorController = playerAnimatorController;
-        InputHandler = inputHandler;
-        _inventory = inventory;
-    }
-
-    private void OnEnable()
-    {
-        InputHandler.DownButtonAction.Action += SetCrouch;
-    }
-
-    private void OnDisable()
-    {
-        InputHandler.DownButtonAction.Action -= SetCrouch;
+        _playerAnimatorController = playerAnimatorController;
+        _inputHandler = inputHandler;
     }
 
     private void Awake()
     {
-        StateInitialize();
+        _totalTimeCurve = playerMovementConfiguration.JumpCurve
+            .keys[playerMovementConfiguration.JumpCurve.keys.Length - 1].time;
         _rigidbody = GetComponent<Rigidbody>();
-    }
-
-    private void PlayerDeath(DamageTarget damageTarget)
-    {
-        // TODO: it will only destroy component, not the gameObject.
-        Destroy(this);
     }
 
     private void Update()
     {
         IsGrounded = GroundCheck();
-        _stateMachine.Tick();
         if (IsGrounded == false)
         {
-            MoveDirection -= new Vector3(0, playerMovementConfiguration.Gravity, 0);
+            _moveVector -= new Vector3(0, playerMovementConfiguration.Gravity, 0);
         }
-        // TODO: pretty useless to change velocity and after that immediately override it with position. Rotation and position can be locked on RigidBody component.
-        _rigidbody.velocity = MoveDirection;
-        _rigidbody.position = new Vector3(_rigidbody.position.x, _rigidbody.position.y, 0);
-    }
-
-    // TODO: crouch is randomly slammed into this script. Should be state.
-    private void SetCrouch()
-    {
-        _isCrouched = !_isCrouched;
-        PlayerAnimatorController.SetAnimationBool(AnimationNameType.Crouch, _isCrouched);
+        _rigidbody.velocity = _moveVector;
     }
 
     private bool GroundCheck()
     {
-        // TODO: unused.
-        RaycastHit ray;
-        // TODO: alternative.
-        // return Physics.Raycast(playerMovementConfiguration.GroundCheckPosition.position, -playerMovementConfiguration.GroundCheckPosition.up, 0.4f);
+        return (Physics.Raycast(playerMovementConfiguration.GroundCheckPosition.position,
+            -playerMovementConfiguration.GroundCheckPosition.up, 0.4f));
+    }
+
+    public void Rolling()
+    {
+        _moveVector = new Vector3(
+            playerMovementConfiguration.RollingSpeed * -transform.forward.z,
+            0f, 0f);
+    }
+
+    public void Move(float speedRedux)
+    {
+        _moveVector = Vector3.zero;
+        var inputVector = _inputHandler.MovementDirection;
+        Move(inputVector,speedRedux);
+    }
+
+    public void ShieldMove()
+    {
         
-        if (Physics.Raycast(playerMovementConfiguration.GroundCheckPosition.position,
-            -playerMovementConfiguration.GroundCheckPosition.up, 0.4f))
+    }
+
+    public void StartJump()
+    {
+        if (IsGrounded)
         {
-            return true;
-        }
-        else
-        {
-            return false;
+            StartCoroutine(EndJump());
+            IsJumped = true;
+            _playerAnimatorController.SetTrigger(AnimationNameType.Jump.ToString(),false);
+            _currentTimeCurve = 0;
         }
     }
 
-    private void StateInitialize()
+    public void Jump()
     {
-        var playerMoveState = new PlayerMoveState(this);
-        var playerRollingState = new PlayerRollingState(this, playerMovementConfiguration);
-        var playerFallingState = new PlayerFalling(this);
-        var playerShieldState = new PlayerShieldState(this, playerMovementConfiguration);
-        var playerShieldCrashState = new ShieldCrashState(this);
-//movement
-        playerMoveState.AddTransition(new PlayerTransition(playerRollingState,
-            new ButtonPressedCondition(InputHandler.Rolling)));
-        playerMoveState.AddTransition(new PlayerTransition(playerFallingState, new FallingCondition(this)));
-        playerMoveState.AddTransition(new PlayerTransition(playerShieldState,
-            new Condition(() => _inventory.IsShieldActivated)));
-//falling
-        playerRollingState.AddTransition(new PlayerTransition(playerMoveState,
-            new TimerCondition(playerMovementConfiguration.RollingTime)));
-//falling
-        playerFallingState.AddTransition(new PlayerTransition(playerShieldState,
-            new AfterFallCondition(() => IsGrounded && _inventory.IsShieldActivated, 0f)));
-        playerFallingState.AddTransition(new PlayerTransition(playerRollingState,
-            new AfterFallCondition(() => IsGrounded && _inventory.IsShieldActivated == false,
-                playerMovementConfiguration.NeedTimeFallingToRolling)));
-        playerFallingState.AddTransition(new PlayerTransition(playerMoveState,
-            new AfterFallCondition(() => IsGrounded && _inventory.IsShieldActivated == false, 0f)));
-//shield
-        playerShieldState.AddTransition(new PlayerTransition(playerFallingState, new FallingCondition(this)));
+        if (_currentTimeCurve < _totalTimeCurve)
+        {
+            _moveVector+=
+                new Vector3(0, playerMovementConfiguration.JumpCurve.Evaluate(_currentTimeCurve), 0);
+            _currentTimeCurve += Time.deltaTime;
+        }
+    }
+    
 
-        playerShieldState.AddTransition(new PlayerTransition(playerShieldCrashState,
-            new ButtonPressedCondition(_inventory.ShieldCrash)));
+    private IEnumerator EndJump()
+    {
+        yield return new WaitForSeconds(1f);
+        IsJumped = false;
+    }
+    
+    private void Move(int moveDir,float speedRedux)
+    {
+       _playerAnimatorController.UpdateAnimation();
+        if (moveDir > 0)
+        {
+            transform.rotation = new Quaternion(0, 180, 0, 0); 
+            _moveVector = new Vector3(-moveDir, 0, 0);
+        }
+        else
+        {
+            if (moveDir < 0)
+            {
+                transform.rotation = new Quaternion(0, 0, 0, 0);
+                _moveVector = new Vector3(moveDir, 0, 0);
+            }
+            else
+            {
+                return;
+            }
+        }
 
-        playerShieldState.AddTransition(new PlayerTransition(playerMoveState,
-            new Condition(() => _inventory.IsShieldActivated == false)));
-//shield crash
-        playerShieldCrashState.AddTransition(new PlayerTransition(playerMoveState,
-            new TimerCondition(playerMovementConfiguration.ShieldCrushTime)));
-
-        _stateMachine = new PlayerStateMachine(playerMoveState);
+        _moveVector = transform.TransformDirection(_moveVector);
+        _moveVector *= playerMovementConfiguration.Speed*speedRedux;
     }
 }

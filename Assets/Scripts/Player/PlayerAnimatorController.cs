@@ -53,9 +53,8 @@ public class PlayerAnimatorController : MonoBehaviour
         animatorConfig.PlayerAnimator.applyRootMotion = isInteractable;
         animatorConfig.PlayerAnimator.SetTrigger(animationNameType);
     }
-
-    // TODO: calling unity Update?
-    public void Update()
+    
+    public void UpdateAnimation()
     {
         UpdateAnimationState();
     }

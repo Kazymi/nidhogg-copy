@@ -1,9 +1,6 @@
 ﻿using System;
 using UnityEngine;
 
-// TODO: so now you are using namespaces?
-namespace States.PlayerStates
-{
     public class AfterFallCondition : PlayerCondition
     {
         private Func<bool> _func;
@@ -36,4 +33,3 @@ namespace States.PlayerStates
             _currentTimeFall = 0;
         }
     }
-}

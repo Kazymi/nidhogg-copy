@@ -1,9 +1,17 @@
-﻿
-    using System;
-    using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-    public interface IPlayerMovement
-    {
-        public Action<bool> DefaultMovement { get; set; }
-        public Rigidbody Rigidbody { get; }
-    }
+public interface IPlayerMovement
+{
+    public Action<bool> DefaultMovement { get; set; }
+    public PlayerMovementConfiguration PlayerMovementConfiguration { get; }
+    public Rigidbody Rigidbody { get; }
+    public bool IsJumped { get; set; }
+    public bool IsGrounded { get; }
+
+    public void Rolling();
+    public void Move(float speedRedux);
+    public void Jump();
+    public void StartJump();
+    public void ShieldMove();
+}

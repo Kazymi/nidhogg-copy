@@ -1,12 +1,11 @@
 ﻿
     using System;
     using UnityEngine;
+    using UnityEngine.Serialization;
 
     [Serializable]
     public class InputConfig
     {
-        [SerializeField] private float clickThreshld;
-
-        // TODO: *Threshold*
-        public float ClickThreshld => clickThreshld;
+       [SerializeField] private float clickThreshold;
+       public float ClickThreshold => clickThreshold;
     }

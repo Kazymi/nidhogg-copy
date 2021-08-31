@@ -1,18 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// TODO: can be made into C# class.
-public class BulletManager : MonoBehaviour
+public class BulletManager
 {
-    [SerializeField] private List<BulletConfiguration> bulletConfigurations;
-    [SerializeField] private int countBullet;
+    
     private Dictionary<BulletConfiguration, Factory> _factories = new Dictionary<BulletConfiguration, Factory>();
 
-    private void Start()
+    public BulletManager(BulletManagerConfiguration bulletConfigurations)
     {
-        foreach (var bullet in bulletConfigurations)
+        foreach (var bullet in bulletConfigurations.BulletConfigurations)
         {
-            _factories.Add(bullet, new Factory(bullet.AmmoGameObject, countBullet, transform));
+            _factories.Add(bullet, new Factory(bullet.AmmoGameObject, bulletConfigurations.AmountBullet, bulletConfigurations.ParentTransform));
         }
     }
 

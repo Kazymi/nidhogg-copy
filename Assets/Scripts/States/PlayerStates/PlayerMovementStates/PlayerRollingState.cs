@@ -1,35 +1,30 @@
 ﻿using UnityEngine;
 
-// TODO: random indent for whole script.
-    public class PlayerRollingState : PlayerState
+public class PlayerRollingState : PlayerState
+{
+
+    private IPlayerMovement _playerMovement;
+    private PlayerAnimatorController _playerAnimatorController;
+
+    public PlayerRollingState(PlayerAnimatorController animatorController, IPlayerMovement playerMovement)
     {
-        private readonly PlayerMovementConfiguration _playerMovementConfiguration;
-        private readonly PlayerMovement _playerMovement;
-
-        public PlayerRollingState(PlayerMovement playerMovement,
-            PlayerMovementConfiguration playerMovementConfiguration)
-        {
-            _playerMovement = playerMovement;
-            _playerMovementConfiguration = playerMovementConfiguration;
-        }
-
-        public override void OnStateEnter()
-        {
-            _playerMovement.PlayerAnimatorController.SetTrigger(AnimationNameType.Rolling.ToString(),false);
-        }
-
-
-        public override void Tick()
-        {
-            _playerMovement.MoveDirection = Vector3.zero;
-        
-            Move();
-        }
-        
-        private void Move()
-        {
-            _playerMovement.MoveDirection = new Vector3(
-                _playerMovementConfiguration.RollingSpeed * -_playerMovement.transform.forward.z,
-                0f, 0f);
-        }
+        _playerMovement = playerMovement;
+        _playerAnimatorController = animatorController;
     }
+
+    public override void OnStateEnter()
+    {
+        _playerAnimatorController.SetTrigger(AnimationNameType.Rolling.ToString(), false);
+    }
+
+
+    public override void Tick()
+    {
+        Move();
+    }
+
+    private void Move()
+    {
+        _playerMovement.Rolling();
+    }
+}
