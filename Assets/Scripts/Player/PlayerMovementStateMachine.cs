@@ -42,7 +42,7 @@ public class PlayerMovementStateMachine : MonoBehaviour
         var playerMoveState = new PlayerMoveState(_inputHandler, _playerAnimatorController, _playerMovement);
         var playerRollingState = new PlayerRollingState(_playerAnimatorController, _playerMovement);
         var playerFallingState = new PlayerFalling(_playerMovement, _playerAnimatorController);
-        var playerShieldState = new PlayerShieldState(_playerMovement, _playerAnimatorController);
+        var playerShieldState = new PlayerShieldState(_playerMovement);
         var playerShieldCrashState = new ShieldCrashState(_playerAnimatorController);
         var playerCrouchState = new PlayerCrouchState(_playerAnimatorController, _playerMovement);
 

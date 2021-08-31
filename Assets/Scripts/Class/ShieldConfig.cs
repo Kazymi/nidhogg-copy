@@ -2,15 +2,15 @@
 using UnityEngine;
 
 [Serializable]
-public class ShieldConfig
+public class InventoryConfig
 {
-    [SerializeField] private float health;
-    [SerializeField] private float regenerationValue;
-    [SerializeField] private float timeRegenAfterDamage;
+  [SerializeField] private Weapon weapon;
+  [SerializeField] private Shield shield;
+  [SerializeField] private int amountShields;
 
-    public float Health => health;
+  public Weapon Weapon => weapon;
 
-    public float RegenerationValue => regenerationValue;
+  public Shield Shield => shield;
 
-    public float TimeRegenAfterDamage => timeRegenAfterDamage;
+  public int AmountShields => amountShields;
 }

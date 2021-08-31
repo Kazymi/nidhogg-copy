@@ -2,23 +2,21 @@
 
 public class PlayerShieldState : PlayerState
 {
-    private PlayerAnimatorController _playerAnimatorController;
     private IPlayerMovement _playerMovement;
 
-    public PlayerShieldState(IPlayerMovement playerMovement, PlayerAnimatorController playerAnimatorController)
+    public PlayerShieldState(IPlayerMovement playerMovement)
     {
-        _playerAnimatorController = playerAnimatorController;
         _playerMovement = playerMovement;
     }
 
     public override void OnStateEnter()
     {
-        _playerAnimatorController.SetAnimationBool(AnimationNameType.Shield, true);
+        _playerMovement.DefaultMovement?.Invoke(true);
     }
 
     public override void OnStateExit()
     {
-        _playerAnimatorController.SetAnimationBool(AnimationNameType.Shield, false);
+        _playerMovement.DefaultMovement?.Invoke(false);
     }
 
     public override void Tick()
@@ -28,6 +26,6 @@ public class PlayerShieldState : PlayerState
     
     private void Move()
     {
-        _playerMovement.ShieldMove();
+        _playerMovement.Move(0.9f);
     }
 }

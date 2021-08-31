@@ -11,7 +11,6 @@ using UnityEngine;
         [SerializeField] private float gravity;
         [SerializeField] private AnimationCurve jumpCurve;
         [SerializeField] private float needTimeFallingToRolling;
-        [SerializeField] private float sphereCastRadius;
         [SerializeField] private Transform groundCheckPosition;
         [SerializeField] private float rollingTime;
         [SerializeField] private float shieldCrushTime;
@@ -27,8 +26,7 @@ using UnityEngine;
         public AnimationCurve JumpCurve => jumpCurve;
 
         public float NeedTimeFallingToRolling => needTimeFallingToRolling;
-
-        public float SphereCastRadius => sphereCastRadius;
+        
 
         public Transform GroundCheckPosition => groundCheckPosition;
 

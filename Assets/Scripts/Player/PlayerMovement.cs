@@ -62,12 +62,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
         Jump();
         _rigidbody.velocity = _moveVector;
     }
-
-    private bool GroundCheck()
-    {
-        return (Physics.Raycast(playerMovementConfiguration.GroundCheckPosition.position,
-            -playerMovementConfiguration.GroundCheckPosition.up, 0.4f));
-    }
+    
 
     public void Rolling()
     {
@@ -116,7 +111,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
         }
     }
 
-    public void Jump()
+    private void Jump()
     {
         if (_currentTimeCurve < _totalTimeCurve)
         {
@@ -156,5 +151,11 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
 
         _moveVector = transform.TransformDirection(_moveVector);
         _moveVector *= playerMovementConfiguration.Speed * speedRedux;
+    }
+    
+    private bool GroundCheck()
+    {
+        return (Physics.Raycast(playerMovementConfiguration.GroundCheckPosition.position,
+            -playerMovementConfiguration.GroundCheckPosition.up, 0.4f));
     }
 }

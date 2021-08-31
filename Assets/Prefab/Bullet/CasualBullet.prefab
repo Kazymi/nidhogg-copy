@@ -127,4 +127,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lifeTime: 5
   flySpeed: 12
-  damage: 12
+  damage: 1
