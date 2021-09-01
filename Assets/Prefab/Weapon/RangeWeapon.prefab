@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nameWeapon: 0
-  amountAmmo: 5
+  countUse: 4
   fireRate: 1
   bulletSpawnPoint: {fileID: 4721048611542387274}
   bullet: {fileID: 11400000, guid: c1ae8ece069d03a408477a6e610b8f44, type: 2}

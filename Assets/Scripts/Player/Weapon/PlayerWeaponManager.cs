@@ -36,7 +36,7 @@ public class PlayerWeaponManager : MonoBehaviour
     {
         if (startWeapon != null)
         {
-            SetNewWeapon(startWeapon);
+            SetNewWeapon(startWeapon.WeaponName);
         }
     }
 
@@ -47,10 +47,15 @@ public class PlayerWeaponManager : MonoBehaviour
             _currentWeapon.gameObject.SetActive(isActivated);
         }
     }
-    
-    private void SetNewWeapon(Weapon newWeapon)
+
+    public void TakeWeapon(WeaponClassName weaponName, int amountUse)
     {
-        var weapon = _weaponManager.GetWeaponByWeaponName(newWeapon.WeaponName).GetComponent<Weapon>();
+        SetNewWeapon(weaponName).Initialize(amountUse);
+    }
+    
+    private Weapon SetNewWeapon(WeaponClassName newWeapon)
+    {
+        var weapon = _weaponManager.GetWeaponByWeaponName(newWeapon).GetComponent<Weapon>();
         weapon.Initialize(_inputHandler,_bulletManager,_playerAnimatorController);
         if (_currentWeapon == null)
         {
@@ -73,6 +78,7 @@ public class PlayerWeaponManager : MonoBehaviour
         var weaponObject = weapon.gameObject;
         weaponObject.transform.parent = rightHandTransform;
         weaponObject.transform.position = rightHandTransform.position;
+        return weapon;
     }
 
     private void SwipeWeapon()
@@ -95,6 +101,7 @@ public class PlayerWeaponManager : MonoBehaviour
         newDroppedWeapon.transform.position = rightHandTransform.position;
         newDroppedWeapon.transform.rotation = rightHandTransform.rotation;
         newDroppedWeapon.transform.parent = null;
+        newDroppedWeapon.GetComponent<DroppedWeapon>().Initialize(_currentWeapon.CountUse,_currentWeapon.WeaponName);
         _currentWeapon.Destroy();
         _currentWeapon = null;
         _playerAnimatorController.SetTrigger(WeaponClassName.Hand.ToString(),false);
