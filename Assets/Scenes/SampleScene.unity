@@ -1104,6 +1104,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerAnimator: {fileID: 311849219}
   speedRunAnimation: 4
+--- !u!4 &311849241 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1017971965920130908, guid: 918e67c5f57e38a4cb89ab7ac4b58c69,
+    type: 3}
+  m_PrefabInstance: {fileID: 311849205}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &344255613
 GameObject:
   m_ObjectHideFlags: 0
@@ -3046,17 +3052,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f683bd9d53510d34b90d836ffa1b3bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletConfiguration:
-    bulletConfigurations:
-    - {fileID: 11400000, guid: c1ae8ece069d03a408477a6e610b8f44, type: 2}
-    amountBullet: 5
-    parentTransform: {fileID: 765435705}
-  playerRespawnConfiguration:
-    spawnPoints:
-    - {fileID: 1325148154}
-    - {fileID: 1526190886}
-    - {fileID: 1669605316}
-  parentTransform: {fileID: 126725665}
+  bulletConfigurations:
+  - {fileID: 11400000, guid: c1ae8ece069d03a408477a6e610b8f44, type: 2}
+  amountBullet: 5
+  bulletParentTransform: {fileID: 765435705}
+  weaponParentTransform: {fileID: 126725665}
+  spawnPoints:
+  - {fileID: 1325148154}
+  - {fileID: 1526190886}
+  - {fileID: 1669605316}
   weaponConfigurations:
   - {fileID: 11400000, guid: cac6e49db282836479dff5d02710d2a2, type: 2}
   playerHealth: 2
@@ -3114,10 +3118,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3ed1456995a4524f8fd4f5996326370, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  managerConfig:
-    rightHandTransform: {fileID: 520747387}
-    spinePosition: {fileID: 0}
-    bodyTransform: {fileID: 311849206}
+  rightHandTransform: {fileID: 520747387}
+  spinePosition: {fileID: 311849241}
+  bodyTransform: {fileID: 311849206}
   startWeapon: {fileID: 3549696466189117007, guid: 56fbf37db6028184097bef714719b13d,
     type: 3}
 --- !u!1 &963194225
