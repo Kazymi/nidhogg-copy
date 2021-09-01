@@ -5,11 +5,11 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Weapon configuration", fileName = "Weapon configuration")]
 public class WeaponConfiguration : ScriptableObject
 {
-  [SerializeField] private WeaponName weaponName;
+  [SerializeField] private WeaponClassName weaponName;
   [SerializeField] private Weapon mainWeapon;
   [SerializeField] private DroppedWeapon droppedWeapon;
 
-  public WeaponName WeaponName => weaponName;
+  public WeaponClassName WeaponName => weaponName;
 
   public Weapon MainWeapon => mainWeapon;
 

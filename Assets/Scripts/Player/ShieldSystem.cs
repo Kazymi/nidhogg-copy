@@ -5,7 +5,8 @@ using Zenject;
 
 public class ShieldSystem : MonoBehaviour, IShieldSystem
 {
-    [SerializeField] private InventoryConfig inventoryConfig;
+    [SerializeField] private Shield shield;
+    [SerializeField] private int amountShields;
 
     private bool _isShieldUnlock = true;
     private float _currentAmountShields;
@@ -35,19 +36,19 @@ public class ShieldSystem : MonoBehaviour, IShieldSystem
 
     public void OpenShield()
     {
-        if (_isShieldUnlock == false || _currentAmountShields >= inventoryConfig.AmountShields)
+        if (_isShieldUnlock == false || _currentAmountShields >= amountShields)
         {
             return;
         }
 
         IsShieldActivated = true;
-        inventoryConfig.Shield.gameObject.SetActive(true);
+        shield.gameObject.SetActive(true);
     }
 
     public void CloseShield()
     {
         IsShieldActivated = false;
-        inventoryConfig.Shield.gameObject.SetActive(false);
+        shield.gameObject.SetActive(false);
     }
 
     private IEnumerator ShieldCooldown()

@@ -1,16 +1,32 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Zenject;
 
 public class MainMenu : MonoBehaviour
 {
-   [SerializeField] private MainMenuConfiguration menuConfiguration;
+    [SerializeField] private Button toGameButton;
+    [SerializeField] private Button exitGameButton;
 
-   [Inject]
-   private void Construct(MainMenuSystem menuSystem)
-   {
-      menuConfiguration.ToGameButton.onClick.AddListener(menuSystem.LoadGame);
-      menuConfiguration.ExitButton.onClick.AddListener(menuSystem.QuitGame);
-   }
+    private MainMenuSystem _mainMenuSystem;
+
+    [Inject]
+    private void Construct(MainMenuSystem menuSystem)
+    {
+        _mainMenuSystem = menuSystem;
+    }
+
+    private void OnEnable()
+    {
+        toGameButton.onClick.AddListener(_mainMenuSystem.LoadGame);
+        exitGameButton.onClick.AddListener(_mainMenuSystem.QuitGame);
+    }
+
+    private void OnDisable()
+    {
+        toGameButton.onClick.RemoveListener(_mainMenuSystem.LoadGame);
+        exitGameButton.onClick.RemoveListener(_mainMenuSystem.QuitGame);
+    }
 }

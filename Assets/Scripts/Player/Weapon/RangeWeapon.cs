@@ -33,8 +33,9 @@ public class RangeWeapon : Weapon
         _currentAmountAmmo = amountAmmo;
     }
     
-    public override void Update()
+    private void Update()
     {
+        transform.rotation = Quaternion.Euler(0,90*_playerPivot.forward.x,0);
         if (_currentTimer >= 0)
         {
             _currentTimer -= Time.deltaTime;

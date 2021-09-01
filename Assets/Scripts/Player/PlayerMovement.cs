@@ -10,13 +10,14 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
 
     private PlayerAnimatorController _playerAnimatorController;
     private IInputHandler _inputHandler;
-    
+
     private Vector3 _moveVector;
     private float _currentTimeCurve;
     private float _totalTimeCurve;
     private bool _isJumped;
-    
+
     public bool IsGrounded { get; private set; }
+
     public bool IsJumped
     {
         set
@@ -36,7 +37,8 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
     public Rigidbody Rigidbody { get; private set; }
 
     [Inject]
-    private void Construct(IInputHandler inputHandler, PlayerAnimatorController playerAnimatorController, PlayerRespawnSystem respawnSystem)
+    private void Construct(IInputHandler inputHandler, PlayerAnimatorController playerAnimatorController,
+        PlayerRespawnSystem respawnSystem)
     {
         _playerAnimatorController = playerAnimatorController;
         _inputHandler = inputHandler;
@@ -50,6 +52,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
         Rigidbody = GetComponent<Rigidbody>();
     }
 
+    // TODO: this component should be pretty passive. All the behaviour invocation should be state machine
     private void Update()
     {
         IsGrounded = GroundCheck();
@@ -62,7 +65,6 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
         Rigidbody.velocity = _moveVector;
     }
     
-
     public void Rolling()
     {
         _moveVector = new Vector3(
@@ -142,7 +144,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
         _moveVector = transform.TransformDirection(_moveVector);
         _moveVector *= playerMovementConfiguration.Speed * speedRedux;
     }
-    
+
     private bool GroundCheck()
     {
         return (Physics.Raycast(playerMovementConfiguration.GroundCheckPosition.position,
@@ -154,5 +156,4 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
         _isJumped = false;
         _currentTimeCurve = 999;
     }
-    
 }

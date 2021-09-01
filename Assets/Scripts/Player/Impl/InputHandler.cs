@@ -3,7 +3,6 @@ using Zenject;
 
 public class InputHandler : MonoBehaviour, IInputHandler
 {
-    [SerializeField] private InputConfig inputConfig;
     private float _clickDelta = 0;
     private KeyCode _lastKey;
     private IKeyBindings _keyBindings;
@@ -11,6 +10,7 @@ public class InputHandler : MonoBehaviour, IInputHandler
     public InputAction Jump { get; } = new InputAction();
     public InputAction Rolling { get; } = new InputAction();
     public InputAction ShieldButtonDownAction { get; } = new InputAction();
+    public InputAction DropWeaponAction { get; } = new InputAction();
     public InputAction Fire { get; } = new InputAction();
     public InputAction DownButtonAction { get; } = new InputAction();
     public InputAction RightButtonAction { get; } = new InputAction();
@@ -80,6 +80,11 @@ public class InputHandler : MonoBehaviour, IInputHandler
         {
             ShieldButtonDownAction.Invoke();
         }
+
+        if (Input.GetKeyDown(_keyBindings.DropWeaponButton))
+        {
+            DropWeaponAction.Invoke();
+        }
     }
 
     private void DoubleClickCheck(KeyCode currentKey)
@@ -90,7 +95,7 @@ public class InputHandler : MonoBehaviour, IInputHandler
             return;
         }
 
-        if (Time.time - _clickDelta < inputConfig.ClickThreshold)
+        if (Time.time - _clickDelta < _keyBindings.ClickThreshold)
         {
             Rolling.Invoke();
         }

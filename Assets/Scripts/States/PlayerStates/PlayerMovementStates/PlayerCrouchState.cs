@@ -11,13 +11,13 @@
         }
         public override void OnStateEnter()
         {
-            _playerMovement.DefaultMovement.Invoke(true);
+            _playerMovement.DefaultMovement?.Invoke(true);
             _playerAnimatorController.SetAnimationBool(AnimationNameType.Crouch,true);
         }
         
         public override void OnStateExit()
         {
-            _playerMovement.DefaultMovement.Invoke(false);
+            _playerMovement.DefaultMovement?.Invoke(false);
             _playerAnimatorController.SetAnimationBool(AnimationNameType.Crouch,false);
         }
 

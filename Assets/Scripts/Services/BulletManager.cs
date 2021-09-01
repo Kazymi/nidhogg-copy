@@ -6,11 +6,11 @@ public class BulletManager
     
     private Dictionary<BulletConfiguration, Factory> _factories = new Dictionary<BulletConfiguration, Factory>();
 
-    public BulletManager(BulletManagerConfiguration bulletConfigurations)
+    public BulletManager(List<BulletConfiguration> bulletConfigurations, Transform parent,int amountBullet)
     {
-        foreach (var bullet in bulletConfigurations.BulletConfigurations)
+        foreach (var bullet in bulletConfigurations)
         {
-            _factories.Add(bullet, new Factory(bullet.AmmoGameObject, bulletConfigurations.AmountBullet, bulletConfigurations.ParentTransform));
+            _factories.Add(bullet, new Factory(bullet.AmmoGameObject, amountBullet, parent));
         }
     }
 

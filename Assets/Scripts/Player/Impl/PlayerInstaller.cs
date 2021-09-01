@@ -1,11 +1,15 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
 public class PlayerInstaller : MonoInstaller
 {
-    [SerializeField] private BulletManagerConfiguration bulletConfiguration;
-    [SerializeField] private PlayerRespawnConfiguration playerRespawnConfiguration;
-    [SerializeField] private WeaponManagerConfig weaponManagerConfig;
+    [SerializeField] private List<BulletConfiguration> bulletConfigurations;
+    [SerializeField] private int amountBullet;
+    [SerializeField] private Transform bulletParentTransform;
+    [SerializeField] private Transform weaponParentTransform;
+    [SerializeField] private List<Transform> spawnPoints;
+    [SerializeField] private List<WeaponConfiguration> weaponConfigurations;
     
     [SerializeField] private float playerHealth;
     [SerializeField] private KeyBindings keyBindings;
@@ -19,10 +23,10 @@ public class PlayerInstaller : MonoInstaller
     
     public override void InstallBindings()
     {
-        var playerRespawnSystem = new PlayerRespawnSystem(playerRespawnConfiguration,playerMovement);
-        var bulletManager = new BulletManager(bulletConfiguration);
+        var playerRespawnSystem = new PlayerRespawnSystem(spawnPoints,playerMovement);
+        var bulletManager = new BulletManager(bulletConfigurations,bulletParentTransform,amountBullet);
         var playerHealth = new PlayerHealth(this.playerHealth,playerRespawnSystem);
-        var weaponManager = new WeaponManager(weaponManagerConfig);
+        var weaponManager = new WeaponManager(weaponParentTransform, weaponConfigurations);
         
         
         Container.Bind<PlayerRespawnSystem>().FromInstance(playerRespawnSystem).AsSingle();

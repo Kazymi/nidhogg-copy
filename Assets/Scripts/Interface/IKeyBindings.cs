@@ -8,4 +8,6 @@ public interface IKeyBindings
     KeyCode DownButton { get; }
     KeyCode FireButton { get; }
     KeyCode ShieldButton { get; }
+    KeyCode DropWeaponButton { get; } 
+    float ClickThreshold { get; }
 }

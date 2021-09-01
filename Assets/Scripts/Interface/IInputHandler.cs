@@ -9,6 +9,8 @@
     public InputAction RightButtonDownAction { get; }
     public InputAction LeftButtonAction { get; }
     public InputAction LeftButtonDownAction { get; }
+    public InputAction DropWeaponAction { get; }
+    
 
     public int MovementDirection { get; }
 }

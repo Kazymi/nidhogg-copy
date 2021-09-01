@@ -5,7 +5,8 @@ using Zenject;
 
 public class PlayerAnimatorController : MonoBehaviour
 {
-    [SerializeField] private AnimatorConfig animatorConfig;
+    [SerializeField] private Animator playerAnimator;
+    [SerializeField] private float speedRunAnimation;
 
     private IInputHandler _inputHandler;
     private IPlayerMovement _playerMovement;
@@ -32,7 +33,7 @@ public class PlayerAnimatorController : MonoBehaviour
             return;
         }
         
-        animatorConfig.PlayerAnimator.SetBool(Animator.StringToHash(animationNameType.ToString()), value);
+        playerAnimator.SetBool(Animator.StringToHash(animationNameType.ToString()), value);
     }
 
     public void SetTrigger(string animationNameType, bool isInteractable)
@@ -42,8 +43,8 @@ public class PlayerAnimatorController : MonoBehaviour
             return;
         }
 
-        animatorConfig.PlayerAnimator.applyRootMotion = isInteractable;
-        animatorConfig.PlayerAnimator.SetTrigger(animationNameType);
+        playerAnimator.applyRootMotion = isInteractable;
+        playerAnimator.SetTrigger(animationNameType);
     }
     
     public void UpdateAnimation()
@@ -60,28 +61,28 @@ public class PlayerAnimatorController : MonoBehaviour
         var moveDirection = _inputHandler.MovementDirection;
         if (moveDirection != 0)
         {
-            _currentAnimationValue += animatorConfig.SpeedRunAnimation * Time.deltaTime;
+            _currentAnimationValue += speedRunAnimation * Time.deltaTime;
         }
         else
         {
-            _currentAnimationValue -= animatorConfig.SpeedRunAnimation * Time.deltaTime;
+            _currentAnimationValue -= speedRunAnimation * Time.deltaTime;
         }
 
         _currentAnimationValue = Mathf.Clamp01(_currentAnimationValue);
 
-        animatorConfig.PlayerAnimator.SetFloat(Animator.StringToHash(AnimationNameType.Run.ToString()),
+        playerAnimator.SetFloat(Animator.StringToHash(AnimationNameType.Run.ToString()),
             _currentAnimationValue);
     }
 
     private void OnAnimatorMove()
     {
-        if (animatorConfig.PlayerAnimator.applyRootMotion == false)
+        if (playerAnimator.applyRootMotion == false)
         {
             return;
         }
 
         _playerMovement.Rigidbody.drag = 0;
-        var deltaPos = animatorConfig.PlayerAnimator.deltaPosition;
+        var deltaPos = playerAnimator.deltaPosition;
         deltaPos.y = 0;
         var velocity = deltaPos / Time.deltaTime;
         _playerMovement.Rigidbody.velocity = velocity;

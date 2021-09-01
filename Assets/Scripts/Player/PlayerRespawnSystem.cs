@@ -1,23 +1,25 @@
 ﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class PlayerRespawnSystem
 {
-    private PlayerRespawnConfiguration _respawnConfiguration;
+    private List<Transform> _spawnPoints;
     private IPlayerMovement _playerMovement;
 
     public event Action RespawnAction;
 
-    public PlayerRespawnSystem(PlayerRespawnConfiguration playerRespawnConfiguration, IPlayerMovement playerMovement)
+    public PlayerRespawnSystem(List<Transform> spawnpoints, IPlayerMovement playerMovement)
     {
-        _respawnConfiguration = playerRespawnConfiguration;
+        _spawnPoints = spawnpoints;
         _playerMovement = playerMovement;
     }
     
     public void Respawn()
     {
         _playerMovement.SetPosition(
-            _respawnConfiguration.SpawnPoints[Random.Range(0, _respawnConfiguration.SpawnPoints.Count)]);
+           _spawnPoints[Random.Range(0, _spawnPoints.Count)]);
         RespawnAction?.Invoke();
     }
 }
