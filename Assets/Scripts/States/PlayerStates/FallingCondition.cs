@@ -2,7 +2,7 @@
 
 public class FallingCondition : PlayerCondition
 {
-    private IPlayerMovement _playerMovement;
+    private readonly IPlayerMovement _playerMovement;
     
     public FallingCondition(IPlayerMovement playerMovement)
     {

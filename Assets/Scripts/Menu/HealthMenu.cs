@@ -8,7 +8,7 @@ public class HealthMenu : MonoBehaviour
    [SerializeField] private HealthMenuConfig healthMenuConfigFirstPerson;
    [SerializeField] private HealthMenuConfig healthMenuConfigSecondPerson;
 
-   private Dictionary<PlayerType, HealthMenuConfig> _configs = new Dictionary<PlayerType, HealthMenuConfig>();
+   private readonly Dictionary<PlayerType, HealthMenuConfig> _configs = new Dictionary<PlayerType, HealthMenuConfig>();
 
    private void Initialize()
    {

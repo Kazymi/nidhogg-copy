@@ -2,7 +2,7 @@
 
 public class PlayerShieldState : PlayerState
 {
-    private IPlayerMovement _playerMovement;
+    private readonly IPlayerMovement _playerMovement;
 
     public PlayerShieldState(IPlayerMovement playerMovement)
     {

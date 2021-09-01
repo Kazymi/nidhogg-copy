@@ -1,8 +1,8 @@
 ﻿
     public class PlayerCrouchState : PlayerState
     {
-        private IPlayerMovement _playerMovement;
-        private PlayerAnimatorController _playerAnimatorController;
+        private readonly IPlayerMovement _playerMovement;
+        private readonly PlayerAnimatorController _playerAnimatorController;
 
         public PlayerCrouchState(PlayerAnimatorController animatorController, IPlayerMovement playerMovement)
         {

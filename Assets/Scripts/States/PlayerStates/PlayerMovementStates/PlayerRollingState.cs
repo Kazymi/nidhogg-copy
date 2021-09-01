@@ -3,8 +3,8 @@
 public class PlayerRollingState : PlayerState
 {
 
-    private IPlayerMovement _playerMovement;
-    private PlayerAnimatorController _playerAnimatorController;
+    private readonly IPlayerMovement _playerMovement;
+    private readonly PlayerAnimatorController _playerAnimatorController;
 
     public PlayerRollingState(PlayerAnimatorController animatorController, IPlayerMovement playerMovement)
     {

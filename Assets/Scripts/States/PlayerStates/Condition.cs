@@ -2,7 +2,7 @@
 
 public class Condition : PlayerCondition
 {
-    private Func<bool> _func;
+    private readonly Func<bool> _func;
 
     public Condition(Func<bool> func)
     {
