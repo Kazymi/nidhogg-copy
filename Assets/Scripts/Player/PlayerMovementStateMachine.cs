@@ -5,15 +5,16 @@ using Zenject;
 public class PlayerMovementStateMachine : MonoBehaviour
 {
     private PlayerStateMachine _stateMachine;
-    private IInventory _inventory;
+    private IShieldSystem _inventory;
     private IInputHandler _inputHandler;
     private IPlayerMovement _playerMovement;
     private PlayerAnimatorController _playerAnimatorController;
 
     [Inject]
     private void Construct(PlayerAnimatorController playerAnimatorController,
-        IInputHandler inputHandler, IInventory inventory, IPlayerHealth playerHealth, IPlayerMovement playerMovement)
+        IInputHandler inputHandler, IShieldSystem inventory, IPlayerHealth playerHealth, IPlayerMovement playerMovement, PlayerRespawnSystem playerRespawnSystem)
     {
+        playerRespawnSystem.RespawnAction += Respawn;
         _playerMovement = playerMovement;
         playerHealth.PlayerDeath += PlayerDeath;
         _playerAnimatorController = playerAnimatorController;
@@ -28,15 +29,19 @@ public class PlayerMovementStateMachine : MonoBehaviour
 
     private void PlayerDeath(DamageTarget damageTarget)
     {
-        Destroy(this);
+        _stateMachine = null;
     }
 
     private void Update()
     {
-        _stateMachine.Tick();
+        _stateMachine?.Tick();
     }
 
 
+    private void Respawn()
+    {
+        StateInitialize();
+    }
     private void StateInitialize()
     {
         var playerMoveState = new PlayerMoveState(_inputHandler, _playerAnimatorController, _playerMovement);
@@ -76,6 +81,8 @@ public class PlayerMovementStateMachine : MonoBehaviour
         playerShieldCrashState.AddTransition(new PlayerTransition(playerMoveState,
             new TimerCondition(_playerMovement.PlayerMovementConfiguration.ShieldCrushTime)));
 //crouch state
+        playerCrouchState.AddTransition(new PlayerTransition(playerShieldCrashState,
+            new ButtonPressedCondition(_inventory.ShieldCrash)));
         playerCrouchState.AddTransition(new PlayerTransition(playerMoveState,
             new ButtonPressedCondition(_inputHandler.DownButtonAction)));
         playerCrouchState.AddTransition(new PlayerTransition(playerMoveState, new ButtonPressedCondition(_inputHandler.Rolling)));

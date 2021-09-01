@@ -10,8 +10,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
 
     private PlayerAnimatorController _playerAnimatorController;
     private IInputHandler _inputHandler;
-
-    private Rigidbody _rigidbody;
+    
     private Vector3 _moveVector;
     private float _currentTimeCurve;
     private float _totalTimeCurve;
@@ -34,21 +33,21 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
 
     public Action<bool> DefaultMovement { get; set; }
     public PlayerMovementConfiguration PlayerMovementConfiguration => playerMovementConfiguration;
-    public Rigidbody Rigidbody => _rigidbody;
-
+    public Rigidbody Rigidbody { get; private set; }
 
     [Inject]
-    private void Construct(IInputHandler inputHandler, PlayerAnimatorController playerAnimatorController)
+    private void Construct(IInputHandler inputHandler, PlayerAnimatorController playerAnimatorController, PlayerRespawnSystem respawnSystem)
     {
         _playerAnimatorController = playerAnimatorController;
         _inputHandler = inputHandler;
+        respawnSystem.RespawnAction += Respawn;
     }
 
     private void Awake()
     {
         _totalTimeCurve = playerMovementConfiguration.JumpCurve
             .keys[playerMovementConfiguration.JumpCurve.keys.Length - 1].time;
-        _rigidbody = GetComponent<Rigidbody>();
+        Rigidbody = GetComponent<Rigidbody>();
     }
 
     private void Update()
@@ -60,7 +59,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
         }
 
         Jump();
-        _rigidbody.velocity = _moveVector;
+        Rigidbody.velocity = _moveVector;
     }
     
 
@@ -78,21 +77,12 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
         Move(inputVector, speedRedux);
     }
 
-    public void ShieldMove()
+    public void SetPosition(Transform newPos)
     {
-        _moveVector = new Vector3();
-        var moveDir = _inputHandler.MovementDirection;
-        if (moveDir == (int) transform.forward.z)
-        {
-            _moveVector = new Vector3(moveDir, 0, 0);
-            _moveVector *= playerMovementConfiguration.ShieldSpeed;
-        }
-        else
-        {
-            _playerAnimatorController.AnimationValue = 0;
-        }
-
-        _playerAnimatorController.UpdateAnimation();
+        Rigidbody.drag = 0;
+        IsGrounded = true;
+        transform.position = newPos.position;
+        transform.rotation = newPos.rotation;
     }
 
     public void StartJump()
@@ -158,4 +148,11 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
         return (Physics.Raycast(playerMovementConfiguration.GroundCheckPosition.position,
             -playerMovementConfiguration.GroundCheckPosition.up, 0.4f));
     }
+
+    private void Respawn()
+    {
+        _isJumped = false;
+        _currentTimeCurve = 999;
+    }
+    
 }

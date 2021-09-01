@@ -11,5 +11,5 @@ public interface IPlayerMovement
     public void Rolling();
     public void Move(float speedRedux);
     public void StartJump();
-    public void ShieldMove();
+    public void SetPosition(Transform position);
 }

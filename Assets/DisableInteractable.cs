@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class DisableInteractable : StateMachineBehaviour
 {
@@ -8,4 +9,5 @@ public class DisableInteractable : StateMachineBehaviour
     {
         animator.applyRootMotion = false;
     }
+    
 }

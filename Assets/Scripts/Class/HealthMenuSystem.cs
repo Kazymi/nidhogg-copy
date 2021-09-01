@@ -13,7 +13,7 @@
         private void Construct(IPlayerHealth playerHealth)
         {
             _playerHealth = playerHealth;
-            playerHealth.PlayerTakeDamage += PlayerTakeDamage;
+            playerHealth.PlayerUpdateHealth += PlayerTakeDamage;
         }
 
         private void Start()

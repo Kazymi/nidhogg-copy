@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using Zenject;
 
-public class Inventory : MonoBehaviour, IInventory
+public class ShieldSystem : MonoBehaviour, IShieldSystem
 {
     [SerializeField] private InventoryConfig inventoryConfig;
 
@@ -13,9 +13,8 @@ public class Inventory : MonoBehaviour, IInventory
     public InputAction ShieldCrash { get; set; } = new InputAction();
 
     [Inject]
-    private void Construct(IInputHandler inputHandler, IPlayerMovement playerMovement)
+    private void Construct(IInputHandler inputHandler)
     {
-        playerMovement.DefaultMovement += ActivateWeapon;
         inputHandler.ShieldButtonDownAction.Action += () =>
         {
             if (IsShieldActivated)
@@ -26,10 +25,9 @@ public class Inventory : MonoBehaviour, IInventory
             {
                 OpenShield();
             }
-
         };
     }
-    
+
     private void Awake()
     {
         ShieldCrash.Action += ShieldCrashed;
@@ -41,6 +39,7 @@ public class Inventory : MonoBehaviour, IInventory
         {
             return;
         }
+
         IsShieldActivated = true;
         inventoryConfig.Shield.gameObject.SetActive(true);
     }
@@ -49,11 +48,6 @@ public class Inventory : MonoBehaviour, IInventory
     {
         IsShieldActivated = false;
         inventoryConfig.Shield.gameObject.SetActive(false);
-    }
-
-    private void ActivateWeapon(bool isActivated)
-    {
-        inventoryConfig.Weapon.gameObject.SetActive(isActivated);
     }
 
     private IEnumerator ShieldCooldown()
@@ -69,5 +63,4 @@ public class Inventory : MonoBehaviour, IInventory
         CloseShield();
         StartCoroutine(ShieldCooldown());
     }
-
 }

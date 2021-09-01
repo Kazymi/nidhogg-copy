@@ -12,20 +12,15 @@ public class PlayerAnimatorController : MonoBehaviour
     private float _currentAnimationValue;
     private bool _isDead;
 
-    public float AnimationValue
-    {
-        set => _currentAnimationValue = value;
-    }
-
     [Inject]
-    private void Construct(IInputHandler inputHandler, IPlayerMovement iPlayerMovement, IPlayerHealth playerHealth)
+    private void Construct(IInputHandler inputHandler, IPlayerMovement iPlayerMovement, IPlayerHealth playerHealth, PlayerRespawnSystem respawnSystem)
     {
         playerHealth.PlayerDeath += (DamageTarget damageTarget) =>
         {
             SetTrigger(AnimationNameType.Death.ToString() + damageTarget, true);
             _isDead = true;
         };
-
+        respawnSystem.RespawnAction += Respawn;
         _playerMovement = iPlayerMovement;
         _inputHandler = inputHandler;
     }
@@ -36,7 +31,7 @@ public class PlayerAnimatorController : MonoBehaviour
         {
             return;
         }
-
+        
         animatorConfig.PlayerAnimator.SetBool(Animator.StringToHash(animationNameType.ToString()), value);
     }
 
@@ -56,6 +51,10 @@ public class PlayerAnimatorController : MonoBehaviour
         UpdateAnimationState();
     }
 
+    private void Respawn()
+    {
+        _isDead = false;
+    }
     private void UpdateAnimationState()
     {
         var moveDirection = _inputHandler.MovementDirection;

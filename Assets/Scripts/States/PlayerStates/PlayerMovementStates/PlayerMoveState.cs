@@ -16,13 +16,13 @@ public class PlayerMoveState : PlayerState
 
     public override void OnStateEnter()
     {
-        _playerMovement.DefaultMovement.Invoke(true);
+        _playerMovement.DefaultMovement?.Invoke(true);
         _inputHandler.Jump.Action += _playerMovement.StartJump;
     }
 
     public override void OnStateExit()
     {
-        _playerMovement.DefaultMovement.Invoke(false);
+        _playerMovement.DefaultMovement?.Invoke(false);
         _playerMovement.IsJumped = false;
         _inputHandler.Jump.Action -= _playerMovement.StartJump;
     }
