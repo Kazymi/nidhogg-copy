@@ -50,12 +50,13 @@ public class PlayerMovementStateMachine : MonoBehaviour
 
     private void StateInitialize()
     {
-        var playerMoveState = new PlayerMoveState(_inputHandler, _playerAnimatorController, _playerMovement);
+        var playerMoveState = new PlayerMoveState(_playerAnimatorController, _playerMovement);
         var playerRollingState = new PlayerRollingState(_playerAnimatorController, _playerMovement);
         var playerFallingState = new PlayerFalling(_playerMovement, _playerAnimatorController);
         var playerShieldState = new PlayerShieldState(_playerMovement);
         var playerShieldCrashState = new ShieldCrashState(_playerAnimatorController, _playerMovement);
         var playerCrouchState = new PlayerCrouchState(_playerMovement, _playerAnimatorController);
+        var playerJumpState = new PlayerJumpState(_playerMovement);
 
         var playerSwordAttack = new PlayerTriggerAnimationState(_playerMovement, _playerAnimatorController, false,
             AnimationNameType.SwordAttack);
@@ -72,6 +73,8 @@ public class PlayerMovementStateMachine : MonoBehaviour
         playerMoveState.AddTransition(new PlayerTransition(playerFallingState, new FallingCondition(_playerMovement)));
         playerMoveState.AddTransition(new PlayerTransition(playerShieldState,
             new Condition(() => _inventory.IsShieldActivated)));
+        playerMoveState.AddTransition(new PlayerTransition(playerJumpState,
+            new ButtonPressedCondition(_inputHandler.Jump)));
 
         playerMoveState.AddTransition(new PlayerTransition(playerSwordAttack, new AnimationCondition(
             () => _playerWeaponManager.IsCurrentWeaponMelee,
@@ -103,6 +106,9 @@ public class PlayerMovementStateMachine : MonoBehaviour
 //shield crash
         playerShieldCrashState.AddTransition(new PlayerTransition(playerMoveState,
             new TimerCondition(_playerMovement.PlayerMovementConfiguration.ShieldCrushTime)));
+        //jump state
+        playerJumpState.AddTransition(new PlayerTransition(playerMoveState, new Condition(() => _playerMovement.IsJumped == false && _playerMovement.IsGrounded)));
+        playerJumpState.AddTransition(new PlayerTransition(playerFallingState, new Condition(() => _playerMovement.IsJumped == false && _playerMovement.IsGrounded == false)));
 //crouch state
         playerCrouchState.AddTransition(new PlayerTransition(playerShieldCrashState,
             new ButtonPressedCondition(_inventory.ShieldCrash)));
@@ -110,17 +116,17 @@ public class PlayerMovementStateMachine : MonoBehaviour
             new ButtonPressedCondition(_inputHandler.DownButtonAction)));
         playerCrouchState.AddTransition(new PlayerTransition(playerMoveState,
             new ButtonPressedCondition(_inputHandler.Rolling)));
-        _stateMachine = new PlayerStateMachine(playerMoveState);
 
-        //sword state
+//sword state
         playerSwordAttack.AddTransition(new PlayerTransition(playerSwordFastAttack, new AnimationCondition(
             () => _playerWeaponManager.IsCurrentWeaponMelee,
             new ButtonPressedCondition(_inputHandler.FastAttack)
         )));
-        playerSwordAttack.AddTransition(new PlayerTransition(playerMoveState, new TimerCondition(1f)));
-        //sword fast attack
+        playerSwordAttack.AddTransition(new PlayerTransition(playerMoveState,
+            new TimerCondition(1f))); //sword fast attack
         playerSwordFastAttack.AddTransition(new PlayerTransition(playerMoveState, new TimerCondition(1.20f)));
         //sword rolling attack
         playerSwordRollingAttack.AddTransition(new PlayerTransition(playerMoveState, new TimerCondition(1.20f)));
+        _stateMachine = new PlayerStateMachine(playerMoveState);
     }
 }

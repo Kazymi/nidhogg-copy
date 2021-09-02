@@ -19,11 +19,8 @@ namespace States.PlayerStates
         {
             if (_buttonPressedConditions.IsConditionSatisfied() == false)
             {
-                Debug.Log("condition");
                 return false;
             }
-
-            Debug.Log(_func.Invoke());
             return _func.Invoke();
         }
 
