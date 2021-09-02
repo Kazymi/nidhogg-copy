@@ -28,6 +28,10 @@ public class RangeWeapon : Weapon
 
     private void Update()
     {
+        if (_isActivated == false)
+        {
+            return;
+        }
         transform.rotation = Quaternion.Euler(0,90*_playerPivot.forward.x,0);
         if (_currentTimer >= 0)
         {
@@ -43,7 +47,7 @@ public class RangeWeapon : Weapon
 
     private void StartFire()
     {
-        if (_currentAmounteUse <= 0)
+        if (_currentAmounteUse <= 0 || _isActivated == false)
         {
             return;
         }

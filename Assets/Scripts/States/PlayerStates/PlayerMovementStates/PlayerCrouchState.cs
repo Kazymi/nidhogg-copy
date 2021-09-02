@@ -1,13 +1,11 @@
 ﻿
     public class PlayerCrouchState : PlayerState
     {
-        private readonly IPlayerMovement _playerMovement;
         private readonly PlayerAnimatorController _playerAnimatorController;
-
-        public PlayerCrouchState(PlayerAnimatorController animatorController, IPlayerMovement playerMovement)
+        
+        public PlayerCrouchState(IPlayerMovement playerMovement, PlayerAnimatorController playerAnimatorController) : base(playerMovement)
         {
-            _playerMovement = playerMovement;
-            _playerAnimatorController = animatorController;
+            _playerAnimatorController = playerAnimatorController;
         }
         public override void OnStateEnter()
         {
@@ -24,5 +22,6 @@
         public override void Tick()
         {
             _playerMovement.Move(0.3f);
+            base.Tick();
         }
     }

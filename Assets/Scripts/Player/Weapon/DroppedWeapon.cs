@@ -6,29 +6,22 @@ using UnityEngine;
 public class DroppedWeapon : MonoBehaviour,IPolledObject
 {
     public Factory ParentFactory { get; set; }
-
-    private bool _isUnlocked;
+    
     private Rigidbody _rigidbody;
     private int _amountUse;
     private WeaponClassName _weaponClassName;
 
+    public int AmountUse => _amountUse;
+    public WeaponClassName WeaponClassName => _weaponClassName;
+    
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void Destroy()
     {
-        if (_isUnlocked == false)
-        {
-            return;
-        }
-        var playerWeaponManager = other.GetComponent<PlayerWeaponManager>();
-        if (playerWeaponManager)
-        {
-             playerWeaponManager.TakeWeapon(_weaponClassName,_amountUse);
-             ParentFactory.Destroy(gameObject);
-        }
+        ParentFactory.Destroy(gameObject);
     }
 
     public void Initialize(int amountUse, WeaponClassName weaponClassName)
@@ -38,16 +31,7 @@ public class DroppedWeapon : MonoBehaviour,IPolledObject
         _rigidbody.AddForce(transform.forward * 6,ForceMode.Impulse);
         if (amountUse <= 0)
         {
-           ParentFactory.Destroy(gameObject);
-           return;
+            ParentFactory.Destroy(gameObject);
         }
-        StartCoroutine(Timer());
-    }
-
-    private IEnumerator Timer()
-    {
-        _isUnlocked = false;
-        yield return new WaitForSeconds(1f);
-        _isUnlocked = true;
     }
 }

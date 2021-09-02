@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using States.PlayerStates;
 using UnityEngine;
 using Zenject;
 
@@ -9,11 +11,14 @@ public class PlayerMovementStateMachine : MonoBehaviour
     private IInputHandler _inputHandler;
     private IPlayerMovement _playerMovement;
     private PlayerAnimatorController _playerAnimatorController;
+    private PlayerWeaponManager _playerWeaponManager;
 
     [Inject]
     private void Construct(PlayerAnimatorController playerAnimatorController,
-        IInputHandler inputHandler, IShieldSystem inventory, IPlayerHealth playerHealth, IPlayerMovement playerMovement, PlayerRespawnSystem playerRespawnSystem)
+        IInputHandler inputHandler, IShieldSystem inventory, IPlayerHealth playerHealth, IPlayerMovement playerMovement,
+        PlayerRespawnSystem playerRespawnSystem, PlayerWeaponManager playerWeaponManager)
     {
+        _playerWeaponManager = playerWeaponManager;
         playerRespawnSystem.RespawnAction += Respawn;
         _playerMovement = playerMovement;
         playerHealth.PlayerDeath += PlayerDeath;
@@ -42,14 +47,20 @@ public class PlayerMovementStateMachine : MonoBehaviour
     {
         StateInitialize();
     }
+
     private void StateInitialize()
     {
         var playerMoveState = new PlayerMoveState(_inputHandler, _playerAnimatorController, _playerMovement);
         var playerRollingState = new PlayerRollingState(_playerAnimatorController, _playerMovement);
         var playerFallingState = new PlayerFalling(_playerMovement, _playerAnimatorController);
         var playerShieldState = new PlayerShieldState(_playerMovement);
-        var playerShieldCrashState = new ShieldCrashState(_playerAnimatorController);
-        var playerCrouchState = new PlayerCrouchState(_playerAnimatorController, _playerMovement);
+        var playerShieldCrashState = new ShieldCrashState(_playerAnimatorController, _playerMovement);
+        var playerCrouchState = new PlayerCrouchState(_playerMovement, _playerAnimatorController);
+
+        var playerSwordAttack = new PlayerTriggerAnimationState(_playerMovement, _playerAnimatorController, false,
+            AnimationNameType.SwordAttack);
+        var playerSwordFastAttack = new PlayerTriggerAnimationState(_playerMovement, _playerAnimatorController, true,
+            AnimationNameType.SwordFastAttack);
 
 //movement
         playerMoveState.AddTransition(new PlayerTransition(playerCrouchState,
@@ -59,7 +70,15 @@ public class PlayerMovementStateMachine : MonoBehaviour
         playerMoveState.AddTransition(new PlayerTransition(playerFallingState, new FallingCondition(_playerMovement)));
         playerMoveState.AddTransition(new PlayerTransition(playerShieldState,
             new Condition(() => _inventory.IsShieldActivated)));
-//falling
+
+        playerMoveState.AddTransition(new PlayerTransition(playerSwordAttack, new AnimationCondition(
+            () => _playerWeaponManager.IsCurrentWeaponMelee,
+            new List<ButtonPressedCondition>()
+            {
+                new ButtonPressedCondition(_inputHandler.Fire)
+            })));
+
+//rolling
         playerRollingState.AddTransition(new PlayerTransition(playerMoveState,
             new TimerCondition(_playerMovement.PlayerMovementConfiguration.RollingTime)));
 //falling
@@ -85,7 +104,19 @@ public class PlayerMovementStateMachine : MonoBehaviour
             new ButtonPressedCondition(_inventory.ShieldCrash)));
         playerCrouchState.AddTransition(new PlayerTransition(playerMoveState,
             new ButtonPressedCondition(_inputHandler.DownButtonAction)));
-        playerCrouchState.AddTransition(new PlayerTransition(playerMoveState, new ButtonPressedCondition(_inputHandler.Rolling)));
+        playerCrouchState.AddTransition(new PlayerTransition(playerMoveState,
+            new ButtonPressedCondition(_inputHandler.Rolling)));
         _stateMachine = new PlayerStateMachine(playerMoveState);
+        
+        //sword state
+        playerSwordAttack.AddTransition(new PlayerTransition(playerSwordFastAttack, new AnimationCondition(
+            () => _playerWeaponManager.IsCurrentWeaponMelee,
+            new List<ButtonPressedCondition>()
+            {
+                new ButtonPressedCondition(_inputHandler.FastAttack)
+            })));
+        playerSwordAttack.AddTransition(new PlayerTransition(playerMoveState, new TimerCondition(1f)));
+        //sword fast attack
+        playerSwordFastAttack.AddTransition(new PlayerTransition(playerMoveState, new TimerCondition(1.20f)));
     }
 }

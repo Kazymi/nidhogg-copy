@@ -9,5 +9,4 @@ public class DisableInteractable : StateMachineBehaviour
     {
         animator.applyRootMotion = false;
     }
-    
 }

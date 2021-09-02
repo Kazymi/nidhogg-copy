@@ -2,11 +2,11 @@
 
 public class PlayerShieldState : PlayerState
 {
-    private readonly IPlayerMovement _playerMovement;
 
-    public PlayerShieldState(IPlayerMovement playerMovement)
+
+    public PlayerShieldState(IPlayerMovement playerMovement) : base(playerMovement)
     {
-        _playerMovement = playerMovement;
+        
     }
 
     public override void OnStateEnter()
@@ -22,10 +22,11 @@ public class PlayerShieldState : PlayerState
     public override void Tick()
     {
         Move();
+        base.Tick();
     }
     
     private void Move()
     {
-        _playerMovement.Move(0.9f);
+        _playerMovement.Move(0.7f);
     }
 }

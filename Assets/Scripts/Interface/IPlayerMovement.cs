@@ -12,4 +12,5 @@ public interface IPlayerMovement
     public void Move(float speedRedux);
     public void StartJump();
     public void SetPosition(Transform position);
+    public void MoveUpdate();
 }

@@ -3,11 +3,10 @@
     Rolling,
     Run,
     Jump,
-    RangeWeapon,
-    MeleeWeapon,
     Crouch,
     Falling,
-    Shield,
     ShieldCrash,
     Death,
+    SwordFastAttack,
+    SwordAttack
 }

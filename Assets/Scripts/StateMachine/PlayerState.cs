@@ -2,10 +2,16 @@
 
 public abstract class PlayerState
 {
+    protected IPlayerMovement _playerMovement;
     public List<PlayerTransition> Transitions { get; } = new List<PlayerTransition>();
 
+    public PlayerState(IPlayerMovement playerMovement)
+    {
+        _playerMovement = playerMovement;
+    }
     public virtual void Tick()
     {
+        _playerMovement.MoveUpdate();
     }
 
     public virtual void FixedTick()

@@ -10,7 +10,7 @@ public class PlayerInstaller : MonoInstaller
     [SerializeField] private Transform weaponParentTransform;
     [SerializeField] private List<Transform> spawnPoints;
     [SerializeField] private List<WeaponConfiguration> weaponConfigurations;
-    
+    [SerializeField] private PlayerWeaponManager playerWeaponManager;
     [SerializeField] private float playerHealth;
     [SerializeField] private KeyBindings keyBindings;
     [SerializeField] private ShieldSystem inventory;
@@ -27,8 +27,8 @@ public class PlayerInstaller : MonoInstaller
         var bulletManager = new BulletManager(bulletConfigurations,bulletParentTransform,amountBullet);
         var playerHealth = new PlayerHealth(this.playerHealth,playerRespawnSystem);
         var weaponManager = new WeaponManager(weaponParentTransform, weaponConfigurations);
-        
-        
+
+        Container.Bind<PlayerWeaponManager>().FromInstance(playerWeaponManager).AsSingle();
         Container.Bind<PlayerRespawnSystem>().FromInstance(playerRespawnSystem).AsSingle();
         Container.Bind<WeaponManager>().FromInstance(weaponManager).AsSingle();
         Container.Bind<BulletManager>().FromInstance(bulletManager).AsSingle();

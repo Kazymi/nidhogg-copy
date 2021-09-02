@@ -6,10 +6,8 @@ public class PlayerMoveState : PlayerState
 
     private readonly PlayerAnimatorController _playerAnimatorController;
     private readonly IInputHandler _inputHandler;
-    private readonly IPlayerMovement _playerMovement;
-    public PlayerMoveState(IInputHandler inputHandler, PlayerAnimatorController playerAnimatorController, IPlayerMovement playerMovement)
+    public PlayerMoveState(IInputHandler inputHandler, PlayerAnimatorController playerAnimatorController, IPlayerMovement playerMovement) : base(playerMovement)
     {
-        _playerMovement = playerMovement;
         _playerAnimatorController = playerAnimatorController;
         _inputHandler = inputHandler;
     }
@@ -30,6 +28,7 @@ public class PlayerMoveState : PlayerState
     public override void Tick()
     {
         Move();
+        base.Tick();
     }
 
     private void Move()

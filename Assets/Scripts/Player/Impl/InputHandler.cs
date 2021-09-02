@@ -7,8 +7,10 @@ public class InputHandler : MonoBehaviour, IInputHandler
     private KeyCode _lastKey;
     private IKeyBindings _keyBindings;
 
+    public InputAction EquipAction { get; } = new InputAction();
     public InputAction Jump { get; } = new InputAction();
     public InputAction Rolling { get; } = new InputAction();
+    public InputAction FastAttack { get; } = new InputAction();
     public InputAction ShieldButtonDownAction { get; } = new InputAction();
     public InputAction DropWeaponAction { get; } = new InputAction();
     public InputAction Fire { get; } = new InputAction();
@@ -17,6 +19,8 @@ public class InputHandler : MonoBehaviour, IInputHandler
     public InputAction RightButtonDownAction { get; } = new InputAction();
     public InputAction LeftButtonAction { get; } = new InputAction();
     public InputAction LeftButtonDownAction { get; } = new InputAction();
+
+    public InputAction SwapWeaponAction { get; } = new InputAction();
     public int MovementDirection { get; private set; }
 
     [Inject]
@@ -32,6 +36,7 @@ public class InputHandler : MonoBehaviour, IInputHandler
 
         RightButtonDownAction.Action += () => DoubleClickCheck(_keyBindings.RightButton);
         LeftButtonDownAction.Action += () => DoubleClickCheck(_keyBindings.LeftButton);
+        Fire.Action += () => DoubleClickCheck(_keyBindings.FireButton);
     }
 
     private void Update()
@@ -71,7 +76,7 @@ public class InputHandler : MonoBehaviour, IInputHandler
             DownButtonAction.Invoke();
         }
 
-        if (Input.GetKey(_keyBindings.FireButton))
+        if (Input.GetKeyDown(_keyBindings.FireButton))
         {
             Fire.Invoke();
         }
@@ -85,6 +90,16 @@ public class InputHandler : MonoBehaviour, IInputHandler
         {
             DropWeaponAction.Invoke();
         }
+
+        if (Input.GetKeyDown(_keyBindings.EquipButton))
+        {
+            EquipAction.Invoke();
+        }
+
+        if (Input.GetKeyDown(_keyBindings.SwapWeaponButton))
+        {
+            SwapWeaponAction.Invoke();
+        }
     }
 
     private void DoubleClickCheck(KeyCode currentKey)
@@ -97,7 +112,15 @@ public class InputHandler : MonoBehaviour, IInputHandler
 
         if (Time.time - _clickDelta < _keyBindings.ClickThreshold)
         {
-            Rolling.Invoke();
+            if (_lastKey == _keyBindings.LeftButton || _lastKey == _keyBindings.RightButton)
+            {
+                Rolling.Invoke();
+            }
+
+            if (_lastKey == _keyBindings.FireButton)
+            {
+                FastAttack.Invoke();
+            }
         }
 
         _clickDelta = Time.time;

@@ -52,19 +52,6 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
         Rigidbody = GetComponent<Rigidbody>();
     }
 
-    // TODO: this component should be pretty passive. All the behaviour invocation should be state machine
-    private void Update()
-    {
-        IsGrounded = GroundCheck();
-        if (IsGrounded == false)
-        {
-            _moveVector -= new Vector3(0, playerMovementConfiguration.Gravity, 0);
-        }
-
-        Jump();
-        Rigidbody.velocity = _moveVector;
-    }
-    
     public void Rolling()
     {
         _moveVector = new Vector3(
@@ -85,6 +72,18 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
         IsGrounded = true;
         transform.position = newPos.position;
         transform.rotation = newPos.rotation;
+    }
+
+    public void MoveUpdate()
+    {
+        IsGrounded = GroundCheck();
+        if (IsGrounded == false)
+        {
+            _moveVector -= new Vector3(0, playerMovementConfiguration.Gravity, 0);
+        }
+
+        Jump();
+        Rigidbody.velocity = _moveVector;
     }
 
     public void StartJump()

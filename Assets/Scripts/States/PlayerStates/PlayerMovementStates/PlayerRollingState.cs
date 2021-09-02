@@ -2,13 +2,10 @@
 
 public class PlayerRollingState : PlayerState
 {
-
-    private readonly IPlayerMovement _playerMovement;
     private readonly PlayerAnimatorController _playerAnimatorController;
 
-    public PlayerRollingState(PlayerAnimatorController animatorController, IPlayerMovement playerMovement)
+    public PlayerRollingState(PlayerAnimatorController animatorController, IPlayerMovement playerMovement) : base(playerMovement)
     {
-        _playerMovement = playerMovement;
         _playerAnimatorController = animatorController;
     }
 
@@ -21,6 +18,7 @@ public class PlayerRollingState : PlayerState
     public override void Tick()
     {
         Move();
+        base.Tick();
     }
 
     private void Move()

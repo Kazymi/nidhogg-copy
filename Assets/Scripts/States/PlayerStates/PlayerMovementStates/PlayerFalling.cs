@@ -2,11 +2,9 @@
 
 public class PlayerFalling : PlayerState
 {
-    private readonly IPlayerMovement _playerMovement;
     private readonly PlayerAnimatorController _playerAnimatorController;
-    public PlayerFalling(IPlayerMovement playerMovement, PlayerAnimatorController playerAnimatorController)
+    public PlayerFalling(IPlayerMovement playerMovement, PlayerAnimatorController playerAnimatorController) : base(playerMovement)
     {
-        _playerMovement = playerMovement;
         _playerAnimatorController = playerAnimatorController;
     }
 
@@ -23,5 +21,6 @@ public class PlayerFalling : PlayerState
     public override void Tick()
     {
        _playerMovement.Move(0.5f);
+       base.Tick();
     }
 }
