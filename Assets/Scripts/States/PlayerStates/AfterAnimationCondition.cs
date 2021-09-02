@@ -6,23 +6,21 @@ namespace States.PlayerStates
 {
     public class AnimationCondition : PlayerCondition
     {
-        private List<ButtonPressedCondition> _buttonPressedConditions;
+        private ButtonPressedCondition _buttonPressedConditions;
         private Func<bool> _func;
-        
-        public AnimationCondition(Func<bool> func, List<ButtonPressedCondition> buttonPressedCondition)
+
+        public AnimationCondition(Func<bool> func, ButtonPressedCondition buttonPressedCondition)
         {
             _func = func;
             _buttonPressedConditions = buttonPressedCondition;
         }
+
         public override bool IsConditionSatisfied()
         {
-            foreach (var buttonPressed in _buttonPressedConditions)
+            if (_buttonPressedConditions.IsConditionSatisfied() == false)
             {
-                if (buttonPressed.IsConditionSatisfied() == false)
-                {
-                    Debug.Log("condition");
-                    return false;
-                }
+                Debug.Log("condition");
+                return false;
             }
 
             Debug.Log(_func.Invoke());
@@ -32,19 +30,15 @@ namespace States.PlayerStates
         public override void Initialize()
         {
             base.Initialize();
-            foreach (var buttonPressed in _buttonPressedConditions)
-            {
-               buttonPressed.Initialize();
-            }
+
+            _buttonPressedConditions.Initialize();
         }
 
         public override void DeInitialize()
         {
             base.DeInitialize();
-            foreach (var buttonPressed in _buttonPressedConditions)
-            {
-                buttonPressed.DeInitialize();
-            }
+
+            _buttonPressedConditions.DeInitialize();
         }
     }
 }

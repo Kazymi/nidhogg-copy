@@ -8,5 +8,6 @@
     ShieldCrash,
     Death,
     SwordFastAttack,
-    SwordAttack
+    SwordAttack,
+    SwordRollingAttack
 }

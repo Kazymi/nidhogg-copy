@@ -61,6 +61,8 @@ public class PlayerMovementStateMachine : MonoBehaviour
             AnimationNameType.SwordAttack);
         var playerSwordFastAttack = new PlayerTriggerAnimationState(_playerMovement, _playerAnimatorController, true,
             AnimationNameType.SwordFastAttack);
+        var playerSwordRollingAttack = new PlayerTriggerAnimationState(_playerMovement, _playerAnimatorController, true,
+            AnimationNameType.SwordRollingAttack);
 
 //movement
         playerMoveState.AddTransition(new PlayerTransition(playerCrouchState,
@@ -73,14 +75,16 @@ public class PlayerMovementStateMachine : MonoBehaviour
 
         playerMoveState.AddTransition(new PlayerTransition(playerSwordAttack, new AnimationCondition(
             () => _playerWeaponManager.IsCurrentWeaponMelee,
-            new List<ButtonPressedCondition>()
-            {
-                new ButtonPressedCondition(_inputHandler.Fire)
-            })));
+            new ButtonPressedCondition(_inputHandler.Fire)
+        )));
 
 //rolling
         playerRollingState.AddTransition(new PlayerTransition(playerMoveState,
             new TimerCondition(_playerMovement.PlayerMovementConfiguration.RollingTime)));
+        playerRollingState.AddTransition(new PlayerTransition(playerSwordRollingAttack, new AnimationCondition(
+            () => _playerWeaponManager.IsCurrentWeaponMelee,
+            new ButtonPressedCondition(_inputHandler.Fire)
+        )));
 //falling
         playerFallingState.AddTransition(new PlayerTransition(playerShieldState,
             new AfterFallCondition(() => _playerMovement.IsGrounded && _inventory.IsShieldActivated, 0f)));
@@ -107,16 +111,16 @@ public class PlayerMovementStateMachine : MonoBehaviour
         playerCrouchState.AddTransition(new PlayerTransition(playerMoveState,
             new ButtonPressedCondition(_inputHandler.Rolling)));
         _stateMachine = new PlayerStateMachine(playerMoveState);
-        
+
         //sword state
         playerSwordAttack.AddTransition(new PlayerTransition(playerSwordFastAttack, new AnimationCondition(
             () => _playerWeaponManager.IsCurrentWeaponMelee,
-            new List<ButtonPressedCondition>()
-            {
-                new ButtonPressedCondition(_inputHandler.FastAttack)
-            })));
+            new ButtonPressedCondition(_inputHandler.FastAttack)
+        )));
         playerSwordAttack.AddTransition(new PlayerTransition(playerMoveState, new TimerCondition(1f)));
         //sword fast attack
         playerSwordFastAttack.AddTransition(new PlayerTransition(playerMoveState, new TimerCondition(1.20f)));
+        //sword rolling attack
+        playerSwordRollingAttack.AddTransition(new PlayerTransition(playerMoveState, new TimerCondition(1.20f)));
     }
 }
