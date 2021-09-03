@@ -12,7 +12,7 @@ public class PlayerHealth : IPlayerHealth
     public float MaxHealth { get; }
     public float CurrentHealth => _currentHealth;
 
-    public PlayerHealth(float health, PlayerRespawnSystem respawnSystem)
+    public PlayerHealth(float health, IPlayerRespawnSystem respawnSystem)
     {
         respawnSystem.RespawnAction += Respawn;
         _currentHealth = health;

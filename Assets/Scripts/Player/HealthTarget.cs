@@ -13,7 +13,7 @@ public class HealthTarget : MonoBehaviour, IDamageable
     private Collider _collider;
     
     [Inject]
-    private void Construct(IPlayerHealth playerHealth,PlayerRespawnSystem respawnSystem)
+    private void Construct(IPlayerHealth playerHealth,IPlayerRespawnSystem respawnSystem)
     {
         _playerHealth = playerHealth;
 

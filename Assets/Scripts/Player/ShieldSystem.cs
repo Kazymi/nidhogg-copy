@@ -14,8 +14,15 @@ public class ShieldSystem : MonoBehaviour, IShieldSystem
     public InputAction ShieldCrash { get; set; } = new InputAction();
 
     [Inject]
-    private void Construct(IInputHandler inputHandler)
+    private void Construct(IInputHandler inputHandler, IPlayerRespawnSystem playerRespawnSyste)
     {
+        playerRespawnSyste.RespawnAction += () =>
+        {
+            _currentAmountShields = amountShields;
+            IsShieldActivated = false;
+            _isShieldUnlock = true;
+        };
+        
         inputHandler.ShieldButtonDownAction.Action += () =>
         {
             if (IsShieldActivated)

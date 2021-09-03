@@ -8,7 +8,7 @@ public class Shield : MonoBehaviour, IDamageable,IShield
     [SerializeField] private float shieldHealth;
     
     private IShieldSystem _inventory;
-    private ShieldMenu _shieldMenu;
+    private IShieldMenu _shieldMenu;
     private float _currentHealth;
     public float CurrentShieldValue => _currentHealth/shieldHealth;
     
@@ -18,8 +18,12 @@ public class Shield : MonoBehaviour, IDamageable,IShield
     }
 
     [Inject]
-    private void Construct(IShieldSystem inventory, ShieldMenu shieldMenu)
+    private void Construct(IShieldSystem inventory, IShieldMenu shieldMenu, IPlayerRespawnSystem playerRespawnSystem)
     {
+        playerRespawnSystem.RespawnAction += () =>
+        {
+            _currentHealth = shieldHealth;
+        };
         _inventory = inventory;
         _shieldMenu = shieldMenu;
     }

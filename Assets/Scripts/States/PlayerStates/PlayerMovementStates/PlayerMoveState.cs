@@ -4,8 +4,8 @@ using Zenject.SpaceFighter;
 public class PlayerMoveState : PlayerState
 {
 
-    private readonly PlayerAnimatorController _playerAnimatorController;
-    public PlayerMoveState(PlayerAnimatorController playerAnimatorController, IPlayerMovement playerMovement) : base(playerMovement)
+    private readonly IPlayerAnimatorController _playerAnimatorController;
+    public PlayerMoveState(IPlayerAnimatorController playerAnimatorController, IPlayerMovement playerMovement) : base(playerMovement)
     {
         _playerAnimatorController = playerAnimatorController;
     }

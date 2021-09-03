@@ -2,8 +2,6 @@
 
 public class PlayerShieldState : PlayerState
 {
-
-
     public PlayerShieldState(IPlayerMovement playerMovement) : base(playerMovement)
     {
         

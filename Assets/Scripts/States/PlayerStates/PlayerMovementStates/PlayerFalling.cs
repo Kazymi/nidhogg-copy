@@ -2,8 +2,8 @@
 
 public class PlayerFalling : PlayerState
 {
-    private readonly PlayerAnimatorController _playerAnimatorController;
-    public PlayerFalling(IPlayerMovement playerMovement, PlayerAnimatorController playerAnimatorController) : base(playerMovement)
+    private readonly IPlayerAnimatorController _playerAnimatorController;
+    public PlayerFalling(IPlayerMovement playerMovement, IPlayerAnimatorController playerAnimatorController) : base(playerMovement)
     {
         _playerAnimatorController = playerAnimatorController;
     }

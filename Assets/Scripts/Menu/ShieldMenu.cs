@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class ShieldMenu : MonoBehaviour
+public class ShieldMenu : MonoBehaviour,IShieldMenu
 {
    [SerializeField] private Slider slider;
 

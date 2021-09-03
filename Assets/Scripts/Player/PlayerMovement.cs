@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
 {
     [SerializeField] private PlayerMovementConfiguration playerMovementConfiguration;
 
-    private PlayerAnimatorController _playerAnimatorController;
+    private IPlayerAnimatorController _playerAnimatorController;
     private IInputHandler _inputHandler;
 
     private Vector3 _moveVector;
@@ -37,8 +37,8 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
     public Rigidbody Rigidbody { get; private set; }
 
     [Inject]
-    private void Construct(IInputHandler inputHandler, PlayerAnimatorController playerAnimatorController,
-        PlayerRespawnSystem respawnSystem)
+    private void Construct(IInputHandler inputHandler, IPlayerAnimatorController playerAnimatorController,
+        IPlayerRespawnSystem respawnSystem)
     {
         _playerAnimatorController = playerAnimatorController;
         _inputHandler = inputHandler;

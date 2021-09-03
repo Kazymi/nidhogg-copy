@@ -1,25 +1,30 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using Random = UnityEngine.Random;
 
-public class PlayerRespawnSystem
+public class PlayerRespawnSystem : MonoBehaviour,IPlayerRespawnSystem
 {
-    private List<Transform> _spawnPoints;
+    [SerializeField] private List<Transform> spawnPoints;
+    [SerializeField] private float timeToRespawn;
+    
     private IPlayerMovement _playerMovement;
 
     public event Action RespawnAction;
 
-    public PlayerRespawnSystem(List<Transform> spawnpoints, IPlayerMovement playerMovement)
+    [Inject]
+    private void Construct(IPlayerMovement playerMovement, IPlayerHealth playerHealth)
     {
-        _spawnPoints = spawnpoints;
         _playerMovement = playerMovement;
+        playerHealth.PlayerDeath += target => StartCoroutine(Respawn());
     }
-    
-    public void Respawn()
+    private IEnumerator Respawn()
     {
+        yield return new WaitForSeconds(timeToRespawn);
         _playerMovement.SetPosition(
-           _spawnPoints[Random.Range(0, _spawnPoints.Count)]);
+            spawnPoints[Random.Range(0, spawnPoints.Count)]);
         RespawnAction?.Invoke();
     }
 }

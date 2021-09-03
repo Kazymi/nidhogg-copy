@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Zenject;
 
-public class PlayerAnimatorController : MonoBehaviour
+public class PlayerAnimatorController : MonoBehaviour, IPlayerAnimatorController
 {
     [SerializeField] private Animator playerAnimator;
     [SerializeField] private float speedRunAnimation;
@@ -14,7 +14,8 @@ public class PlayerAnimatorController : MonoBehaviour
     private bool _isDead;
 
     [Inject]
-    private void Construct(IInputHandler inputHandler, IPlayerMovement iPlayerMovement, IPlayerHealth playerHealth, PlayerRespawnSystem respawnSystem)
+    private void Construct(IInputHandler inputHandler, IPlayerMovement iPlayerMovement, IPlayerHealth playerHealth,
+        IPlayerRespawnSystem respawnSystem)
     {
         playerHealth.PlayerDeath += (DamageTarget damageTarget) =>
         {
@@ -32,7 +33,7 @@ public class PlayerAnimatorController : MonoBehaviour
         {
             return;
         }
-        
+
         playerAnimator.SetBool(Animator.StringToHash(animationNameType.ToString()), value);
     }
 
@@ -46,7 +47,7 @@ public class PlayerAnimatorController : MonoBehaviour
         playerAnimator.applyRootMotion = isInteractable;
         playerAnimator.SetTrigger(animationNameType);
     }
-    
+
     public void UpdateAnimation()
     {
         UpdateAnimationState();
@@ -56,6 +57,7 @@ public class PlayerAnimatorController : MonoBehaviour
     {
         _isDead = false;
     }
+
     private void UpdateAnimationState()
     {
         var moveDirection = _inputHandler.MovementDirection;

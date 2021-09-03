@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Zenject;
 
-public class PlayerWeaponManager : MonoBehaviour
+public class PlayerWeaponSystem : MonoBehaviour,IPlayerWeaponSystem
 {
     [SerializeField] private Transform rightRangeHandTransform;
     [SerializeField] private Transform rightMeleeHandTransform;
@@ -19,20 +19,21 @@ public class PlayerWeaponManager : MonoBehaviour
     private Weapon _weaponOnTheBack;
     private WeaponManager _weaponManager;
     private IInputHandler _inputHandler;
-    private PlayerAnimatorController _playerAnimatorController;
+    private IPlayerAnimatorController _playerAnimatorController;
     private BulletManager _bulletManager;
 
     public bool IsCurrentWeaponMelee { get; private set; }
     
     [Inject]
-    private void Construct(WeaponManager weaponManager, PlayerAnimatorController playerAnimatorController,
-        IInputHandler inputHandler, BulletManager bulletManager)
+    private void Construct(WeaponManager weaponManager, IPlayerAnimatorController playerAnimatorController,
+        IInputHandler inputHandler, BulletManager bulletManager,IPlayerMovement playerMovement)
     {
         _inputHandler = inputHandler;
         _playerAnimatorController = playerAnimatorController;
         _bulletManager = bulletManager;
         _weaponManager = weaponManager;
 
+        playerMovement.DefaultMovement += SetActiveWeapon;
         inputHandler.EquipAction.Action += TakeWeapon;
         inputHandler.DropWeaponAction.Action += DropCurrentWeapon;
         inputHandler.SwapWeaponAction.Action += SwipeWeapon;
@@ -51,7 +52,7 @@ public class PlayerWeaponManager : MonoBehaviour
         }
     }
 
-    public void SetActiveWeapon(bool isActivated)
+    private void SetActiveWeapon(bool isActivated)
     {
         if (_currentWeapon != null)
         {

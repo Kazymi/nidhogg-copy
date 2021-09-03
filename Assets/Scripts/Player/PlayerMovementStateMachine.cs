@@ -10,13 +10,13 @@ public class PlayerMovementStateMachine : MonoBehaviour
     private IShieldSystem _inventory;
     private IInputHandler _inputHandler;
     private IPlayerMovement _playerMovement;
-    private PlayerAnimatorController _playerAnimatorController;
-    private PlayerWeaponManager _playerWeaponManager;
+    private IPlayerAnimatorController _playerAnimatorController;
+    private IPlayerWeaponSystem _playerWeaponManager;
 
     [Inject]
-    private void Construct(PlayerAnimatorController playerAnimatorController,
+    private void Construct(IPlayerAnimatorController playerAnimatorController,
         IInputHandler inputHandler, IShieldSystem inventory, IPlayerHealth playerHealth, IPlayerMovement playerMovement,
-        PlayerRespawnSystem playerRespawnSystem, PlayerWeaponManager playerWeaponManager)
+        IPlayerRespawnSystem playerRespawnSystem, IPlayerWeaponSystem playerWeaponManager)
     {
         _playerWeaponManager = playerWeaponManager;
         playerRespawnSystem.RespawnAction += Respawn;
@@ -63,9 +63,8 @@ public class PlayerMovementStateMachine : MonoBehaviour
         var playerSwordFastAttack = new PlayerTriggerAnimationState(_playerMovement, _playerAnimatorController, true,
             AnimationNameType.SwordFastAttack);
         var playerSwordRollingAttack = new PlayerTriggerAnimationState(_playerMovement, _playerAnimatorController, true,
-            AnimationNameType.SwordRollingAttack);
-
-//movement
+            AnimationNameType.SwordRollingAttack); 
+        //movement
         playerMoveState.AddTransition(new PlayerTransition(playerCrouchState,
             new ButtonPressedCondition(_inputHandler.DownButtonAction)));
         playerMoveState.AddTransition(new PlayerTransition(playerRollingState,
@@ -79,51 +78,52 @@ public class PlayerMovementStateMachine : MonoBehaviour
         playerMoveState.AddTransition(new PlayerTransition(playerSwordAttack, new AnimationCondition(
             () => _playerWeaponManager.IsCurrentWeaponMelee,
             new ButtonPressedCondition(_inputHandler.Fire)
-        )));
-
-//rolling
+        ))); 
+        //rolling
         playerRollingState.AddTransition(new PlayerTransition(playerMoveState,
             new TimerCondition(_playerMovement.PlayerMovementConfiguration.RollingTime)));
         playerRollingState.AddTransition(new PlayerTransition(playerSwordRollingAttack, new AnimationCondition(
             () => _playerWeaponManager.IsCurrentWeaponMelee,
             new ButtonPressedCondition(_inputHandler.Fire)
-        )));
-//falling
+        ))); 
+        //falling
         playerFallingState.AddTransition(new PlayerTransition(playerShieldState,
             new AfterFallCondition(() => _playerMovement.IsGrounded && _inventory.IsShieldActivated, 0f)));
         playerFallingState.AddTransition(new PlayerTransition(playerRollingState,
             new AfterFallCondition(() => _playerMovement.IsGrounded && _inventory.IsShieldActivated == false,
                 _playerMovement.PlayerMovementConfiguration.NeedTimeFallingToRolling)));
         playerFallingState.AddTransition(new PlayerTransition(playerMoveState,
-            new AfterFallCondition(() => _playerMovement.IsGrounded && _inventory.IsShieldActivated == false, 0f)));
-//shield
+            new AfterFallCondition(() => _playerMovement.IsGrounded && _inventory.IsShieldActivated == false, 0f))); 
+        //shield
         playerShieldState.AddTransition(new PlayerTransition(playerFallingState,
             new FallingCondition(_playerMovement)));
         playerShieldState.AddTransition(new PlayerTransition(playerShieldCrashState,
             new ButtonPressedCondition(_inventory.ShieldCrash)));
         playerShieldState.AddTransition(new PlayerTransition(playerMoveState,
-            new Condition(() => _inventory.IsShieldActivated == false)));
-//shield crash
+            new Condition(() => _inventory.IsShieldActivated == false))); 
+        //shield crash
         playerShieldCrashState.AddTransition(new PlayerTransition(playerMoveState,
             new TimerCondition(_playerMovement.PlayerMovementConfiguration.ShieldCrushTime)));
         //jump state
-        playerJumpState.AddTransition(new PlayerTransition(playerMoveState, new Condition(() => _playerMovement.IsJumped == false && _playerMovement.IsGrounded)));
-        playerJumpState.AddTransition(new PlayerTransition(playerFallingState, new Condition(() => _playerMovement.IsJumped == false && _playerMovement.IsGrounded == false)));
-//crouch state
+        playerJumpState.AddTransition(new PlayerTransition(playerMoveState,
+            new Condition(() => _playerMovement.IsJumped == false && _playerMovement.IsGrounded)));
+        playerJumpState.AddTransition(new PlayerTransition(playerFallingState,
+            new Condition(() => _playerMovement.IsJumped == false && _playerMovement.IsGrounded == false))); 
+        //crouch state
         playerCrouchState.AddTransition(new PlayerTransition(playerShieldCrashState,
             new ButtonPressedCondition(_inventory.ShieldCrash)));
         playerCrouchState.AddTransition(new PlayerTransition(playerMoveState,
             new ButtonPressedCondition(_inputHandler.DownButtonAction)));
         playerCrouchState.AddTransition(new PlayerTransition(playerMoveState,
-            new ButtonPressedCondition(_inputHandler.Rolling)));
-
-//sword state
+            new ButtonPressedCondition(_inputHandler.Rolling))); 
+        //sword state
         playerSwordAttack.AddTransition(new PlayerTransition(playerSwordFastAttack, new AnimationCondition(
             () => _playerWeaponManager.IsCurrentWeaponMelee,
             new ButtonPressedCondition(_inputHandler.FastAttack)
         )));
         playerSwordAttack.AddTransition(new PlayerTransition(playerMoveState,
-            new TimerCondition(1f))); //sword fast attack
+            new TimerCondition(1f))); 
+        //sword fast attack
         playerSwordFastAttack.AddTransition(new PlayerTransition(playerMoveState, new TimerCondition(1.20f)));
         //sword rolling attack
         playerSwordRollingAttack.AddTransition(new PlayerTransition(playerMoveState, new TimerCondition(1.20f)));

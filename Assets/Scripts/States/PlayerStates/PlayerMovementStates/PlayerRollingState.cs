@@ -2,9 +2,9 @@
 
 public class PlayerRollingState : PlayerState
 {
-    private readonly PlayerAnimatorController _playerAnimatorController;
+    private readonly IPlayerAnimatorController _playerAnimatorController;
 
-    public PlayerRollingState(PlayerAnimatorController animatorController, IPlayerMovement playerMovement) : base(playerMovement)
+    public PlayerRollingState(IPlayerAnimatorController animatorController, IPlayerMovement playerMovement) : base(playerMovement)
     {
         _playerAnimatorController = animatorController;
     }

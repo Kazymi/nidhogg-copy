@@ -1,11 +1,12 @@
 ﻿public class PlayerTriggerAnimationState : PlayerState
 {
-    private PlayerAnimatorController _playerAnimatorController;
-    private AnimationNameType _animationNameType;
-    private bool _interactable;
-    
+    private readonly IPlayerAnimatorController _playerAnimatorController;
+    private readonly AnimationNameType _animationNameType;
+    private readonly bool _interactable;
+
     public PlayerTriggerAnimationState(IPlayerMovement playerMovement,
-        PlayerAnimatorController playerAnimatorController,bool interactable, AnimationNameType animationNameType) : base(playerMovement)
+        IPlayerAnimatorController playerAnimatorController, bool interactable, AnimationNameType animationNameType) :
+        base(playerMovement)
     {
         _interactable = interactable;
         _animationNameType = animationNameType;
@@ -16,12 +17,19 @@
     {
         if (_interactable == false)
         {
+            _playerMovement.Move(1);
             base.Tick();
         }
     }
 
     public override void OnStateEnter()
     {
-        _playerAnimatorController.SetTrigger(_animationNameType.ToString(),_interactable);
+        _playerMovement.DefaultMovement?.Invoke(true);
+        _playerAnimatorController.SetTrigger(_animationNameType.ToString(), _interactable);
+    }
+
+    public override void OnStateExit()
+    {
+        _playerMovement.DefaultMovement?.Invoke(false);
     }
 }

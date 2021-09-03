@@ -6,8 +6,8 @@ namespace States.PlayerStates
 {
     public class AnimationCondition : PlayerCondition
     {
-        private ButtonPressedCondition _buttonPressedConditions;
-        private Func<bool> _func;
+        private readonly ButtonPressedCondition _buttonPressedConditions;
+        private readonly Func<bool> _func;
 
         public AnimationCondition(Func<bool> func, ButtonPressedCondition buttonPressedCondition)
         {

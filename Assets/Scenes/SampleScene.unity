@@ -3113,6 +3113,9 @@ GameObject:
   - component: {fileID: 940758519}
   - component: {fileID: 940758522}
   - component: {fileID: 940758530}
+  - component: {fileID: 940758532}
+  - component: {fileID: 940758533}
+  - component: {fileID: 940758531}
   m_Layer: 10
   m_Name: Player (1)
   m_TagString: Untagged
@@ -3157,26 +3160,26 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 0
         value: 1
-        inSlope: 41.40613
-        outSlope: 41.40613
+        inSlope: 49.512974
+        outSlope: 49.512974
         tangentMode: 34
         weightedMode: 0
         inWeight: 0
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.16178066
-        value: 7.6987114
-        inSlope: 20.02551
-        outSlope: 20.02551
+        time: 0.13364345
+        value: 7.6170845
+        inSlope: 24.42704
+        outSlope: 24.42704
         tangentMode: 34
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.3672309
-        value: 7.4203033
-        inSlope: -1.3551118
-        outSlope: -1.3551118
+        time: 0.34895086
+        value: 7.4752197
+        inSlope: -0.65889406
+        outSlope: -0.65889406
         tangentMode: 34
         weightedMode: 0
         inWeight: 0.33333334
@@ -3281,28 +3284,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f683bd9d53510d34b90d836ffa1b3bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletConfigurations:
-  - {fileID: 11400000, guid: c1ae8ece069d03a408477a6e610b8f44, type: 2}
-  amountBullet: 5
-  bulletParentTransform: {fileID: 765435705}
-  weaponParentTransform: {fileID: 126725665}
-  spawnPoints:
-  - {fileID: 1325148154}
-  - {fileID: 1526190886}
-  - {fileID: 1669605316}
-  weaponConfigurations:
-  - {fileID: 11400000, guid: cac6e49db282836479dff5d02710d2a2, type: 2}
-  - {fileID: 11400000, guid: 7d78b5fbd8e2d924ba95a419fde0d89c, type: 2}
-  playerWeaponManager: {fileID: 940758530}
   playerHealth: 2
   keyBindings: {fileID: 11400000, guid: 8627bb69472522c41b8751bc6a1329ce, type: 2}
-  inventory: {fileID: 940758522}
-  playerMovementStateMachine: {fileID: 940758525}
   playerMovement: {fileID: 940758520}
   shield: {fileID: 2024961953}
   shieldMenu: {fileID: 940758521}
   inputHandler: {fileID: 940758526}
-  playerAnimatorController: {fileID: 311849240}
+  playerRespawnSystem: {fileID: 940758532}
 --- !u!114 &940758528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3318,6 +3306,8 @@ MonoBehaviour:
   _scriptableObjectInstallers: []
   _monoInstallers:
   - {fileID: 940758527}
+  - {fileID: 940758531}
+  - {fileID: 940758533}
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
@@ -3358,6 +3348,59 @@ MonoBehaviour:
     type: 3}
   secondStartWeapon: {fileID: 1748346366861352188, guid: be5bb5f9aecd33d47bab7cb9bb12f9bd,
     type: 3}
+--- !u!114 &940758531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 940758518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14d4d4debaa14465945b99b62cb01c8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerWeaponManager: {fileID: 940758530}
+  inventory: {fileID: 940758522}
+  playerRespawnSystem: {fileID: 940758532}
+  playerAnimatorController: {fileID: 311849240}
+--- !u!114 &940758532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 940758518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 477ea5ccaa7a41d8b7eaafe439cce8e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnPoints:
+  - {fileID: 1325148154}
+  - {fileID: 1526190886}
+  - {fileID: 1669605316}
+  timeToRespawn: 2
+--- !u!114 &940758533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 940758518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f58d3d849b4c0ea47b45d23cb27789b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletParentTransform: {fileID: 765435705}
+  bulletConfigurations:
+  - {fileID: 11400000, guid: c1ae8ece069d03a408477a6e610b8f44, type: 2}
+  amountBullet: 5
+  weaponParentTransform: {fileID: 126725665}
+  weaponConfigurations:
+  - {fileID: 11400000, guid: 7d78b5fbd8e2d924ba95a419fde0d89c, type: 2}
+  - {fileID: 11400000, guid: cac6e49db282836479dff5d02710d2a2, type: 2}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -4326,6 +4369,8 @@ MonoBehaviour:
   _scriptableObjectInstallers: []
   _monoInstallers:
   - {fileID: 940758527}
+  - {fileID: 940758533}
+  - {fileID: 940758531}
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:

@@ -9,4 +9,9 @@ public class DisableInteractable : StateMachineBehaviour
     {
         animator.applyRootMotion = false;
     }
+    
+    public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        animator.applyRootMotion = true;
+    }
 }
