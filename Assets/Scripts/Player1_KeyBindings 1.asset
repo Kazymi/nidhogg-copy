@@ -18,3 +18,7 @@ MonoBehaviour:
   downButton: 115
   fireButton: 103
   shieldButton: 32
+  dropWeaponButton: 122
+  equipButton: 120
+  swapWeaponButton: 99
+  clickThreshold: 0.25

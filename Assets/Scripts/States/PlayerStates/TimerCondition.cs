@@ -3,8 +3,7 @@
 public class TimerCondition : PlayerCondition
 {
     private float _startTime;
-    private InputAction _inputAction;
-    private float _timer;
+    private readonly float _timer;
 
     public TimerCondition(float timer)
     {

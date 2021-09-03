@@ -3,8 +3,8 @@ using UnityEngine;
 
     public class AfterFallCondition : PlayerCondition
     {
-        private Func<bool> _func;
-        private float _needTimeToFall;
+        private readonly Func<bool> _func;
+        private readonly float _needTimeToFall;
         private float _currentTimeFall;
 
         public AfterFallCondition(Func<bool> func, float needTimeToFall)

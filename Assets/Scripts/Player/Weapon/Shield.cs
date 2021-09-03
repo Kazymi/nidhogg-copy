@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using Zenject;
 
 public class Shield : MonoBehaviour, IDamageable,IShield
 {
     [SerializeField] private float shieldHealth;
     
-    private IInventory _inventory;
+    private IShieldSystem _inventory;
     private ShieldMenu _shieldMenu;
     private float _currentHealth;
     public float CurrentShieldValue => _currentHealth/shieldHealth;
@@ -18,7 +16,7 @@ public class Shield : MonoBehaviour, IDamageable,IShield
     }
 
     [Inject]
-    private void Construct(IInventory inventory, ShieldMenu shieldMenu)
+    private void Construct(IShieldSystem inventory, ShieldMenu shieldMenu)
     {
         _inventory = inventory;
         _shieldMenu = shieldMenu;

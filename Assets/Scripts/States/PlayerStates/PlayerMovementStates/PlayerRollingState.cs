@@ -1,14 +1,9 @@
-﻿using UnityEngine;
-
-public class PlayerRollingState : PlayerState
+﻿public class PlayerRollingState : PlayerState
 {
+    private readonly PlayerAnimatorController _playerAnimatorController;
 
-    private IPlayerMovement _playerMovement;
-    private PlayerAnimatorController _playerAnimatorController;
-
-    public PlayerRollingState(PlayerAnimatorController animatorController, IPlayerMovement playerMovement)
+    public PlayerRollingState(PlayerAnimatorController animatorController, IPlayerMovement playerMovement) : base(playerMovement)
     {
-        _playerMovement = playerMovement;
         _playerAnimatorController = animatorController;
     }
 
@@ -21,6 +16,7 @@ public class PlayerRollingState : PlayerState
     public override void Tick()
     {
         Move();
+        base.Tick();
     }
 
     private void Move()

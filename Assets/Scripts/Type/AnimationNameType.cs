@@ -3,10 +3,11 @@
     Rolling,
     Run,
     Jump,
-    Weapon,
     Crouch,
     Falling,
-    Shield,
     ShieldCrash,
     Death,
+    SwordFastAttack,
+    SwordAttack,
+    SwordRollingAttack
 }

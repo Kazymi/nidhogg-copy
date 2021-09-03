@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Factory
 {
-    private Pool _pool { get; set; }
+    private readonly Pool _pool;
 
     public Factory(GameObject spawnElement, int countElement, Transform parentPosition)
     {

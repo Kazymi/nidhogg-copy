@@ -1,5 +1,5 @@
 ﻿
-    public interface IInventory
+    public interface IShieldSystem
     {
         public void OpenShield();
         public void CloseShield();

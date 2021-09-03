@@ -1,7 +1,7 @@
 ﻿public class ButtonPressedCondition : PlayerCondition
 {
     private bool _isSatisfied;
-    private InputAction _inputAction;
+    private readonly InputAction _inputAction;
 
     public ButtonPressedCondition(InputAction inputAction)
     {

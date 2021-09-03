@@ -1,12 +1,10 @@
-﻿using UnityEngine;
-
-public class PlayerShieldState : PlayerState
+﻿public class PlayerShieldState : PlayerState
 {
-    private IPlayerMovement _playerMovement;
 
-    public PlayerShieldState(IPlayerMovement playerMovement)
+    private const float _speed = 0.7f;
+    public PlayerShieldState(IPlayerMovement playerMovement) : base(playerMovement)
     {
-        _playerMovement = playerMovement;
+        
     }
 
     public override void OnStateEnter()
@@ -22,10 +20,11 @@ public class PlayerShieldState : PlayerState
     public override void Tick()
     {
         Move();
+        base.Tick();
     }
     
     private void Move()
     {
-        _playerMovement.Move(0.9f);
+        _playerMovement.Move(_speed);
     }
 }

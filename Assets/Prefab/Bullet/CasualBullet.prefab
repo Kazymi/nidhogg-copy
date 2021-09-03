@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6520009736744418595}
   - component: {fileID: 4311858467435630471}
   - component: {fileID: 6263572643320157689}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: CasualBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 12, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &4311858467435630471
 Rigidbody:

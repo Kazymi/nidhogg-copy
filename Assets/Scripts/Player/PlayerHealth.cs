@@ -1,28 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class PlayerHealth : IPlayerHealth
 {
-    private float _currentHealth;
     public Action<DamageTarget> PlayerDeath { get; set; }
-    public Action PlayerTakeDamage { get; set; }
+    public Action PlayerUpdateHealth { get; set; }
     public float MaxHealth { get; }
-    public float CurrentHealth => _currentHealth;
+    public float CurrentHealth { get; private set; }
 
-    public PlayerHealth(float health)
+    public PlayerHealth(float health, PlayerRespawnSystem respawnSystem)
     {
-        _currentHealth = health;
+        respawnSystem.RespawnAction += Respawn;
+        CurrentHealth = health;
         MaxHealth = health;
     }
 
     public void TakeDamage(float damage, DamageTarget damageTarget)
     {
-        _currentHealth -= damage;
-        PlayerTakeDamage?.Invoke();
-        if (_currentHealth < 0)
+        CurrentHealth -= damage;
+        PlayerUpdateHealth?.Invoke();
+        if (CurrentHealth <= 0)
         {
             PlayerDeath?.Invoke(damageTarget);
         }
+    }
+
+    private void Respawn()
+    {
+        CurrentHealth = MaxHealth;
+        PlayerUpdateHealth?.Invoke();
     }
 }
