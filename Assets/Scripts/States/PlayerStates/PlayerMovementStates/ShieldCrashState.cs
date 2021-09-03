@@ -1,8 +1,8 @@
 ﻿public class ShieldCrashState : PlayerState
 {
-    private readonly PlayerAnimatorController _playerAnimatorController;
+    private readonly IPlayerAnimatorController _playerAnimatorController;
 
-    public ShieldCrashState(PlayerAnimatorController playerAnimatorController, IPlayerMovement playerMovement) : base(playerMovement)
+    public ShieldCrashState(IPlayerAnimatorController playerAnimatorController, IPlayerMovement playerMovement) : base(playerMovement)
     {
         _playerAnimatorController = playerAnimatorController;
     }

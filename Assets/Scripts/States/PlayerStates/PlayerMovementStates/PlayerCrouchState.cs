@@ -1,9 +1,9 @@
 ﻿
     public class PlayerCrouchState : PlayerState
     {
-        private readonly PlayerAnimatorController _playerAnimatorController;
+        private readonly IPlayerAnimatorController _playerAnimatorController;
         private const float _speed = 0.3f;
-        public PlayerCrouchState(IPlayerMovement playerMovement, PlayerAnimatorController playerAnimatorController) : base(playerMovement)
+        public PlayerCrouchState(IPlayerMovement playerMovement, IPlayerAnimatorController playerAnimatorController) : base(playerMovement)
         {
             _playerAnimatorController = playerAnimatorController;
         }

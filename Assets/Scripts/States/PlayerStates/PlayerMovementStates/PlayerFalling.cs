@@ -1,8 +1,8 @@
 ﻿public class PlayerFalling : PlayerState
 {
-    private readonly PlayerAnimatorController _playerAnimatorController;
+    private readonly IPlayerAnimatorController _playerAnimatorController;
     private const float _speed = 0.5f;
-    public PlayerFalling(IPlayerMovement playerMovement, PlayerAnimatorController playerAnimatorController) : base(playerMovement)
+    public PlayerFalling(IPlayerMovement playerMovement, IPlayerAnimatorController playerAnimatorController) : base(playerMovement)
     {
         _playerAnimatorController = playerAnimatorController;
     }
