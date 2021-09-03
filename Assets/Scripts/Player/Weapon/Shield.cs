@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using Zenject;
 
 public class Shield : MonoBehaviour, IDamageable,IShield

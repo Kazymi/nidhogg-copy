@@ -1,7 +1,4 @@
-﻿using System;
-using UnityEngine;
-using UnityEngine.Serialization;
-using Zenject;
+﻿using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour, IPolledObject
 {

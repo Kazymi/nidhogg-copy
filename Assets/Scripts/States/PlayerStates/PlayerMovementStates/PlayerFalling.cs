@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class PlayerFalling : PlayerState
+﻿public class PlayerFalling : PlayerState
 {
     private readonly PlayerAnimatorController _playerAnimatorController;
     private const float _speed = 0.5f;

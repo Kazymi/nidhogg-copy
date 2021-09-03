@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class PlayerRollingState : PlayerState
+﻿public class PlayerRollingState : PlayerState
 {
     private readonly PlayerAnimatorController _playerAnimatorController;
 

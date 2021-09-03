@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class ShieldCrashState : PlayerState
+﻿public class ShieldCrashState : PlayerState
 {
     private readonly PlayerAnimatorController _playerAnimatorController;
 

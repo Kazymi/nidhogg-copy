@@ -1,6 +1,3 @@
-using UnityEngine;
-using Zenject.SpaceFighter;
-
 public class PlayerMoveState : PlayerState
 {
 

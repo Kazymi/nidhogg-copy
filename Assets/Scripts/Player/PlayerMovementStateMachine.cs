@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using States.PlayerStates;
 using UnityEngine;
 using Zenject;

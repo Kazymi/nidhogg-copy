@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class PlayerShieldState : PlayerState
+﻿public class PlayerShieldState : PlayerState
 {
 
     private const float _speed = 0.7f;

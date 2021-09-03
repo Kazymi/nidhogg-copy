@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class FallingCondition : PlayerCondition
+﻿public class FallingCondition : PlayerCondition
 {
     private readonly IPlayerMovement _playerMovement;
     
