@@ -1,9 +1,8 @@
-﻿using UnityEngine;
-
-public class PlayerFalling : PlayerState
+﻿public class PlayerFalling : PlayerState
 {
-    private readonly IPlayerAnimatorController _playerAnimatorController;
-    public PlayerFalling(IPlayerMovement playerMovement, IPlayerAnimatorController playerAnimatorController) : base(playerMovement)
+    private readonly PlayerAnimatorController _playerAnimatorController;
+    private const float _speed = 0.5f;
+    public PlayerFalling(IPlayerMovement playerMovement, PlayerAnimatorController playerAnimatorController) : base(playerMovement)
     {
         _playerAnimatorController = playerAnimatorController;
     }
@@ -20,7 +19,7 @@ public class PlayerFalling : PlayerState
 
     public override void Tick()
     {
-       _playerMovement.Move(0.5f);
+       _playerMovement.Move(_speed);
        base.Tick();
     }
 }

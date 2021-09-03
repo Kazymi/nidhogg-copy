@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using States.PlayerStates;
 using UnityEngine;
 using Zenject;
@@ -128,5 +126,16 @@ public class PlayerMovementStateMachine : MonoBehaviour
         //sword rolling attack
         playerSwordRollingAttack.AddTransition(new PlayerTransition(playerMoveState, new TimerCondition(1.20f)));
         _stateMachine = new PlayerStateMachine(playerMoveState);
+
+        //sword state
+        playerSwordAttack.AddTransition(new PlayerTransition(playerSwordFastAttack, new AnimationCondition(
+            () => _playerWeaponManager.IsCurrentWeaponMelee,
+            new ButtonPressedCondition(_inputHandler.FastAttack)
+        )));
+        playerSwordAttack.AddTransition(new PlayerTransition(playerMoveState, new TimerCondition(1f)));
+        //sword fast attack
+        playerSwordFastAttack.AddTransition(new PlayerTransition(playerMoveState, new TimerCondition(1.20f)));
+        //sword rolling attack
+        playerSwordRollingAttack.AddTransition(new PlayerTransition(playerMoveState, new TimerCondition(1.20f)));
     }
 }

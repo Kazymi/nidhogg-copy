@@ -1,29 +1,24 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Zenject.SpaceFighter;
 
 public class PlayerHealth : IPlayerHealth
 {
-    private float _currentHealth;
     public Action<DamageTarget> PlayerDeath { get; set; }
     public Action PlayerUpdateHealth { get; set; }
     public float MaxHealth { get; }
-    public float CurrentHealth => _currentHealth;
+    public float CurrentHealth { get; private set; }
 
-    public PlayerHealth(float health, IPlayerRespawnSystem respawnSystem)
+    public PlayerHealth(float health, PlayerRespawnSystem respawnSystem)
     {
         respawnSystem.RespawnAction += Respawn;
-        _currentHealth = health;
+        CurrentHealth = health;
         MaxHealth = health;
     }
 
     public void TakeDamage(float damage, DamageTarget damageTarget)
     {
-        _currentHealth -= damage;
+        CurrentHealth -= damage;
         PlayerUpdateHealth?.Invoke();
-        if (_currentHealth <= 0)
+        if (CurrentHealth <= 0)
         {
             PlayerDeath?.Invoke(damageTarget);
         }
@@ -31,7 +26,7 @@ public class PlayerHealth : IPlayerHealth
 
     private void Respawn()
     {
-        _currentHealth = MaxHealth;
+        CurrentHealth = MaxHealth;
         PlayerUpdateHealth?.Invoke();
     }
 }

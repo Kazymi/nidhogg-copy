@@ -1,14 +1,18 @@
 ﻿using System.Collections.Generic;
 
-public abstract class PlayerState
+public abstract class State
 {
     protected IPlayerMovement _playerMovement;
     public List<PlayerTransition> Transitions { get; } = new List<PlayerTransition>();
+<<<<<<< HEAD:Assets/Scripts/StateMachine/PlayerState.cs
 
     public PlayerState(IPlayerMovement playerMovement)
     {
         _playerMovement = playerMovement;
     }
+=======
+    
+>>>>>>> develop:Assets/Scripts/StateMachine/State.cs
     public virtual void Tick()
     {
         _playerMovement.MoveUpdate();

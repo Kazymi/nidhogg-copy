@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-
-public class PlayerShieldState : PlayerState
+﻿public class PlayerShieldState : PlayerState
 {
+
+    private const float _speed = 0.7f;
     public PlayerShieldState(IPlayerMovement playerMovement) : base(playerMovement)
     {
         
@@ -25,6 +25,6 @@ public class PlayerShieldState : PlayerState
     
     private void Move()
     {
-        _playerMovement.Move(0.7f);
+        _playerMovement.Move(_speed);
     }
 }

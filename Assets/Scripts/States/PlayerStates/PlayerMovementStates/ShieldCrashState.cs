@@ -1,10 +1,8 @@
-﻿using UnityEngine;
-
-public class ShieldCrashState : PlayerState
+﻿public class ShieldCrashState : PlayerState
 {
-    private readonly IPlayerAnimatorController _playerAnimatorController;
+    private readonly PlayerAnimatorController _playerAnimatorController;
 
-    public ShieldCrashState(IPlayerAnimatorController playerAnimatorController, IPlayerMovement playerMovement) : base(playerMovement)
+    public ShieldCrashState(PlayerAnimatorController playerAnimatorController, IPlayerMovement playerMovement) : base(playerMovement)
     {
         _playerAnimatorController = playerAnimatorController;
     }
