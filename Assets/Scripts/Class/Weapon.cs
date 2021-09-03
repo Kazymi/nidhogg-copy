@@ -13,10 +13,10 @@ public abstract class Weapon : MonoBehaviour, IPolledObject
     protected Transform _playerPivot;
     protected IInputHandler _inputHandler;
     protected BulletManager _bulletManager;
-    protected int _currentAmounteUse;
+    protected int _currentAmountUse;
     protected bool _isActivated;
     
-    public int CountUse => _currentAmounteUse;
+    public int CountUse => _currentAmountUse;
     public WeaponClassName WeaponName => nameWeapon;
 
     public bool IsActivated
@@ -27,7 +27,7 @@ public abstract class Weapon : MonoBehaviour, IPolledObject
 
     private void Start()
     {
-        _currentAmounteUse = amountUse;
+        _currentAmountUse = amountUse;
     }
 
     public void ActivateWeapon(Transform playerPivot)
@@ -46,12 +46,12 @@ public abstract class Weapon : MonoBehaviour, IPolledObject
 
     public void Initialize(int amountUse)
     {
-        _currentAmounteUse = amountUse;
+        _currentAmountUse = amountUse;
     }
 
     public void Destroy()
     {
-        _currentAmounteUse = amountUse;
+        _currentAmountUse = amountUse;
         ParentFactory.Destroy(gameObject);
     }
 }

@@ -2,7 +2,7 @@
     public class PlayerCrouchState : PlayerState
     {
         private readonly PlayerAnimatorController _playerAnimatorController;
-        
+        private const float _speed = 0.3f;
         public PlayerCrouchState(IPlayerMovement playerMovement, PlayerAnimatorController playerAnimatorController) : base(playerMovement)
         {
             _playerAnimatorController = playerAnimatorController;
@@ -21,7 +21,7 @@
 
         public override void Tick()
         {
-            _playerMovement.Move(0.3f);
+            _playerMovement.Move(_speed);
             base.Tick();
         }
     }

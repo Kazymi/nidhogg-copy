@@ -47,14 +47,14 @@ public class RangeWeapon : Weapon
 
     private void StartFire()
     {
-        if (_currentAmounteUse <= 0 || _isActivated == false)
+        if (_currentAmountUse <= 0 || _isActivated == false)
         {
             return;
         }
         if (_currentTimer < 0)
         {
             _currentTimer = fireRate;
-            _currentAmounteUse--;
+            _currentAmountUse--;
             Fire();
         }
     }

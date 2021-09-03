@@ -6,6 +6,7 @@ public class PlayerMoveState : PlayerState
 
     private readonly PlayerAnimatorController _playerAnimatorController;
     private readonly IInputHandler _inputHandler;
+    private const float _speed = 1f;
     public PlayerMoveState(IInputHandler inputHandler, PlayerAnimatorController playerAnimatorController, IPlayerMovement playerMovement) : base(playerMovement)
     {
         _playerAnimatorController = playerAnimatorController;
@@ -33,7 +34,7 @@ public class PlayerMoveState : PlayerState
 
     private void Move()
     {
-        _playerMovement.Move(1f);
+        _playerMovement.Move(_speed);
         _playerAnimatorController.UpdateAnimation();
     }
 }
