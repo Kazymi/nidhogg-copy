@@ -9,16 +9,19 @@ public class HealthTarget : MonoBehaviour, IDamageable
 {
     [SerializeField] private DamageTarget damageTarget;
     
+    private PlayerType _playerType;
     private IPlayerHealth _playerHealth;
     private Collider _collider;
-    
+
+    public PlayerType PlayerType => _playerType;
+
     [Inject]
-    private void Construct(IPlayerHealth playerHealth,IPlayerRespawnSystem respawnSystem)
+    private void Construct(IPlayerHealth playerHealth, IPlayerRespawnSystem respawnSystem, PlayerType playerType)
     {
         _playerHealth = playerHealth;
-
-        playerHealth.PlayerDeath += target => _collider.enabled= false;
-        respawnSystem.RespawnAction += () => _collider.enabled= true;
+        _playerType = playerType;
+        playerHealth.PlayerDeath += target => _collider.enabled = false;
+        respawnSystem.RespawnAction += () => _collider.enabled = true;
     }
 
     private void Awake()
@@ -28,6 +31,6 @@ public class HealthTarget : MonoBehaviour, IDamageable
 
     public void TakeDamage(float damage)
     {
-        _playerHealth.TakeDamage(damage,damageTarget);
+        _playerHealth.TakeDamage(damage, damageTarget);
     }
 }

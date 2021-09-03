@@ -21,13 +21,16 @@ public class PlayerWeaponSystem : MonoBehaviour,IPlayerWeaponSystem
     private IInputHandler _inputHandler;
     private IPlayerAnimatorController _playerAnimatorController;
     private BulletManager _bulletManager;
-
+    private PlayerType _playerType;
+    
+    public Weapon CurrentWeapon => _currentWeapon;
     public bool IsCurrentWeaponMelee { get; private set; }
     
     [Inject]
     private void Construct(WeaponManager weaponManager, IPlayerAnimatorController playerAnimatorController,
-        IInputHandler inputHandler, BulletManager bulletManager,IPlayerMovement playerMovement)
+        IInputHandler inputHandler, BulletManager bulletManager,IPlayerMovement playerMovement, PlayerType playerType)
     {
+        _playerType = playerType;
         _inputHandler = inputHandler;
         _playerAnimatorController = playerAnimatorController;
         _bulletManager = bulletManager;
@@ -68,7 +71,7 @@ public class PlayerWeaponSystem : MonoBehaviour,IPlayerWeaponSystem
     private Weapon SetNewWeapon(WeaponClassName newWeapon)
     {
         var weapon = _weaponManager.GetWeaponByWeaponName(newWeapon).GetComponent<Weapon>();
-        weapon.Initialize(_inputHandler, _bulletManager, _playerAnimatorController);
+        weapon.Initialize(_inputHandler, _bulletManager, _playerAnimatorController, _playerType);
         if (_currentWeapon == null)
         {
             _currentWeapon = weapon;
@@ -133,6 +136,7 @@ public class PlayerWeaponSystem : MonoBehaviour,IPlayerWeaponSystem
 
     private void SetCurrentWeapon(Weapon weapon)
     {
+        weapon.gameObject.SetActive(true);
         IsCurrentWeaponMelee = weapon.WeaponName == WeaponClassName.Melee;
         _currentWeapon = weapon;
         weapon.ActivateWeapon(bodyTransform);

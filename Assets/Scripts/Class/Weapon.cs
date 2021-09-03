@@ -8,8 +8,10 @@ public abstract class Weapon : MonoBehaviour, IPolledObject
     [SerializeField] private WeaponClassName nameWeapon;
     [SerializeField] private int amountUse;
     
+    
     private IPlayerAnimatorController _playerAnimatorController;
 
+    protected PlayerType _playerType;
     protected Transform _playerPivot;
     protected IInputHandler _inputHandler;
     protected BulletManager _bulletManager;
@@ -37,8 +39,9 @@ public abstract class Weapon : MonoBehaviour, IPolledObject
     }
 
     public virtual void Initialize(IInputHandler inputHandler, BulletManager bulletManager,
-        IPlayerAnimatorController animatorController)
+        IPlayerAnimatorController animatorController, PlayerType playerType)
     {
+        _playerType = playerType;
         _playerAnimatorController = animatorController;
         _inputHandler = inputHandler;
         _bulletManager = bulletManager;

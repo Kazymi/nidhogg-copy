@@ -4,6 +4,7 @@ using Zenject;
 
 public class PlayerInstaller : MonoInstaller
 {
+    [SerializeField] private PlayerType playerType;
     [SerializeField] private float playerHealth;
     [SerializeField] private KeyBindings keyBindings;
     [SerializeField] private PlayerMovement playerMovement;
@@ -15,7 +16,8 @@ public class PlayerInstaller : MonoInstaller
     public override void InstallBindings()
     {
         var playerHealth = new PlayerHealth(this.playerHealth,playerRespawnSystem);
-        
+
+        Container.Bind<PlayerType>().FromInstance(playerType).AsSingle();
         Container.Bind<IPlayerMovement>().FromInstance(playerMovement).AsSingle();
         Container.Bind<IKeyBindings>().FromInstance(keyBindings).AsSingle();
         Container.Bind<IShield>().FromInstance(shield).AsSingle();

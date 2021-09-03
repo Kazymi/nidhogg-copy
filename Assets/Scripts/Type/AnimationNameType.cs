@@ -9,5 +9,6 @@
     Death,
     SwordFastAttack,
     SwordAttack,
-    SwordRollingAttack
+    SwordRollingAttack,
+    Up
 }

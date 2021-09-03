@@ -56,6 +56,7 @@ public class PlayerAnimatorController : MonoBehaviour, IPlayerAnimatorController
     private void Respawn()
     {
         _isDead = false;
+    SetTrigger(AnimationNameType.Up.ToString(),true);
     }
 
     private void UpdateAnimationState()

@@ -39,9 +39,9 @@ public class RangeWeapon : Weapon
         }
     }
 
-    public override void Initialize(IInputHandler inputHandler, BulletManager bulletManager, IPlayerAnimatorController animatorController)
+    public override void Initialize(IInputHandler inputHandler, BulletManager bulletManager, IPlayerAnimatorController animatorController, PlayerType playerType)
     {
-        base.Initialize(inputHandler, bulletManager, animatorController);
+        base.Initialize(inputHandler, bulletManager, animatorController,playerType);
         _inputHandler.Fire.Action += StartFire;
     }
 
