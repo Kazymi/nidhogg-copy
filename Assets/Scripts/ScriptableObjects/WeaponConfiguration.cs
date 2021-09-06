@@ -8,7 +8,9 @@ public class WeaponConfiguration : ScriptableObject
     [SerializeField] private WeaponClassName weaponName;
     [SerializeField] private Weapon mainWeapon;
     [SerializeField] private DroppedWeapon droppedWeapon;
+    [SerializeField] private int amountUse;
 
+    public int AmountUse => amountUse;
     public WeaponClassName WeaponName => weaponName;
     public Weapon MainWeapon => mainWeapon;
     public DroppedWeapon DroppedWeapon => droppedWeapon;

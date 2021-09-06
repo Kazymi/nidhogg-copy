@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Zenject;
 
-public class PlayerWeaponSystem : MonoBehaviour,IPlayerWeaponSystem
+public class PlayerWeaponSystem : MonoBehaviour, IPlayerWeaponSystem
 {
     [SerializeField] private Transform rightRangeHandTransform;
     [SerializeField] private Transform rightMeleeHandTransform;
@@ -22,13 +22,14 @@ public class PlayerWeaponSystem : MonoBehaviour,IPlayerWeaponSystem
     private IPlayerAnimatorController _playerAnimatorController;
     private BulletManager _bulletManager;
     private PlayerType _playerType;
-    
+
     public Weapon CurrentWeapon => _currentWeapon;
     public bool IsCurrentWeaponMelee { get; private set; }
-    
+
     [Inject]
     private void Construct(WeaponManager weaponManager, IPlayerAnimatorController playerAnimatorController,
-        IInputHandler inputHandler, BulletManager bulletManager,IPlayerMovement playerMovement, PlayerType playerType)
+        IInputHandler inputHandler, BulletManager bulletManager, IPlayerMovement playerMovement, PlayerType playerType,
+        IPlayerHealth playerHealth, IPlayerRespawnSystem playerRespawnSystem)
     {
         _playerType = playerType;
         _inputHandler = inputHandler;
@@ -36,6 +37,8 @@ public class PlayerWeaponSystem : MonoBehaviour,IPlayerWeaponSystem
         _bulletManager = bulletManager;
         _weaponManager = weaponManager;
 
+        playerRespawnSystem.RespawnAction += () => _playerAnimatorController.SetTrigger(AnimationNameType.Hand.ToString(), false);
+        playerHealth.PlayerDeath += target => DropAllWeapon();
         playerMovement.DefaultMovement += SetActiveWeapon;
         inputHandler.EquipAction.Action += TakeWeapon;
         inputHandler.DropWeaponAction.Action += DropCurrentWeapon;
@@ -75,6 +78,7 @@ public class PlayerWeaponSystem : MonoBehaviour,IPlayerWeaponSystem
         if (_currentWeapon == null)
         {
             _currentWeapon = weapon;
+            SetCurrentWeapon(weapon);
         }
         else
         {
@@ -87,11 +91,9 @@ public class PlayerWeaponSystem : MonoBehaviour,IPlayerWeaponSystem
             else
             {
                 DropCurrentWeapon();
-                _currentWeapon = weapon;
+                SetCurrentWeapon(weapon);
             }
         }
-
-        SetCurrentWeapon(weapon);
         return weapon;
     }
 
@@ -106,7 +108,7 @@ public class PlayerWeaponSystem : MonoBehaviour,IPlayerWeaponSystem
         {
             SetBackWeapon(_currentWeapon);
             _currentWeapon = null;
-            _playerAnimatorController.SetTrigger(WeaponClassName.Hand.ToString(), false);
+            _playerAnimatorController.SetTrigger(AnimationNameType.Hand.ToString(), false);
         }
         else
         {
@@ -142,6 +144,7 @@ public class PlayerWeaponSystem : MonoBehaviour,IPlayerWeaponSystem
         weapon.ActivateWeapon(bodyTransform);
         weapon.IsActivated = true;
         var weaponObject = weapon.gameObject;
+        
         var positionWeapon = rightRangeHandTransform;
         if (weapon.WeaponName == WeaponClassName.Melee)
         {
@@ -151,6 +154,7 @@ public class PlayerWeaponSystem : MonoBehaviour,IPlayerWeaponSystem
         weaponObject.transform.parent = positionWeapon;
         weaponObject.transform.localPosition = Vector3.zero;
         weaponObject.transform.localRotation = Quaternion.identity;
+        _playerAnimatorController.SetTrigger(_currentWeapon.WeaponName.ToString(),false);
     }
 
     private void DropCurrentWeapon()
@@ -160,15 +164,34 @@ public class PlayerWeaponSystem : MonoBehaviour,IPlayerWeaponSystem
             return;
         }
 
-        var newDroppedWeapon = _weaponManager.GetDroppedWeaponByWeaponName(_currentWeapon.WeaponName);
-        newDroppedWeapon.transform.position = rightRangeHandTransform.position;
-        newDroppedWeapon.transform.rotation = rightRangeHandTransform.rotation;
-        newDroppedWeapon.transform.parent = null;
-        newDroppedWeapon.GetComponent<DroppedWeapon>().Initialize(_currentWeapon.CountUse, _currentWeapon.WeaponName);
+        CreateDroppedWeapon(_currentWeapon.WeaponName, rightRangeHandTransform)
+            .Initialize(_currentWeapon.CurrentCountUse, _currentWeapon.WeaponName);
         _currentWeapon.Destroy();
         _currentWeapon = null;
-        _playerAnimatorController.SetTrigger(WeaponClassName.Hand.ToString(), false);
+        StartCoroutine(CheckCurrentWeapon());
     }
+
+    private void DropAllWeapon()
+    {
+        if (_weaponOnTheBack != null)
+        {
+            CreateDroppedWeapon(_weaponOnTheBack.WeaponName, spinePosition)
+                .Initialize(_weaponOnTheBack.CurrentCountUse, _weaponOnTheBack.WeaponName);
+            _weaponOnTheBack.Destroy();
+            _weaponOnTheBack = null;
+        }
+        DropCurrentWeapon();
+    }
+
+    private DroppedWeapon CreateDroppedWeapon(WeaponClassName weaponClassName, Transform dropTransform)
+    {
+        var newDroppedWeapon = _weaponManager.GetDroppedWeaponByWeaponName(weaponClassName);
+        newDroppedWeapon.transform.position = dropTransform.position;
+        newDroppedWeapon.transform.rotation = dropTransform.rotation;
+        newDroppedWeapon.transform.parent = null;
+        return newDroppedWeapon.GetComponent<DroppedWeapon>();
+    }
+
 
     private void TakeWeapon()
     {
@@ -182,6 +205,15 @@ public class PlayerWeaponSystem : MonoBehaviour,IPlayerWeaponSystem
                 dropWeapon.Destroy();
                 return;
             }
+        }
+    }
+
+    private IEnumerator CheckCurrentWeapon()
+    {
+        yield return null;
+        if (_currentWeapon == null)
+        {
+            _playerAnimatorController.SetTrigger(AnimationNameType.Hand.ToString(), false);
         }
     }
 }

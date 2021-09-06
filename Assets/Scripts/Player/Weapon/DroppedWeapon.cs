@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class DroppedWeapon : MonoBehaviour,IPolledObject
+public class DroppedWeapon : MonoBehaviour, IPolledObject
 {
     public Factory ParentFactory { get; set; }
-    
+
     private Rigidbody _rigidbody;
     private int _amountUse;
     private WeaponClassName _weaponClassName;
@@ -12,6 +13,8 @@ public class DroppedWeapon : MonoBehaviour,IPolledObject
     public int AmountUse => _amountUse;
     public WeaponClassName WeaponClassName => _weaponClassName;
     
+    public event Action<DroppedWeapon> OnDestroy;
+
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
@@ -19,6 +22,7 @@ public class DroppedWeapon : MonoBehaviour,IPolledObject
 
     public void Destroy()
     {
+        OnDestroy?.Invoke(this);
         ParentFactory.Destroy(gameObject);
     }
 
@@ -26,7 +30,7 @@ public class DroppedWeapon : MonoBehaviour,IPolledObject
     {
         _amountUse = amountUse;
         _weaponClassName = weaponClassName;
-        _rigidbody.AddForce(transform.forward * 6,ForceMode.Impulse);
+        _rigidbody.AddForce(transform.forward * 6, ForceMode.Impulse);
         if (amountUse <= 0)
         {
             ParentFactory.Destroy(gameObject);

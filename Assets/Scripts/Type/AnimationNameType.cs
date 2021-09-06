@@ -10,5 +10,6 @@
     SwordFastAttack,
     SwordAttack,
     SwordRollingAttack,
-    Up
+    Up,
+    Hand
 }
