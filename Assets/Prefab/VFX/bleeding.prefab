@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 3514819708256597977}
   - component: {fileID: 3514819708256597978}
   - component: {fileID: 3514819708256597979}
+  - component: {fileID: 5614214054230130984}
   m_Layer: 8
-  m_Name: Sword
+  m_Name: bleeding
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 3514819708256597980}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.071, y: 2.1114097, z: 0.259}
-  m_LocalScale: {x: 0.41, y: 0.47, z: 0.21}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.2}
   m_Children:
   - {fileID: 3514819709999920818}
   - {fileID: 3514819708620143491}
@@ -42,13 +43,13 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3514819708256597980}
   serializedVersion: 7
-  lengthInSec: 12
+  lengthInSec: 3
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
-  looping: 0
+  looping: 1
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -661,8 +662,8 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 6
     enabled: 1
-    type: 4
-    angle: 25
+    type: 0
+    angle: 8.83
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
@@ -977,7 +978,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 2
+        scalar: 1
         minScalar: 30
         maxCurve:
           serializedVersion: 2
@@ -1027,7 +1028,7 @@ ParticleSystem:
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
-      cycleCount: 25
+      cycleCount: 6
       repeatInterval: 0.01
       probability: 1
   SizeModule:
@@ -4864,6 +4865,19 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &5614214054230130984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3514819708256597980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1581f2277c8c944f96ce774043b282d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeDestroy: 2
 --- !u!1 &3514819708620143494
 GameObject:
   m_ObjectHideFlags: 0
@@ -4891,7 +4905,7 @@ Transform:
   m_GameObject: {fileID: 3514819708620143494}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children: []
   m_Father: {fileID: 3514819708256597977}
   m_RootOrder: 1
@@ -9753,7 +9767,7 @@ Transform:
   m_GameObject: {fileID: 3514819709999920819}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children: []
   m_Father: {fileID: 3514819708256597977}
   m_RootOrder: 0

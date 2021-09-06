@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class BulletManager
 {
-    
     private Dictionary<BulletConfiguration, Factory> _factories = new Dictionary<BulletConfiguration, Factory>();
 
     public BulletManager(List<BulletConfiguration> bulletConfigurations, Transform parent,int amountBullet)

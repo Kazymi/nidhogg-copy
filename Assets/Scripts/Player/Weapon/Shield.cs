@@ -28,19 +28,14 @@ public class Shield : MonoBehaviour, IDamageable,IShield
         _shieldMenu = shieldMenu;
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(DamageConfiguration damageConfiguration)
     {
-        _currentHealth -= damage;
+        _currentHealth -= damageConfiguration.Damage;
         if (_currentHealth <= 0)
         {
             Dead();
         }
         _shieldMenu.UpdateSlider();
-    }
-
-    public void TakeDamage(float damage, VFXConfiguration vfxConfiguration)
-    {
-        return;
     }
 
     private void Dead()

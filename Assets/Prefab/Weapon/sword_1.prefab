@@ -98,6 +98,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameWeapon: 1
   vfxConfiguration: {fileID: 11400000, guid: 5573f257a4bb2cc4fa021e4d5d08df36, type: 2}
+  tail: {fileID: 0}
 --- !u!65 &4559201149548667443
 BoxCollider:
   m_ObjectHideFlags: 0

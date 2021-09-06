@@ -24,7 +24,7 @@ public class CasualBullet : MonoBehaviour, IPolledObject, IBullet
         var damageable = other.GetComponent<IDamageable>();
         if (damageable != null)
         {
-            damageable.TakeDamage(_damage,_vfxConfiguration);
+            damageable.TakeDamage(new DamageConfiguration(_vfxConfiguration,_damage,false));
         }
 
         Destroy();

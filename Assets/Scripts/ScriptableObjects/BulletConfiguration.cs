@@ -10,12 +10,8 @@ public class BulletConfiguration : ScriptableObject
     [SerializeField] private VFXConfiguration vfxEffect;
 
     public GameObject AmmoGameObject => ammoGameObject;
-
     public float Damage => damage;
-
     public float LifeTime => lifeTime;
-
     public float FlySpeed => flySpeed;
-
     public VFXConfiguration VFXEffect => vfxEffect;
 }

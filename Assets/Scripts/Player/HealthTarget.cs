@@ -8,12 +8,13 @@ using Zenject;
 public class HealthTarget : MonoBehaviour, IDamageable
 {
     [SerializeField] private DamageTarget damageTarget;
+    [SerializeField] private VFXConfiguration bleedingConfiguration;
 
     private PlayerType _playerType;
     private IPlayerHealth _playerHealth;
     private VFXManager _vfxManager;
     private bool _isPlayerDead;
-
+    private Bleeding _bleeding;
     public PlayerType PlayerType => _playerType;
 
     [Inject]
@@ -24,30 +25,41 @@ public class HealthTarget : MonoBehaviour, IDamageable
         _playerHealth = playerHealth;
         _playerType = playerType;
         _playerHealth.PlayerDeath += target => _isPlayerDead = true;
-        respawnSystem.RespawnAction += () => _isPlayerDead = false;
+        respawnSystem.RespawnAction += () =>
+        {
+            _bleeding = new Bleeding(this, bleedingConfiguration, _vfxManager, transform);
+            _isPlayerDead = false;
+        };
+    }
+    
+    private void Start()
+    {
+        _bleeding = new Bleeding(this, bleedingConfiguration, _vfxManager, transform);
     }
 
-    public void TakeDamage(float damage)
+    private void Update()
+    {
+        _bleeding.Tick();
+    }
+
+    public void TakeDamage(DamageConfiguration damageConfiguration)
     {
         if (_isPlayerDead)
         {
             return;
         }
 
-        _playerHealth.TakeDamage(damage, damageTarget);
-    }
-
-    public void TakeDamage(float damage, VFXConfiguration vfxConfiguration)
-    {
-        var newVFX = _vfxManager.GetVFXByVFXConfiguration(vfxConfiguration);
-        newVFX.transform.parent = null;
-        newVFX.transform.position = transform.position;
-
-        if (_isPlayerDead)
+        if (damageConfiguration.VFXConfiguration != null)
         {
-            return;
+            var newVFX = _vfxManager.GetVFXByVFXConfiguration(damageConfiguration.VFXConfiguration);
+            newVFX.transform.parent = null;
+            newVFX.transform.position = transform.position;
         }
 
-        _playerHealth.TakeDamage(damage, damageTarget);
+        if (damageConfiguration.Bleeding)
+        {
+            _bleeding.AddBleeding();
+        }
+        _playerHealth.TakeDamage(damageConfiguration.Damage, damageTarget);
     }
 }

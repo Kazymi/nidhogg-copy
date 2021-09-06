@@ -148,6 +148,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageTarget: 0
+  bleedingConfiguration: {fileID: 11400000, guid: efe17211751147a41bb631e32896cffb,
+    type: 2}
 --- !u!65 &55992401
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -243,6 +245,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageTarget: 1
+  bleedingConfiguration: {fileID: 11400000, guid: efe17211751147a41bb631e32896cffb,
+    type: 2}
 --- !u!65 &150232064
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -948,6 +952,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageTarget: 1
+  bleedingConfiguration: {fileID: 11400000, guid: efe17211751147a41bb631e32896cffb,
+    type: 2}
 --- !u!65 &311849221
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -974,6 +980,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageTarget: 1
+  bleedingConfiguration: {fileID: 11400000, guid: efe17211751147a41bb631e32896cffb,
+    type: 2}
 --- !u!65 &311849223
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1000,6 +1008,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageTarget: 3
+  bleedingConfiguration: {fileID: 0}
 --- !u!65 &311849225
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1026,6 +1035,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageTarget: 1
+  bleedingConfiguration: {fileID: 11400000, guid: efe17211751147a41bb631e32896cffb,
+    type: 2}
 --- !u!65 &311849227
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1052,6 +1063,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageTarget: 1
+  bleedingConfiguration: {fileID: 11400000, guid: efe17211751147a41bb631e32896cffb,
+    type: 2}
 --- !u!65 &311849229
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1078,6 +1091,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageTarget: 0
+  bleedingConfiguration: {fileID: 11400000, guid: efe17211751147a41bb631e32896cffb,
+    type: 2}
 --- !u!65 &311849231
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1104,6 +1119,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageTarget: 2
+  bleedingConfiguration: {fileID: 11400000, guid: efe17211751147a41bb631e32896cffb,
+    type: 2}
 --- !u!65 &311849233
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1130,6 +1147,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageTarget: 2
+  bleedingConfiguration: {fileID: 11400000, guid: efe17211751147a41bb631e32896cffb,
+    type: 2}
 --- !u!65 &311849235
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1156,6 +1175,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageTarget: 2
+  bleedingConfiguration: {fileID: 11400000, guid: efe17211751147a41bb631e32896cffb,
+    type: 2}
 --- !u!65 &311849237
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1182,6 +1203,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageTarget: 2
+  bleedingConfiguration: {fileID: 11400000, guid: efe17211751147a41bb631e32896cffb,
+    type: 2}
 --- !u!65 &311849239
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1522,6 +1545,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageTarget: 1
+  bleedingConfiguration: {fileID: 11400000, guid: efe17211751147a41bb631e32896cffb,
+    type: 2}
 --- !u!65 &379344302
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1554,6 +1579,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageTarget: 2
+  bleedingConfiguration: {fileID: 11400000, guid: efe17211751147a41bb631e32896cffb,
+    type: 2}
 --- !u!65 &389029199
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2685,6 +2712,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageTarget: 1
+  bleedingConfiguration: {fileID: 11400000, guid: efe17211751147a41bb631e32896cffb,
+    type: 2}
 --- !u!65 &607240788
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3205,6 +3234,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageTarget: 2
+  bleedingConfiguration: {fileID: 11400000, guid: efe17211751147a41bb631e32896cffb,
+    type: 2}
 --- !u!65 &886348641
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3542,7 +3573,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 940758518}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -7.26, y: 1.03, z: 0}
+  m_LocalPosition: {x: -7.26, y: 1.24, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 311849206}
@@ -3567,7 +3598,8 @@ MonoBehaviour:
   spinePosition: {fileID: 256833335}
   bodyTransform: {fileID: 311849206}
   takeWeaponRadius: 2
-  startWeapon: {fileID: 0}
+  startWeapon: {fileID: 1748346366861352188, guid: be5bb5f9aecd33d47bab7cb9bb12f9bd,
+    type: 3}
   secondStartWeapon: {fileID: 0}
 --- !u!114 &940758531
 MonoBehaviour:
@@ -5451,6 +5483,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageTarget: 2
+  bleedingConfiguration: {fileID: 11400000, guid: efe17211751147a41bb631e32896cffb,
+    type: 2}
 --- !u!65 &1278604206
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5986,6 +6020,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageTarget: 3
+  bleedingConfiguration: {fileID: 11400000, guid: efe17211751147a41bb631e32896cffb,
+    type: 2}
 --- !u!65 &1534017836
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6379,6 +6415,7 @@ MonoBehaviour:
   vfxConfigurations:
   - {fileID: 11400000, guid: eb2d43afd038b354bad7bc230edf97ca, type: 2}
   - {fileID: 11400000, guid: 5573f257a4bb2cc4fa021e4d5d08df36, type: 2}
+  - {fileID: 11400000, guid: efe17211751147a41bb631e32896cffb, type: 2}
   amountVfx: 4
 --- !u!1 &1698914331
 GameObject:
@@ -6709,6 +6746,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageTarget: 2
+  bleedingConfiguration: {fileID: 11400000, guid: efe17211751147a41bb631e32896cffb,
+    type: 2}
 --- !u!65 &1798661815
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6741,6 +6780,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageTarget: 1
+  bleedingConfiguration: {fileID: 11400000, guid: efe17211751147a41bb631e32896cffb,
+    type: 2}
 --- !u!65 &1811348866
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7156,7 +7197,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1952119221}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.09, y: 1.09, z: 0}
+  m_LocalPosition: {x: 9.49, y: 1.27, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1033434454}

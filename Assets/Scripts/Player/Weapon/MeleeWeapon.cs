@@ -14,7 +14,7 @@ public class MeleeWeapon : Weapon
     {
         set => _isActivatedDamageDealer = value;
     }
-    
+
     private void OnTriggerEnter(Collider other)
     {
         if (_isActivatedDamageDealer == false)
@@ -27,7 +27,7 @@ public class MeleeWeapon : Weapon
         {
             if (ht.PlayerType != _playerType)
             {
-                ht.TakeDamage(100f,vfxConfiguration);
+                ht.TakeDamage(new DamageConfiguration(vfxConfiguration,0,true));
             }
         }
     }

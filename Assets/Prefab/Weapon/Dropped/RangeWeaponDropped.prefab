@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2107302371351237736}
   - component: {fileID: 3100386194313655508}
   - component: {fileID: 3970157524095432801}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RangeWeaponDropped
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -149,7 +149,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4721048611542387274}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
