@@ -12,5 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40a364e440b3d2f47b81594495612ac8, type: 3}
   m_Name: CasualBullet
   m_EditorClassIdentifier: 
-  ammoGameObject: {fileID: 2476098873380452862, guid: 588a0d3c61aaaf9448de60fe800309e6, type: 3}
+  ammoGameObject: {fileID: 2476098873380452862, guid: 588a0d3c61aaaf9448de60fe800309e6,
+    type: 3}
   damage: 15
+  lifeTime: 7
+  flySpeed: 12
+  vfxEffect: {fileID: 11400000, guid: eb2d43afd038b354bad7bc230edf97ca, type: 2}

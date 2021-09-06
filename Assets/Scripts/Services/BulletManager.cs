@@ -16,7 +16,13 @@ public class BulletManager
 
     public GameObject GetBulletByBulletConfiguration(BulletConfiguration bulletConfiguration)
     {
-        Debug.Log(_factories.Count);
-        return _factories[bulletConfiguration].Create();
+       var newBullet= _factories[bulletConfiguration].Create();
+       var iBullet = newBullet.GetComponent<IBullet>();
+       if (iBullet != null)
+       {
+           iBullet.Initialize(bulletConfiguration);
+       }
+
+       return newBullet;
     }
 }

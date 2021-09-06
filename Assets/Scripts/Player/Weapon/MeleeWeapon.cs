@@ -7,9 +7,9 @@ using Zenject;
 [RequireComponent(typeof(Collider), typeof(Rigidbody))]
 public class MeleeWeapon : Weapon
 {
-    [SerializeField] private bool _isActivatedDamageDealer;
-    
+    [SerializeField] private VFXConfiguration vfxConfiguration;
 
+    private bool _isActivatedDamageDealer;
     public bool IsActivatedDamageDealer
     {
         set => _isActivatedDamageDealer = value;
@@ -27,7 +27,7 @@ public class MeleeWeapon : Weapon
         {
             if (ht.PlayerType != _playerType)
             {
-                ht.TakeDamage(100f);
+                ht.TakeDamage(100f,vfxConfiguration);
             }
         }
     }

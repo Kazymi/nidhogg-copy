@@ -38,6 +38,11 @@ public class Shield : MonoBehaviour, IDamageable,IShield
         _shieldMenu.UpdateSlider();
     }
 
+    public void TakeDamage(float damage, VFXConfiguration vfxConfiguration)
+    {
+        return;
+    }
+
     private void Dead()
     {
         _currentHealth = shieldHealth;

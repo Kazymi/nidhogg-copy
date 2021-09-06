@@ -97,8 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nameWeapon: 1
-  amountUse: 4
-  _isActivatedDamageDealer: 0
+  vfxConfiguration: {fileID: 11400000, guid: 5573f257a4bb2cc4fa021e4d5d08df36, type: 2}
 --- !u!65 &4559201149548667443
 BoxCollider:
   m_ObjectHideFlags: 0
