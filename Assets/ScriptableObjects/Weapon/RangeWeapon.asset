@@ -17,3 +17,4 @@ MonoBehaviour:
     type: 3}
   droppedWeapon: {fileID: 8874731067600481266, guid: 0aea3503db3d3e24ea9b8068c60f1aa9,
     type: 3}
+  amountUse: 5
