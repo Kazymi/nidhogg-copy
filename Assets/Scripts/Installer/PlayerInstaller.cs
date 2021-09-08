@@ -23,5 +23,7 @@ public class PlayerInstaller : MonoInstaller
         Container.Bind<IShield>().FromInstance(shield).AsSingle();
         Container.Bind<IShieldMenu>().FromInstance(shieldMenu).AsSingle();
         Container.Bind<IInputHandler>().FromInstance(inputHandler).AsSingle();
-        Container.Bind<IPlayerHealth>().FromInstance(playerHealth).AsSingle(); }
+        Container.Bind<IPlayerHealth>().FromInstance(playerHealth).AsSingle();
+        Container.Bind<PlayerHealth>().WithId(playerType).FromInstance(playerHealth).CopyIntoAllSubContainers();
+    }
 }

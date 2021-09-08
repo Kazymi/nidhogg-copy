@@ -13,13 +13,14 @@ public class PlayerRespawnSystem : MonoBehaviour,IPlayerRespawnSystem
     private IPlayerMovement _playerMovement;
 
     public event Action RespawnAction;
-
+    
     [Inject]
     private void Construct(IPlayerMovement playerMovement, IPlayerHealth playerHealth)
     {
         _playerMovement = playerMovement;
         playerHealth.PlayerDeath += target => StartCoroutine(Respawn());
     }
+    
     private IEnumerator Respawn()
     {
         yield return new WaitForSeconds(timeToRespawn);

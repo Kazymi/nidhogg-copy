@@ -3,6 +3,7 @@ using Zenject;
 
 public class PlayerSystemInstaller : MonoInstaller
 {
+    [SerializeField] private PlayerType playerType;
     [SerializeField] private PlayerWeaponSystem playerWeaponManager;
     [SerializeField] private ShieldSystem inventory;
     [SerializeField] private PlayerRespawnSystem playerRespawnSystem;
@@ -14,5 +15,6 @@ public class PlayerSystemInstaller : MonoInstaller
         Container.Bind<IPlayerRespawnSystem>().FromInstance(playerRespawnSystem).AsSingle();
         Container.Bind<IShieldSystem>().FromInstance(inventory).AsSingle();
         Container.Bind<IPlayerAnimatorController>().FromInstance(playerAnimatorController).AsSingle();
+        Container.Bind<PlayerRespawnSystem>().WithId(playerType).FromInstance(playerRespawnSystem).CopyIntoAllSubContainers();
     }
 }
